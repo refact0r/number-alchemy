@@ -1,23 +1,23 @@
 import '../models/op.dart';
 import 'math.dart';
 
-var target = 24;
-var ops = Op.values;
-var nums = List.generate(13, (i) => i + 1);
+const target = 24;
+const minNum = 1;
+const maxNum = 13;
 
-void generate(target) {
-  var numList4 = nums.toList();
+List<num> generateNums() {
+  var numList4 = List.generate(maxNum - minNum + 1, (i) => i + minNum);
   numList4.shuffle();
-  var numList3 = nums.toList();
+  var numList3 = List.generate(maxNum - minNum + 1, (i) => i + minNum);
   numList3.shuffle();
-  var numList2 = nums.toList();
+  var numList2 = List.generate(maxNum - minNum + 1, (i) => i + minNum);
   numList2.shuffle();
 
-  var opList3 = ops.toList();
+  var opList3 = Op.values.toList();
   opList3.shuffle();
-  var opList2 = ops.toList();
+  var opList2 = Op.values.toList();
   opList2.shuffle();
-  var opList1 = ops.toList();
+  var opList1 = Op.values.toList();
   opList1.shuffle();
 
   for (var num4 in numList4) {
@@ -58,7 +58,7 @@ void generate(target) {
 
               if (isInteger(num1) && num1 > 0 && num1 < 14) {
                 print("(($num1 $op1 $num2) $op2 $num3) $op3 $num4");
-                return;
+                return [num1, num2, num3, num4];
               }
 
               num num12 = reverseOperate(op1, left, num2);
@@ -66,7 +66,7 @@ void generate(target) {
 
               if (isInteger(num12) && num12 > 0 && num12 < 14) {
                 print("($num12 $op1 $num2) $op2 ($num3 $op3 $num4)");
-                return;
+                return [num12, num2, num3, num4];
               }
             }
           }
@@ -74,4 +74,5 @@ void generate(target) {
       }
     }
   }
+  return [0, 0, 0, 0];
 }

@@ -4,6 +4,7 @@ import 'dart:math';
 
 import '../models/op.dart';
 import '../utils/math.dart';
+import '../utils/generate.dart';
 
 class PlayPage extends StatefulWidget {
   const PlayPage({super.key});
@@ -16,9 +17,10 @@ class _PlayPageState extends State<PlayPage> {
   var _numShown = [true, true, true, true];
   var _numPressed = [false, false, false, false];
   var _opPressed = [false, false, false, false];
-  List<num> _originalNums = [
-    for (var i = 0; i < 4; i++) Random().nextInt(13) + 1
-  ];
+  // List<num> _originalNums = [
+  //   for (var i = 0; i < 4; i++) Random().nextInt(13) + 1
+  // ];
+  List<num> _originalNums = generateNums();
   late List<num> _nums = [..._originalNums];
 
   void _pressNumButton(index) {
@@ -35,7 +37,9 @@ class _PlayPageState extends State<PlayPage> {
           Op.values[_opPressed.indexOf(true)], _nums[index1], _nums[index]);
       _numShown[index1] = false;
       _numPressed[index1] = false;
-      if (_numShown.where((x) => x).toList().length > 1) {
+      if (_numShown.where((x) => x).toList().length == 1) {
+        _opPressed = [false, false, false, false];
+      } else {
         _numPressed[index] = true;
       }
     }

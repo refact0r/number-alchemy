@@ -21,9 +21,9 @@ num operate(op, num1, num2) {
 num reverseOperate(op, num1, num2) {
   switch (op) {
     case Op.add:
-      return num1 + num2;
-    case Op.subtract:
       return num1 - num2;
+    case Op.subtract:
+      return num1 + num2;
     case Op.multiply:
       return num1 / num2;
     case Op.divide:
