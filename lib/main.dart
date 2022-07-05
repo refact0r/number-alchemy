@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import 'play.dart';
+import 'pages/play.dart';
 
 void main() {
   runApp(const App());
@@ -16,9 +16,10 @@ class App extends StatelessWidget {
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
     return MaterialApp(
       theme: ThemeData(
-          useMaterial3: true,
-          brightness: Brightness.dark,
-          primarySwatch: Colors.cyan),
+        useMaterial3: true,
+        brightness: Brightness.dark,
+        colorSchemeSeed: Colors.cyan,
+      ),
       home: const HomePage(),
       debugShowCheckedModeBanner: false,
     );
