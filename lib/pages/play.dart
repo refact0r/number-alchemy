@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'dart:math';
 
+import 'solved.dart';
 import '../models/op.dart';
+import '../models/fraction.dart';
 import '../utils/math.dart';
 import '../utils/generate.dart';
 
@@ -17,11 +18,18 @@ class _PlayPageState extends State<PlayPage> {
   var _numShown = [true, true, true, true];
   var _numPressed = [false, false, false, false];
   var _opPressed = [false, false, false, false];
-  // List<num> _originalNums = [
-  //   for (var i = 0; i < 4; i++) Random().nextInt(13) + 1
-  // ];
-  List<num> _originalNums = generateNums();
-  late List<num> _nums = [..._originalNums];
+  var _log = [];
+  var _nums = [];
+  var _originalNums = [];
+  final _problem = generateProblem();
+
+  @override
+  void initState() {
+    super.initState();
+    _nums = List.generate(4, (i) => Fraction(_problem.nums[i]));
+    _nums.shuffle();
+    _originalNums = _nums.toList();
+  }
 
   void _pressNumButton(index) {
     if (_numPressed[index]) {
@@ -32,18 +40,34 @@ class _PlayPageState extends State<PlayPage> {
       _numPressed[_numPressed.indexOf(true)] = false;
       _numPressed[index] = true;
     } else if (_numPressed.contains(true) && _opPressed.contains(true)) {
-      var index1 = _numPressed.indexOf(true);
-      _nums[index] = operate(
-          Op.values[_opPressed.indexOf(true)], _nums[index1], _nums[index]);
-      _numShown[index1] = false;
-      _numPressed[index1] = false;
+      _log.add([
+        _nums.toList(),
+        _numShown.toList(),
+        _numPressed.toList(),
+        _opPressed.toList(),
+      ]);
+      var firstIndex = _numPressed.indexOf(true);
+      var opIndex = _opPressed.indexOf(true);
+      _nums[index] =
+          operate(Op.values[opIndex], _nums[firstIndex], _nums[index]);
+      _numShown[firstIndex] = false;
+      _numPressed[firstIndex] = false;
       if (_numShown.where((x) => x).toList().length == 1) {
-        _opPressed = [false, false, false, false];
+        _opPressed[opIndex] = false;
       } else {
         _numPressed[index] = true;
       }
     }
     setState(() {});
+    if (_nums.contains(Fraction(24)) &&
+        _numShown.where((x) => x).toList().length == 1) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const SolvedPage(),
+        ),
+      );
+    }
   }
 
   void _pressOpButton(index) {
@@ -58,13 +82,32 @@ class _PlayPageState extends State<PlayPage> {
     setState(() {});
   }
 
+  void _undo() {
+    if (_log.isNotEmpty) {
+      var operation = _log.removeLast();
+      _nums = operation[0];
+      _numShown = operation[1];
+      _numPressed = operation[2];
+      _opPressed = operation[3];
+      setState(() {});
+    }
+  }
+
   void _reset() {
     setState(() {
-      _nums = [..._originalNums];
+      _nums = _originalNums.toList();
       _numShown = [true, true, true, true];
       _numPressed = [false, false, false, false];
       _opPressed = [false, false, false, false];
+      _log = [];
     });
+  }
+
+  void _hint() {
+    _reset();
+    _numPressed[_nums.indexOf(Fraction(_problem.nums[0]))] = true;
+    _opPressed[Op.values.indexOf(_problem.ops[0])] = true;
+    setState(() {});
   }
 
   @override
@@ -89,7 +132,23 @@ class _PlayPageState extends State<PlayPage> {
                   highlightColor:
                       colorScheme.onSurfaceVariant.withOpacity(0.08),
                   iconSize: 32,
-                  icon: const Icon(Icons.arrow_back_rounded),
+                  icon: const Icon(Icons.clear_rounded),
+                ),
+                IconButton(
+                  onPressed: _hint,
+                  color: colorScheme.onSurfaceVariant,
+                  highlightColor:
+                      colorScheme.onSurfaceVariant.withOpacity(0.08),
+                  iconSize: 32,
+                  icon: const Icon(Icons.lightbulb_outline_rounded),
+                ),
+                IconButton(
+                  onPressed: _undo,
+                  color: colorScheme.onSurfaceVariant,
+                  highlightColor:
+                      colorScheme.onSurfaceVariant.withOpacity(0.08),
+                  iconSize: 32,
+                  icon: const Icon(Icons.undo_rounded),
                 ),
                 IconButton(
                   onPressed: _reset,
@@ -128,9 +187,7 @@ class _PlayPageState extends State<PlayPage> {
                                   ? colorScheme.primaryContainer
                                   : null),
                           child: Text(
-                            _nums[i]
-                                .toStringAsFixed(2)
-                                .replaceFirst(RegExp(r'\.?0*$'), ''),
+                            _nums[i].toString(),
                             style: const TextStyle(fontSize: 48),
                           ),
                         ),
@@ -140,76 +197,73 @@ class _PlayPageState extends State<PlayPage> {
               ),
             ),
           ),
-          Expanded(
-            flex: 1,
-            child: Padding(
-              padding: const EdgeInsets.all(24),
-              child: Row(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  TextButton(
-                    style: TextButton.styleFrom(
-                      backgroundColor:
-                          _opPressed[0] ? colorScheme.primaryContainer : null,
-                      shape: const CircleBorder(),
-                    ),
-                    onPressed: () {
-                      _pressOpButton(0);
-                    },
-                    child: Icon(CupertinoIcons.plus,
-                        size: 48,
-                        color: _opPressed[0]
-                            ? colorScheme.onSurfaceVariant
-                            : colorScheme.onSurfaceVariant),
+          Padding(
+            padding: const EdgeInsets.all(24),
+            child: Row(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                TextButton(
+                  style: TextButton.styleFrom(
+                    backgroundColor:
+                        _opPressed[0] ? colorScheme.primaryContainer : null,
+                    shape: const CircleBorder(),
                   ),
-                  TextButton(
-                    style: TextButton.styleFrom(
-                      backgroundColor:
-                          _opPressed[1] ? colorScheme.primaryContainer : null,
-                      shape: const CircleBorder(),
-                    ),
-                    onPressed: () {
-                      _pressOpButton(1);
-                    },
-                    child: Icon(CupertinoIcons.minus,
-                        size: 48,
-                        color: _opPressed[1]
-                            ? colorScheme.onSurfaceVariant
-                            : colorScheme.onSurfaceVariant),
+                  onPressed: () {
+                    _pressOpButton(0);
+                  },
+                  child: Icon(CupertinoIcons.plus,
+                      size: 48,
+                      color: _opPressed[0]
+                          ? colorScheme.onSurfaceVariant
+                          : colorScheme.onSurfaceVariant),
+                ),
+                TextButton(
+                  style: TextButton.styleFrom(
+                    backgroundColor:
+                        _opPressed[1] ? colorScheme.primaryContainer : null,
+                    shape: const CircleBorder(),
                   ),
-                  TextButton(
-                    style: TextButton.styleFrom(
-                      backgroundColor:
-                          _opPressed[2] ? colorScheme.primaryContainer : null,
-                      shape: const CircleBorder(),
-                    ),
-                    onPressed: () {
-                      _pressOpButton(2);
-                    },
-                    child: Icon(CupertinoIcons.multiply,
-                        size: 48,
-                        color: _opPressed[2]
-                            ? colorScheme.onSurfaceVariant
-                            : colorScheme.onSurfaceVariant),
+                  onPressed: () {
+                    _pressOpButton(1);
+                  },
+                  child: Icon(CupertinoIcons.minus,
+                      size: 48,
+                      color: _opPressed[1]
+                          ? colorScheme.onSurfaceVariant
+                          : colorScheme.onSurfaceVariant),
+                ),
+                TextButton(
+                  style: TextButton.styleFrom(
+                    backgroundColor:
+                        _opPressed[2] ? colorScheme.primaryContainer : null,
+                    shape: const CircleBorder(),
                   ),
-                  TextButton(
-                    style: TextButton.styleFrom(
-                      backgroundColor:
-                          _opPressed[3] ? colorScheme.primaryContainer : null,
-                      shape: const CircleBorder(),
-                    ),
-                    onPressed: () {
-                      _pressOpButton(3);
-                    },
-                    child: Icon(CupertinoIcons.divide,
-                        size: 48,
-                        color: _opPressed[3]
-                            ? colorScheme.onSurfaceVariant
-                            : colorScheme.onSurfaceVariant),
+                  onPressed: () {
+                    _pressOpButton(2);
+                  },
+                  child: Icon(CupertinoIcons.multiply,
+                      size: 48,
+                      color: _opPressed[2]
+                          ? colorScheme.onSurfaceVariant
+                          : colorScheme.onSurfaceVariant),
+                ),
+                TextButton(
+                  style: TextButton.styleFrom(
+                    backgroundColor:
+                        _opPressed[3] ? colorScheme.primaryContainer : null,
+                    shape: const CircleBorder(),
                   ),
-                ],
-              ),
+                  onPressed: () {
+                    _pressOpButton(3);
+                  },
+                  child: Icon(CupertinoIcons.divide,
+                      size: 48,
+                      color: _opPressed[3]
+                          ? colorScheme.onSurfaceVariant
+                          : colorScheme.onSurfaceVariant),
+                ),
+              ],
             ),
           ),
         ],

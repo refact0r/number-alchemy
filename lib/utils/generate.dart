@@ -1,11 +1,12 @@
 import '../models/op.dart';
+import '../models/problem.dart';
 import 'math.dart';
 
 const target = 24;
 const minNum = 1;
 const maxNum = 13;
 
-List<num> generateNums() {
+Problem generateProblem() {
   var numList4 = List.generate(maxNum - minNum + 1, (i) => i + minNum);
   numList4.shuffle();
   var numList3 = List.generate(maxNum - minNum + 1, (i) => i + minNum);
@@ -58,7 +59,8 @@ List<num> generateNums() {
 
               if (isInteger(num1) && num1 > 0 && num1 < 14) {
                 print("(($num1 $op1 $num2) $op2 $num3) $op3 $num4");
-                return [num1, num2, num3, num4];
+                return Problem(
+                    [num1.toInt(), num2, num3, num4], [op1, op2, op3], false);
               }
 
               num num12 = reverseOperate(op1, left, num2);
@@ -66,7 +68,8 @@ List<num> generateNums() {
 
               if (isInteger(num12) && num12 > 0 && num12 < 14) {
                 print("($num12 $op1 $num2) $op2 ($num3 $op3 $num4)");
-                return [num12, num2, num3, num4];
+                return Problem(
+                    [num12.toInt(), num2, num3, num4], [op1, op2, op3], true);
               }
             }
           }
@@ -74,5 +77,5 @@ List<num> generateNums() {
       }
     }
   }
-  return [0, 0, 0, 0];
+  return Problem([], [], false);
 }
