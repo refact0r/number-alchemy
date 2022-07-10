@@ -9,16 +9,18 @@ class Fraction {
       throw Exception('Denominator cannot be zero.');
     }
 
+    print('$numerator, $denominator');
+
     if (denominator < 0) {
       numerator = numerator * -1;
       denominator = denominator * -1;
     }
-
-    final sign = (numerator < 0) ? -1 : 1;
     final lgcd = numerator.gcd(denominator);
 
-    numerator = (numerator * sign) ~/ lgcd;
-    denominator = (denominator * sign) ~/ lgcd;
+    numerator = (numerator) ~/ lgcd;
+    denominator = (denominator) ~/ lgcd;
+
+    print('$numerator, $denominator');
 
     return Fraction._(numerator, denominator);
   }

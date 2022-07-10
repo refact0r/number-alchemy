@@ -4,7 +4,9 @@ import 'package:flutter/cupertino.dart';
 import 'play.dart';
 
 class SolvedPage extends StatefulWidget {
-  const SolvedPage({super.key});
+  final heroTag;
+
+  const SolvedPage({super.key, @required this.heroTag});
 
   @override
   State<SolvedPage> createState() => _SolvedPageState();
@@ -19,13 +21,14 @@ class _SolvedPageState extends State<SolvedPage> {
       body: Column(
         mainAxisSize: MainAxisSize.max,
         children: [
-          const Expanded(
+          Expanded(
             flex: 1,
             child: Padding(
-              padding: EdgeInsets.all(24),
+              padding: const EdgeInsets.all(24),
               child: Center(
-                  child:
-                      Text('You solved it!', style: TextStyle(fontSize: 24))),
+                  child: Text('You solved it!',
+                      style: TextStyle(
+                          fontSize: 24, color: colorScheme.onSurfaceVariant))),
             ),
           ),
           Expanded(
@@ -37,15 +40,18 @@ class _SolvedPageState extends State<SolvedPage> {
                   width: (MediaQuery.of(context).size.width - 72) / 2,
                   height: (MediaQuery.of(context).size.width - 72) /
                       2, // <-- Your height
-                  child: ElevatedButton(
-                    onPressed: () {},
-                    style: ElevatedButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(24)),
-                    ),
-                    child: const Text(
-                      '24',
-                      style: TextStyle(fontSize: 48),
+                  child: Hero(
+                    tag: widget.heroTag,
+                    child: ElevatedButton(
+                      onPressed: () {},
+                      style: ElevatedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(24)),
+                      ),
+                      child: const Text(
+                        '24',
+                        style: TextStyle(fontSize: 48),
+                      ),
                     ),
                   ),
                 ),

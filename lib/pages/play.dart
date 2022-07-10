@@ -64,7 +64,7 @@ class _PlayPageState extends State<PlayPage> {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => const SolvedPage(),
+          builder: (context) => SolvedPage(heroTag: 'num$index'),
         ),
       );
     }
@@ -172,23 +172,27 @@ class _PlayPageState extends State<PlayPage> {
                   mainAxisSpacing: 24,
                   crossAxisCount: 2,
                   shrinkWrap: true,
+                  padding: const EdgeInsets.symmetric(vertical: 12),
                   children: <Widget>[
                     for (int i = 0; i < 4; i++)
                       Visibility(
                         visible: _numShown[i],
-                        child: ElevatedButton(
-                          onPressed: () {
-                            _pressNumButton(i);
-                          },
-                          style: ElevatedButton.styleFrom(
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(24)),
-                              primary: _numPressed[i]
-                                  ? colorScheme.primaryContainer
-                                  : null),
-                          child: Text(
-                            _nums[i].toString(),
-                            style: const TextStyle(fontSize: 48),
+                        child: Hero(
+                          tag: 'num$i',
+                          child: ElevatedButton(
+                            onPressed: () {
+                              _pressNumButton(i);
+                            },
+                            style: ElevatedButton.styleFrom(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(24)),
+                                primary: _numPressed[i]
+                                    ? colorScheme.primaryContainer
+                                    : null),
+                            child: Text(
+                              _nums[i].toString(),
+                              style: const TextStyle(fontSize: 48),
+                            ),
                           ),
                         ),
                       ),

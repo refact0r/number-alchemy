@@ -36,11 +36,20 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
+    ColorScheme colorScheme = Theme.of(context).colorScheme;
+
     return Scaffold(
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.only(bottom: 48),
+              child: Text(
+                'Number Alchemy',
+                style: Theme.of(context).textTheme.headlineMedium,
+              ),
+            ),
             ElevatedButton(
                 onPressed: () {
                   Navigator.push(
@@ -50,7 +59,13 @@ class _HomePageState extends State<HomePage> {
                     ),
                   );
                 },
-                child: const Text('Play')),
+                style: ElevatedButton.styleFrom(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 12, horizontal: 48),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(24)),
+                ),
+                child: const Text('Play', style: TextStyle(fontSize: 24))),
           ],
         ),
       ),
