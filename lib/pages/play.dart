@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 
 import 'solved.dart';
 import '../models/op.dart';
 import '../models/fraction.dart';
+import '../models/problem.dart';
 import '../utils/math.dart';
-import '../utils/generate.dart';
 
 class PlayPage extends StatefulWidget {
   const PlayPage({super.key});
@@ -21,7 +22,8 @@ class _PlayPageState extends State<PlayPage> {
   var _log = [];
   var _nums = [];
   var _originalNums = [];
-  final _problem = generateProblem();
+  var _hintShown = 0;
+  final _problem = Problem.generate();
 
   @override
   void initState() {
@@ -52,12 +54,16 @@ class _PlayPageState extends State<PlayPage> {
           operate(Op.values[opIndex], _nums[firstIndex], _nums[index]);
       _numShown[firstIndex] = false;
       _numPressed[firstIndex] = false;
+      _nums[firstIndex] = null;
       if (_numShown.where((x) => x).toList().length == 1) {
         _opPressed[opIndex] = false;
       } else {
         _numPressed[index] = true;
       }
+    } else {
+      return;
     }
+    _hintShown = 0;
     setState(() {});
     if (_nums.contains(Fraction(24)) &&
         _numShown.where((x) => x).toList().length == 1) {
@@ -79,6 +85,7 @@ class _PlayPageState extends State<PlayPage> {
       _opPressed[_opPressed.indexOf(true)] = false;
       _opPressed[index] = true;
     }
+    _hintShown = 0;
     setState(() {});
   }
 
@@ -89,24 +96,59 @@ class _PlayPageState extends State<PlayPage> {
       _numShown = operation[1];
       _numPressed = operation[2];
       _opPressed = operation[3];
+      _hintShown = 0;
       setState(() {});
     }
   }
 
   void _reset() {
-    setState(() {
-      _nums = _originalNums.toList();
-      _numShown = [true, true, true, true];
-      _numPressed = [false, false, false, false];
-      _opPressed = [false, false, false, false];
-      _log = [];
-    });
+    _nums = _originalNums.toList();
+    _numShown = [true, true, true, true];
+    _numPressed = [false, false, false, false];
+    _opPressed = [false, false, false, false];
+    _log = [];
+    _hintShown = 0;
+    setState(() {});
   }
 
   void _hint() {
-    _reset();
-    _numPressed[_nums.indexOf(Fraction(_problem.nums[0]))] = true;
-    _opPressed[Op.values.indexOf(_problem.ops[0])] = true;
+    if (_hintShown == 3) {
+      return;
+    } else if (_hintShown == 2) {
+      if (_problem.split) {
+        _pressNumButton(_nums.lastIndexOf(Fraction(_problem.nums[1])));
+        _opPressed[_opPressed.indexOf(true)] = false;
+        _pressOpButton(Op.values.indexOf(_problem.ops[1]));
+      } else {
+        _pressNumButton(_nums.indexOf(Fraction(_problem.nums[2])));
+        _opPressed[_opPressed.indexOf(true)] = false;
+        _pressOpButton(Op.values.indexOf(_problem.ops[2]));
+      }
+      _hintShown = 3;
+    } else if (_hintShown == 1) {
+      if (_problem.split) {
+        _pressNumButton(_nums.lastIndexOf(Fraction(_problem.nums[3])));
+        _numPressed[_numPressed.indexOf(true)] = false;
+        _pressNumButton(_nums.indexOf(Fraction(_problem.nums[0])));
+        _opPressed[_opPressed.indexOf(true)] = false;
+        _pressOpButton(Op.values.indexOf(_problem.ops[0]));
+      } else {
+        _pressNumButton(_nums.lastIndexOf(Fraction(_problem.nums[1])));
+        _opPressed[_opPressed.indexOf(true)] = false;
+        _pressOpButton(Op.values.indexOf(_problem.ops[1]));
+      }
+      _hintShown = 2;
+    } else {
+      _reset();
+      if (_problem.split) {
+        _pressNumButton(_nums.indexOf(Fraction(_problem.nums[2])));
+        _pressOpButton(Op.values.indexOf(_problem.ops[2]));
+      } else {
+        _pressNumButton(_nums.indexOf(Fraction(_problem.nums[0])));
+        _pressOpButton(Op.values.indexOf(_problem.ops[0]));
+      }
+      _hintShown = 1;
+    }
     setState(() {});
   }
 

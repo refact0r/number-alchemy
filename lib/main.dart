@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'pages/play.dart';
 
@@ -14,12 +15,14 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
+    var theme = ThemeData(
+      useMaterial3: true,
+      brightness: Brightness.dark,
+      colorSchemeSeed: Colors.cyan,
+    );
     return MaterialApp(
-      theme: ThemeData(
-        useMaterial3: true,
-        brightness: Brightness.dark,
-        colorSchemeSeed: Colors.cyan,
-      ),
+      theme:
+          theme.copyWith(textTheme: GoogleFonts.jostTextTheme(theme.textTheme)),
       home: const HomePage(),
       debugShowCheckedModeBanner: false,
     );
