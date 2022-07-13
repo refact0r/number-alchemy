@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
-import 'play.dart';
+import 'casual.dart';
 
 class SolvedPage extends StatefulWidget {
   final heroTag;
@@ -82,7 +82,7 @@ class _SolvedPageState extends State<SolvedPage> {
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const PlayPage(),
+                        builder: (context) => const CasualPage(),
                       ),
                     );
                   },

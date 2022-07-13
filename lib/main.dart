@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'pages/play.dart';
+import 'pages/casual.dart';
 
 void main() {
   runApp(const App());
@@ -21,6 +21,7 @@ class App extends StatelessWidget {
       colorSchemeSeed: Colors.cyan,
     );
     return MaterialApp(
+      title: "number alchemy",
       theme:
           theme.copyWith(textTheme: GoogleFonts.jostTextTheme(theme.textTheme)),
       home: const HomePage(),
@@ -39,8 +40,6 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    ColorScheme colorScheme = Theme.of(context).colorScheme;
-
     return Scaffold(
       body: Center(
         child: Column(
@@ -49,7 +48,7 @@ class _HomePageState extends State<HomePage> {
             Padding(
               padding: const EdgeInsets.only(bottom: 48),
               child: Text(
-                'Number Alchemy',
+                'number alchemy',
                 style: Theme.of(context).textTheme.headlineMedium,
               ),
             ),
@@ -58,7 +57,7 @@ class _HomePageState extends State<HomePage> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const PlayPage(),
+                      builder: (context) => const CasualPage(),
                     ),
                   );
                 },
@@ -68,7 +67,7 @@ class _HomePageState extends State<HomePage> {
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(24)),
                 ),
-                child: const Text('Play', style: TextStyle(fontSize: 24))),
+                child: const Text('casual', style: TextStyle(fontSize: 24))),
           ],
         ),
       ),

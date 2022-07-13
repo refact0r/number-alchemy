@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 
 import 'solved.dart';
 import '../models/op.dart';
@@ -8,14 +7,14 @@ import '../models/fraction.dart';
 import '../models/problem.dart';
 import '../utils/math.dart';
 
-class PlayPage extends StatefulWidget {
-  const PlayPage({super.key});
+class CasualPage extends StatefulWidget {
+  const CasualPage({super.key});
 
   @override
-  State<PlayPage> createState() => _PlayPageState();
+  State<CasualPage> createState() => _CasualPageState();
 }
 
-class _PlayPageState extends State<PlayPage> {
+class _CasualPageState extends State<CasualPage> {
   var _numShown = [true, true, true, true];
   var _numPressed = [false, false, false, false];
   var _opPressed = [false, false, false, false];
@@ -249,65 +248,73 @@ class _PlayPageState extends State<PlayPage> {
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                TextButton(
-                  style: TextButton.styleFrom(
-                    backgroundColor:
-                        _opPressed[0] ? colorScheme.primaryContainer : null,
+                Ink(
+                  padding: const EdgeInsets.all(10),
+                  decoration: ShapeDecoration(
+                    color: _opPressed[0] ? colorScheme.primaryContainer : null,
                     shape: const CircleBorder(),
                   ),
-                  onPressed: () {
-                    _pressOpButton(0);
-                  },
-                  child: Icon(CupertinoIcons.plus,
-                      size: 48,
-                      color: _opPressed[0]
-                          ? colorScheme.onSurfaceVariant
-                          : colorScheme.onSurfaceVariant),
+                  child: IconButton(
+                    iconSize: 36,
+                    icon: const Icon(CupertinoIcons.plus),
+                    color: _opPressed[0]
+                        ? colorScheme.onSurfaceVariant
+                        : colorScheme.onSurfaceVariant,
+                    onPressed: () {
+                      _pressOpButton(0);
+                    },
+                  ),
                 ),
-                TextButton(
-                  style: TextButton.styleFrom(
-                    backgroundColor:
-                        _opPressed[1] ? colorScheme.primaryContainer : null,
+                Ink(
+                  padding: const EdgeInsets.all(10),
+                  decoration: ShapeDecoration(
+                    color: _opPressed[1] ? colorScheme.primaryContainer : null,
                     shape: const CircleBorder(),
                   ),
-                  onPressed: () {
-                    _pressOpButton(1);
-                  },
-                  child: Icon(CupertinoIcons.minus,
-                      size: 48,
-                      color: _opPressed[1]
-                          ? colorScheme.onSurfaceVariant
-                          : colorScheme.onSurfaceVariant),
+                  child: IconButton(
+                    iconSize: 36,
+                    icon: const Icon(CupertinoIcons.minus),
+                    color: _opPressed[1]
+                        ? colorScheme.onSurfaceVariant
+                        : colorScheme.onSurfaceVariant,
+                    onPressed: () {
+                      _pressOpButton(1);
+                    },
+                  ),
                 ),
-                TextButton(
-                  style: TextButton.styleFrom(
-                    backgroundColor:
-                        _opPressed[2] ? colorScheme.primaryContainer : null,
+                Ink(
+                  padding: const EdgeInsets.all(10),
+                  decoration: ShapeDecoration(
+                    color: _opPressed[2] ? colorScheme.primaryContainer : null,
                     shape: const CircleBorder(),
                   ),
-                  onPressed: () {
-                    _pressOpButton(2);
-                  },
-                  child: Icon(CupertinoIcons.multiply,
-                      size: 48,
-                      color: _opPressed[2]
-                          ? colorScheme.onSurfaceVariant
-                          : colorScheme.onSurfaceVariant),
+                  child: IconButton(
+                    iconSize: 36,
+                    icon: const Icon(CupertinoIcons.multiply),
+                    color: _opPressed[2]
+                        ? colorScheme.onSurfaceVariant
+                        : colorScheme.onSurfaceVariant,
+                    onPressed: () {
+                      _pressOpButton(2);
+                    },
+                  ),
                 ),
-                TextButton(
-                  style: TextButton.styleFrom(
-                    backgroundColor:
-                        _opPressed[3] ? colorScheme.primaryContainer : null,
+                Ink(
+                  padding: const EdgeInsets.all(10),
+                  decoration: ShapeDecoration(
+                    color: _opPressed[3] ? colorScheme.primaryContainer : null,
                     shape: const CircleBorder(),
                   ),
-                  onPressed: () {
-                    _pressOpButton(3);
-                  },
-                  child: Icon(CupertinoIcons.divide,
-                      size: 48,
-                      color: _opPressed[3]
-                          ? colorScheme.onSurfaceVariant
-                          : colorScheme.onSurfaceVariant),
+                  child: IconButton(
+                    iconSize: 36,
+                    icon: const Icon(CupertinoIcons.divide),
+                    color: _opPressed[3]
+                        ? colorScheme.onSurfaceVariant
+                        : colorScheme.onSurfaceVariant,
+                    onPressed: () {
+                      _pressOpButton(3);
+                    },
+                  ),
                 ),
               ],
             ),
