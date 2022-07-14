@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
-import 'casual.dart';
+import 'challenge.dart';
 
-class SolvedPage extends StatefulWidget {
-  final heroTag;
-
-  const SolvedPage({super.key, @required this.heroTag});
+class ChallengeResultsPage extends StatefulWidget {
+  const ChallengeResultsPage({super.key});
 
   @override
-  State<SolvedPage> createState() => _SolvedPageState();
+  State<ChallengeResultsPage> createState() => _ChallengeResultsPageState();
 }
 
-class _SolvedPageState extends State<SolvedPage> {
+class _ChallengeResultsPageState extends State<ChallengeResultsPage> {
   @override
   Widget build(BuildContext context) {
     ColorScheme colorScheme = Theme.of(context).colorScheme;
@@ -26,36 +24,9 @@ class _SolvedPageState extends State<SolvedPage> {
             child: Padding(
               padding: const EdgeInsets.all(24),
               child: Center(
-                  child: Text('you solved it!',
+                  child: Text('time is up!',
                       style: TextStyle(
                           fontSize: 24, color: colorScheme.onSurfaceVariant))),
-            ),
-          ),
-          Expanded(
-            flex: 3,
-            child: Padding(
-              padding: const EdgeInsets.all(24),
-              child: Center(
-                child: SizedBox(
-                  width: (MediaQuery.of(context).size.width - 72) / 2,
-                  height: (MediaQuery.of(context).size.width - 72) /
-                      2, // <-- Your height
-                  child: Hero(
-                    tag: widget.heroTag,
-                    child: ElevatedButton(
-                      onPressed: () {},
-                      style: ElevatedButton.styleFrom(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(24)),
-                      ),
-                      child: const Text(
-                        '24',
-                        style: TextStyle(fontSize: 48),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
             ),
           ),
           Padding(
@@ -82,7 +53,7 @@ class _SolvedPageState extends State<SolvedPage> {
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const CasualPage(),
+                        builder: (context) => const ChallengePage(),
                       ),
                     );
                   },

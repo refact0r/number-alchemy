@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'pages/casual.dart';
+import 'pages/challenge.dart';
 
 void main() {
   runApp(const App());
@@ -52,22 +53,46 @@ class _HomePageState extends State<HomePage> {
                 style: Theme.of(context).textTheme.headlineMedium,
               ),
             ),
-            ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const CasualPage(),
+            SizedBox(
+              width: 168,
+              child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const CasualPage(),
+                      ),
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(vertical: 12),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(24)),
+                  ),
+                  child: const Text('casual', style: TextStyle(fontSize: 24))),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 24),
+              child: SizedBox(
+                width: 168,
+                child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const ChallengePage(),
+                        ),
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(vertical: 12),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(24)),
                     ),
-                  );
-                },
-                style: ElevatedButton.styleFrom(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 12, horizontal: 48),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(24)),
-                ),
-                child: const Text('casual', style: TextStyle(fontSize: 24))),
+                    child: const Text('challenge',
+                        style: TextStyle(fontSize: 24))),
+              ),
+            ),
           ],
         ),
       ),
