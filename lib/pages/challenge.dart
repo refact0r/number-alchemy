@@ -15,7 +15,8 @@ class ChallengePage extends StatefulWidget {
   State<ChallengePage> createState() => _ChallengePageState();
 }
 
-class _ChallengePageState extends State<ChallengePage> {
+class _ChallengePageState extends State<ChallengePage>
+    with TickerProviderStateMixin {
   var _numShown = [];
   var _numPressed = [];
   var _opPressed = [];
@@ -24,15 +25,31 @@ class _ChallengePageState extends State<ChallengePage> {
   var _originalNums = [];
   var _hintShown = 0;
   var _timer;
-  var _seconds = 20;
-  var _time = '0:20';
+  var _time = '';
+  var _timeChangeValue = '';
+  var _seconds = 60;
   var _problem = Problem.generate();
+  var _solvedCount = 0;
+
+  late final _fadeAnimation = AnimationController(
+    value: 0,
+    duration: const Duration(milliseconds: 800),
+    vsync: this,
+  );
 
   @override
   void initState() {
     super.initState();
     initialize();
-    _timer = Timer.periodic(const Duration(seconds: 1), _updateTimer);
+    _timer = Timer.periodic(const Duration(seconds: 1), _timerTick);
+    _updateTimer(0);
+  }
+
+  @override
+  void dispose() {
+    _timer.cancel();
+    _fadeAnimation.dispose();
+    super.dispose();
   }
 
   void initialize() {
@@ -47,25 +64,45 @@ class _ChallengePageState extends State<ChallengePage> {
     _originalNums = _nums.toList();
   }
 
-  void _updateTimer(timer) {
-    if (_seconds == 1) {
-      _seconds--;
-      setState(() {});
-      timer.cancel();
+  void _timerTick(timer) {
+    _seconds -= 1;
+    _time = '${_seconds ~/ 60}:${(_seconds % 60).toString().padLeft(2, '0')}';
+    setState(() {});
+    if (_seconds <= 0) {
+      _timer.cancel();
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => ChallengeResultsPage(),
+          builder: (context) => ChallengeResultsPage(solvedCount: _solvedCount),
         ),
       );
-    } else {
-      _seconds--;
+    }
+  }
+
+  void _updateTimer(int amount) {
+    if (amount != 0) {
+      _seconds += amount;
+      if (amount > 0) {
+        _timeChangeValue = '+$amount';
+      } else {
+        _timeChangeValue = '$amount';
+      }
+      _fadeAnimation.value = 1;
+      _fadeAnimation.reverse();
+    }
+    if (_seconds <= 0) {
+      _seconds = 0;
     }
     _time = '${_seconds ~/ 60}:${(_seconds % 60).toString().padLeft(2, '0')}';
-    if (mounted) {
-      setState(() {});
-    } else {
-      timer.cancel();
+    setState(() {});
+    if (_seconds <= 0) {
+      _timer.cancel();
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => ChallengeResultsPage(solvedCount: _solvedCount),
+        ),
+      );
     }
   }
 
@@ -103,7 +140,11 @@ class _ChallengePageState extends State<ChallengePage> {
     setState(() {});
     if (_nums.contains(Fraction(24)) &&
         _numShown.where((x) => x).toList().length == 1) {
-      initialize();
+      _solvedCount++;
+      _updateTimer(5);
+      Future.delayed(const Duration(milliseconds: 300), () {
+        initialize(); // Prints after 1 second.
+      });
     }
   }
 
@@ -133,6 +174,8 @@ class _ChallengePageState extends State<ChallengePage> {
   }
 
   void _reset() {
+    // _seconds += 10;
+
     _nums = _originalNums.toList();
     _numShown = [true, true, true, true];
     _numPressed = [false, false, false, false];
@@ -147,40 +190,52 @@ class _ChallengePageState extends State<ChallengePage> {
       return;
     } else if (_hintShown == 2) {
       if (_problem.split) {
-        _pressNumButton(_nums.lastIndexOf(Fraction(_problem.nums[1])));
+        _pressSolutionNum(1);
         _opPressed[_opPressed.indexOf(true)] = false;
         _pressOpButton(Op.values.indexOf(_problem.ops[1]));
       } else {
-        _pressNumButton(_nums.indexOf(Fraction(_problem.nums[2])));
+        _pressSolutionNum(2);
         _opPressed[_opPressed.indexOf(true)] = false;
         _pressOpButton(Op.values.indexOf(_problem.ops[2]));
       }
       _hintShown = 3;
+      _updateTimer(-15);
     } else if (_hintShown == 1) {
       if (_problem.split) {
-        _pressNumButton(_nums.lastIndexOf(Fraction(_problem.nums[3])));
+        _pressSolutionNum(3);
         _numPressed[_numPressed.indexOf(true)] = false;
-        _pressNumButton(_nums.indexOf(Fraction(_problem.nums[0])));
+        _pressSolutionNum(0);
         _opPressed[_opPressed.indexOf(true)] = false;
         _pressOpButton(Op.values.indexOf(_problem.ops[0]));
       } else {
-        _pressNumButton(_nums.lastIndexOf(Fraction(_problem.nums[1])));
+        _pressSolutionNum(1);
         _opPressed[_opPressed.indexOf(true)] = false;
         _pressOpButton(Op.values.indexOf(_problem.ops[1]));
       }
       _hintShown = 2;
+      _updateTimer(-10);
     } else {
       _reset();
       if (_problem.split) {
-        _pressNumButton(_nums.indexOf(Fraction(_problem.nums[2])));
+        _pressSolutionNum(2);
         _pressOpButton(Op.values.indexOf(_problem.ops[2]));
       } else {
-        _pressNumButton(_nums.indexOf(Fraction(_problem.nums[0])));
+        _pressSolutionNum(0);
         _pressOpButton(Op.values.indexOf(_problem.ops[0]));
       }
       _hintShown = 1;
+      _updateTimer(-5);
     }
     setState(() {});
+  }
+
+  void _pressSolutionNum(index) {
+    var firstIndex = _nums.indexOf(Fraction(_problem.nums[index]));
+    if (!_numPressed[firstIndex]) {
+      _pressNumButton(firstIndex);
+    } else {
+      _pressNumButton(_nums.lastIndexOf(Fraction(_problem.nums[index])));
+    }
   }
 
   @override
@@ -236,16 +291,36 @@ class _ChallengePageState extends State<ChallengePage> {
           ),
           Padding(
               padding: const EdgeInsets.all(12),
-              child: Container(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 6, horizontal: 12),
-                  decoration: BoxDecoration(
-                    color: colorScheme.surfaceTint.withOpacity(0.05),
-                    borderRadius: BorderRadius.circular(12),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const SizedBox(
+                    width: 128,
                   ),
-                  child: Text('$_time',
-                      style: TextStyle(
-                          fontSize: 32, color: colorScheme.primary)))),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                    child: Container(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 6, horizontal: 12),
+                        decoration: BoxDecoration(
+                          color: colorScheme.surfaceTint.withOpacity(0.05),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Text('$_time',
+                            style: TextStyle(
+                                fontSize: 32, color: colorScheme.primary))),
+                  ),
+                  FadeTransition(
+                    opacity: _fadeAnimation,
+                    child: SizedBox(
+                      width: 128,
+                      child: Text(_timeChangeValue,
+                          style: TextStyle(
+                              fontSize: 32, color: colorScheme.primary)),
+                    ),
+                  ),
+                ],
+              )),
           Expanded(
             flex: 3,
             child: Padding(

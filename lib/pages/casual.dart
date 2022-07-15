@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
-import 'solved.dart';
+import 'casual_solved.dart';
 import '../models/op.dart';
 import '../models/fraction.dart';
 import '../models/problem.dart';
@@ -69,7 +69,7 @@ class _CasualPageState extends State<CasualPage> {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => SolvedPage(heroTag: 'num$index'),
+          builder: (context) => CasualSolvedPage(heroTag: 'num$index'),
         ),
       );
     }

@@ -4,7 +4,9 @@ import 'package:flutter/cupertino.dart';
 import 'challenge.dart';
 
 class ChallengeResultsPage extends StatefulWidget {
-  const ChallengeResultsPage({super.key});
+  final solvedCount;
+
+  const ChallengeResultsPage({super.key, @required this.solvedCount});
 
   @override
   State<ChallengeResultsPage> createState() => _ChallengeResultsPageState();
@@ -24,7 +26,17 @@ class _ChallengeResultsPageState extends State<ChallengeResultsPage> {
             child: Padding(
               padding: const EdgeInsets.all(24),
               child: Center(
-                  child: Text('time is up!',
+                  child: Text("time's up!",
+                      style: TextStyle(
+                          fontSize: 24, color: colorScheme.onSurfaceVariant))),
+            ),
+          ),
+          Expanded(
+            flex: 1,
+            child: Padding(
+              padding: const EdgeInsets.all(24),
+              child: Center(
+                  child: Text('you solved ${widget.solvedCount} problems',
                       style: TextStyle(
                           fontSize: 24, color: colorScheme.onSurfaceVariant))),
             ),

@@ -34,7 +34,7 @@ class Problem {
         }
 
         num rem1 = reverseOperate(op3, target, num4);
-        print("num4: $rem1 $op3 $num4 ");
+        // print("num4: $rem1 $op3 $num4 ");
 
         for (var num3 in numList3) {
           num right = operate(op3, num3, num4);
@@ -45,14 +45,14 @@ class Problem {
             }
 
             num rem2 = reverseOperate(op2, rem1, num3);
-            print("num3: ($rem2 $op2 $num3) $op3 $num4");
+            // print("num3: ($rem2 $op2 $num3) $op3 $num4");
 
             if (right == 0 && op2 == Op.divide) {
               continue;
             }
 
             num left = reverseOperate(op2, target, right);
-            print("right: $left $op2 ($num3 $op3 $num4)");
+            // print("right: $left $op2 ($num3 $op3 $num4)");
 
             for (var num2 in numList2) {
               for (var op1 in opList1) {
@@ -61,10 +61,10 @@ class Problem {
                 }
 
                 num num1 = reverseOperate(op1, rem2, num2);
-                print("num2: (($num1 $op1 $num2) $op2 $num3) $op3 $num4");
+                // print("num2: (($num1 $op1 $num2) $op2 $num3) $op3 $num4");
 
                 if (isInteger(num1) && num1 > 0 && num1 < 14) {
-                  print("(($num1 $op1 $num2) $op2 $num3) $op3 $num4");
+                  // print("(($num1 $op1 $num2) $op2 $num3) $op3 $num4");
                   nums = [num1.toInt(), num2, num3, num4];
                   ops = [op1, op2, op3];
                   split = false;
@@ -72,10 +72,10 @@ class Problem {
                 }
 
                 num num12 = reverseOperate(op1, left, num2);
-                print("num2-2: ($num12 $op1 $num2) $op2 ($num3 $op3 $num4)");
+                // print("num2-2: ($num12 $op1 $num2) $op2 ($num3 $op3 $num4)");
 
                 if (isInteger(num12) && num12 > 0 && num12 < 14) {
-                  print("($num12 $op1 $num2) $op2 ($num3 $op3 $num4)");
+                  // print("($num12 $op1 $num2) $op2 ($num3 $op3 $num4)");
                   nums = [num12.toInt(), num2, num3, num4];
                   ops = [op1, op2, op3];
                   split = true;

@@ -3,16 +3,16 @@ import 'package:flutter/cupertino.dart';
 
 import 'casual.dart';
 
-class SolvedPage extends StatefulWidget {
+class CasualSolvedPage extends StatefulWidget {
   final heroTag;
 
-  const SolvedPage({super.key, @required this.heroTag});
+  const CasualSolvedPage({super.key, @required this.heroTag});
 
   @override
-  State<SolvedPage> createState() => _SolvedPageState();
+  State<CasualSolvedPage> createState() => _CasualSolvedPageState();
 }
 
-class _SolvedPageState extends State<SolvedPage> {
+class _CasualSolvedPageState extends State<CasualSolvedPage> {
   @override
   Widget build(BuildContext context) {
     ColorScheme colorScheme = Theme.of(context).colorScheme;
