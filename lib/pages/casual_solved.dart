@@ -2,11 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
 import 'casual.dart';
+import '../utils/time.dart';
 
 class CasualSolvedPage extends StatefulWidget {
   final heroTag;
+  final time;
 
-  const CasualSolvedPage({super.key, @required this.heroTag});
+  const CasualSolvedPage(
+      {super.key, @required this.heroTag, @required this.time});
 
   @override
   State<CasualSolvedPage> createState() => _CasualSolvedPageState();
@@ -22,7 +25,7 @@ class _CasualSolvedPageState extends State<CasualSolvedPage> {
         mainAxisSize: MainAxisSize.max,
         children: [
           Expanded(
-            flex: 1,
+            flex: 2,
             child: Padding(
               padding: const EdgeInsets.all(24),
               child: Center(
@@ -32,7 +35,17 @@ class _CasualSolvedPageState extends State<CasualSolvedPage> {
             ),
           ),
           Expanded(
-            flex: 3,
+            flex: 1,
+            child: Padding(
+              padding: const EdgeInsets.all(24),
+              child: Center(
+                  child: Text('time elapsed: ${msToString(widget.time)}',
+                      style: TextStyle(
+                          fontSize: 24, color: colorScheme.onSurfaceVariant))),
+            ),
+          ),
+          Expanded(
+            flex: 4,
             child: Padding(
               padding: const EdgeInsets.all(24),
               child: Center(
@@ -64,20 +77,18 @@ class _CasualSolvedPageState extends State<CasualSolvedPage> {
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                TextButton(
-                  style: TextButton.styleFrom(
-                    shape: const CircleBorder(),
-                  ),
+                IconButton(
+                  iconSize: 48,
+                  icon: const Icon(Icons.clear_rounded),
+                  color: colorScheme.onSurfaceVariant,
                   onPressed: () {
                     Navigator.pop(context);
                   },
-                  child: Icon(Icons.clear_rounded,
-                      size: 48, color: colorScheme.onSurfaceVariant),
                 ),
-                TextButton(
-                  style: TextButton.styleFrom(
-                    shape: const CircleBorder(),
-                  ),
+                IconButton(
+                  iconSize: 48,
+                  icon: const Icon(Icons.arrow_forward_rounded),
+                  color: colorScheme.onSurfaceVariant,
                   onPressed: () {
                     Navigator.pushReplacement(
                       context,
@@ -86,8 +97,6 @@ class _CasualSolvedPageState extends State<CasualSolvedPage> {
                       ),
                     );
                   },
-                  child: Icon(Icons.arrow_forward_rounded,
-                      size: 48, color: colorScheme.onSurfaceVariant),
                 ),
               ],
             ),

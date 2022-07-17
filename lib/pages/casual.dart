@@ -23,6 +23,7 @@ class _CasualPageState extends State<CasualPage> {
   var _originalNums = [];
   var _hintShown = 0;
   final _problem = Problem.generate();
+  final _stopwatch = Stopwatch();
 
   @override
   void initState() {
@@ -30,6 +31,7 @@ class _CasualPageState extends State<CasualPage> {
     _nums = List.generate(4, (i) => Fraction(_problem.nums[i]));
     _nums.shuffle();
     _originalNums = _nums.toList();
+    _stopwatch.start();
   }
 
   void _pressNumButton(index) {
@@ -66,10 +68,12 @@ class _CasualPageState extends State<CasualPage> {
     setState(() {});
     if (_nums.contains(Fraction(24)) &&
         _numShown.where((x) => x).toList().length == 1) {
+      _stopwatch.stop();
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => CasualSolvedPage(heroTag: 'num$index'),
+          builder: (context) => CasualSolvedPage(
+              heroTag: 'num$index', time: _stopwatch.elapsedMilliseconds),
         ),
       );
     }

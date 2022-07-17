@@ -4,7 +4,7 @@ bool isInteger(num value) {
   return value is int || value == value.roundToDouble();
 }
 
-operate(op, num1, num2) {
+dynamic operate(op, num1, num2) {
   switch (op) {
     case Op.add:
       return num1 + num2;
@@ -15,10 +15,10 @@ operate(op, num1, num2) {
     case Op.divide:
       return num1 / num2;
   }
-  return 0;
+  return null;
 }
 
-reverseOperate(op, num1, num2) {
+dynamic reverseOperate(op, num1, num2) {
   switch (op) {
     case Op.add:
       return num1 - num2;
@@ -29,5 +29,5 @@ reverseOperate(op, num1, num2) {
     case Op.divide:
       return num1 * num2;
   }
-  return 0;
+  return null;
 }

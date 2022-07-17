@@ -47,20 +47,18 @@ class _ChallengeResultsPageState extends State<ChallengeResultsPage> {
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                TextButton(
-                  style: TextButton.styleFrom(
-                    shape: const CircleBorder(),
-                  ),
+                IconButton(
+                  iconSize: 48,
+                  icon: const Icon(Icons.clear_rounded),
+                  color: colorScheme.onSurfaceVariant,
                   onPressed: () {
                     Navigator.pop(context);
                   },
-                  child: Icon(Icons.clear_rounded,
-                      size: 48, color: colorScheme.onSurfaceVariant),
                 ),
-                TextButton(
-                  style: TextButton.styleFrom(
-                    shape: const CircleBorder(),
-                  ),
+                IconButton(
+                  iconSize: 48,
+                  icon: const Icon(Icons.arrow_forward_rounded),
+                  color: colorScheme.onSurfaceVariant,
                   onPressed: () {
                     Navigator.pushReplacement(
                       context,
@@ -69,8 +67,6 @@ class _ChallengeResultsPageState extends State<ChallengeResultsPage> {
                       ),
                     );
                   },
-                  child: Icon(Icons.arrow_forward_rounded,
-                      size: 48, color: colorScheme.onSurfaceVariant),
                 ),
               ],
             ),
