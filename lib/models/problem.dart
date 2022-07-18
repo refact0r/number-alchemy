@@ -1,3 +1,6 @@
+import 'dart:math';
+import 'package:collection/collection.dart';
+
 import 'op.dart';
 import '../utils/math.dart';
 
@@ -13,74 +16,34 @@ class Problem {
   Problem(this.nums, this.ops, this.split);
 
   Problem.generate() {
-    var numList4 = List.generate(maxNum - minNum + 1, (i) => i + minNum);
-    numList4.shuffle();
-    var numList3 = List.generate(maxNum - minNum + 1, (i) => i + minNum);
-    numList3.shuffle();
-    var numList2 = List.generate(maxNum - minNum + 1, (i) => i + minNum);
-    numList2.shuffle();
-
-    var opList3 = Op.values.toList();
-    opList3.shuffle();
-    var opList2 = Op.values.toList();
-    opList2.shuffle();
-    var opList1 = Op.values.toList();
-    opList1.shuffle();
-
-    for (var num4 in numList4) {
-      for (var op3 in opList3) {
-        if (num4 == 0 && op3 == Op.divide) {
-          continue;
-        }
-
-        num rem1 = reverseOperate(op3, target, num4);
-        // print("num4: $rem1 $op3 $num4 ");
-
-        for (var num3 in numList3) {
-          num right = operate(op3, num3, num4);
-
-          for (var op2 in opList2) {
-            if (num3 == 0 && op2 == Op.divide) {
-              continue;
-            }
-
-            num rem2 = reverseOperate(op2, rem1, num3);
-            // print("num3: ($rem2 $op2 $num3) $op3 $num4");
-
-            if (right == 0 && op2 == Op.divide) {
-              continue;
-            }
-
-            num left = reverseOperate(op2, target, right);
-            // print("right: $left $op2 ($num3 $op3 $num4)");
-
-            for (var num2 in numList2) {
-              for (var op1 in opList1) {
-                if (num2 == 0 && op1 == Op.divide) {
-                  continue;
-                }
-
-                num num1 = reverseOperate(op1, rem2, num2);
-                // print("num2: (($num1 $op1 $num2) $op2 $num3) $op3 $num4");
-
-                if (isInteger(num1) && num1 > 0 && num1 < 14) {
-                  // print("(($num1 $op1 $num2) $op2 $num3) $op3 $num4");
-                  nums = [num1.toInt(), num2, num3, num4];
-                  ops = [op1, op2, op3];
-                  split = false;
-                  return;
-                }
-
-                num num12 = reverseOperate(op1, left, num2);
-                // print("num2-2: ($num12 $op1 $num2) $op2 ($num3 $op3 $num4)");
-
-                if (isInteger(num12) && num12 > 0 && num12 < 14) {
-                  // print("($num12 $op1 $num2) $op2 ($num3 $op3 $num4)");
-                  nums = [num12.toInt(), num2, num3, num4];
-                  ops = [op1, op2, op3];
-                  split = true;
-                  return;
-                }
+    Random random = Random();
+    while (true) {
+      var randomNums = [
+        random.nextInt(maxNum) + minNum,
+        random.nextInt(maxNum) + minNum,
+        random.nextInt(maxNum) + minNum,
+        random.nextInt(maxNum) + minNum
+      ];
+      List<List<int>> perms = [];
+      _permute(randomNums, 0, perms);
+      print(perms);
+      for (List<int> perm in perms) {
+        for (Op op1 in Op.values) {
+          for (Op op2 in Op.values) {
+            for (Op op3 in Op.values) {
+              if (_check(perm, [op1, op2, op3], true)) {
+                nums = perm;
+                ops = [op1, op2, op3];
+                split = true;
+                print('solved: $nums $ops $split');
+                return;
+              }
+              if (_check(perm, [op1, op2, op3], false)) {
+                nums = perm;
+                ops = [op1, op2, op3];
+                split = false;
+                print('solved: $nums $ops $split');
+                return;
               }
             }
           }
@@ -88,4 +51,43 @@ class Problem {
       }
     }
   }
+
+  bool _check(List<int> nums, List<Op> ops, bool split) {
+    if (split) {
+      var num1 = operate(ops[0], nums[0], nums[1]);
+      var num2 = operate(ops[1], nums[2], nums[3]);
+      var num3 = operate(ops[2], num1, num2);
+      return num3 == target;
+    } else {
+      var num1 = operate(ops[0], nums[0], nums[1]);
+      var num2 = operate(ops[1], num1, nums[2]);
+      var num3 = operate(ops[2], num2, nums[3]);
+      return num3 == target;
+    }
+  }
+
+  void _permute(List<int> nums, int k, List<List<int>> perms) {
+    for (int i = k; i < nums.length; i++) {
+      bool swap = true;
+      for (int j = k; j < i; j++) {
+        if (nums[j] == nums[i]) {
+          swap = false;
+          break;
+        }
+      }
+      if (swap) {
+        nums.swap(i, k);
+        _permute(nums, k + 1, perms);
+        nums.swap(k, i);
+      }
+    }
+    if (k == nums.length - 1) {
+      List<int> row = nums.toList();
+      perms.add(row);
+    }
+  }
+}
+
+void main() {
+  var problem = Problem.generate();
 }

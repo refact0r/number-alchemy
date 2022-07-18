@@ -25,29 +25,9 @@ class _CasualSolvedPageState extends State<CasualSolvedPage> {
         mainAxisSize: MainAxisSize.max,
         children: [
           Expanded(
-            flex: 2,
-            child: Padding(
-              padding: const EdgeInsets.all(24),
-              child: Center(
-                  child: Text('you solved it!',
-                      style: TextStyle(
-                          fontSize: 24, color: colorScheme.onSurfaceVariant))),
-            ),
-          ),
-          Expanded(
             flex: 1,
             child: Padding(
-              padding: const EdgeInsets.all(24),
-              child: Center(
-                  child: Text('time elapsed: ${msToString(widget.time)}',
-                      style: TextStyle(
-                          fontSize: 24, color: colorScheme.onSurfaceVariant))),
-            ),
-          ),
-          Expanded(
-            flex: 4,
-            child: Padding(
-              padding: const EdgeInsets.all(24),
+              padding: const EdgeInsets.only(top: 48),
               child: Center(
                 child: SizedBox(
                   width: (MediaQuery.of(context).size.width - 72) / 2,
@@ -69,6 +49,31 @@ class _CasualSolvedPageState extends State<CasualSolvedPage> {
                   ),
                 ),
               ),
+            ),
+          ),
+          Expanded(
+            flex: 1,
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(24),
+                  child: Center(
+                      child: Text('You solved it!',
+                          style: Theme.of(context).textTheme.displaySmall)),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(24),
+                  child: Center(
+                      child: Text(msToString(widget.time),
+                          style: Theme.of(context).textTheme.headlineMedium)),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(24),
+                  child: Center(
+                      child: Text('12 + 12 - 5 + 5',
+                          style: Theme.of(context).textTheme.headlineMedium)),
+                ),
+              ],
             ),
           ),
           Padding(
