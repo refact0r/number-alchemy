@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:provider/provider.dart';
 
+import '../models/casual_game.dart';
 import 'casual.dart';
 import '../utils/time.dart';
 
 class CasualSolvedPage extends StatefulWidget {
-  final heroTag;
-  final time;
+  final String heroTag;
+  final int time;
 
   const CasualSolvedPage(
-      {super.key, @required this.heroTag, @required this.time});
+      {super.key, required this.heroTag, required this.time});
 
   @override
   State<CasualSolvedPage> createState() => _CasualSolvedPageState();
@@ -64,13 +66,13 @@ class _CasualSolvedPageState extends State<CasualSolvedPage> {
                 Padding(
                   padding: const EdgeInsets.all(24),
                   child: Center(
-                      child: Text(msToString(widget.time),
+                      child: Text('12 + 12 - 5 + 5',
                           style: Theme.of(context).textTheme.headlineMedium)),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(24),
                   child: Center(
-                      child: Text('12 + 12 - 5 + 5',
+                      child: Text(msToString(widget.time),
                           style: Theme.of(context).textTheme.headlineMedium)),
                 ),
               ],
@@ -98,7 +100,10 @@ class _CasualSolvedPageState extends State<CasualSolvedPage> {
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const CasualPage(),
+                        builder: (context) => ChangeNotifierProvider(
+                          create: (context) => CasualGame(),
+                          child: const CasualPage(),
+                        ),
                       ),
                     );
                   },

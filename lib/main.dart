@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
+import 'models/casual_game.dart';
 import 'pages/casual.dart';
 import 'pages/challenge.dart';
 
@@ -60,7 +62,10 @@ class _HomePageState extends State<HomePage> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const CasualPage(),
+                        builder: (context) => ChangeNotifierProvider(
+                          create: (context) => CasualGame(),
+                          child: const CasualPage(),
+                        ),
                       ),
                     );
                   },
