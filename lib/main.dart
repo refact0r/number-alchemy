@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import 'models/casual_game.dart';
+import 'models/challenge_game.dart';
 import 'pages/casual.dart';
 import 'pages/challenge.dart';
 
@@ -23,13 +24,18 @@ class App extends StatelessWidget {
       brightness: Brightness.dark,
       colorSchemeSeed: Colors.cyan,
     );
-    return MaterialApp(
-      title: "number alchemy",
-      theme:
-          theme.copyWith(textTheme: GoogleFonts.jostTextTheme(theme.textTheme)),
-      home: const HomePage(),
-      debugShowCheckedModeBanner: false,
-    );
+    return MultiProvider(
+        providers: [
+          ChangeNotifierProvider(create: (context) => ChallengeGame(context)),
+          ChangeNotifierProvider(create: (context) => CasualGame(context)),
+        ],
+        child: MaterialApp(
+          title: "number alchemy",
+          theme: theme.copyWith(
+              textTheme: GoogleFonts.jostTextTheme(theme.textTheme)),
+          home: const HomePage(),
+          debugShowCheckedModeBanner: false,
+        ));
   }
 }
 
@@ -62,10 +68,7 @@ class _HomePageState extends State<HomePage> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => ChangeNotifierProvider(
-                          create: (context) => CasualGame(),
-                          child: const CasualPage(),
-                        ),
+                        builder: (context) => const CasualPage(),
                       ),
                     );
                   },

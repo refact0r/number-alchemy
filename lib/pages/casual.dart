@@ -2,12 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 
-import 'casual_solved.dart';
-import '../models/op.dart';
-import '../models/fraction.dart';
-import '../models/problem.dart';
 import '../models/casual_game.dart';
-import '../utils/math.dart';
 
 class CasualPage extends StatefulWidget {
   const CasualPage({super.key});
@@ -23,6 +18,12 @@ class _CasualPageState extends State<CasualPage> {
     Icon(CupertinoIcons.multiply),
     Icon(CupertinoIcons.divide)
   ];
+
+  @override
+  void initState() {
+    super.initState();
+    Provider.of<CasualGame>(context, listen: false).initialize(context);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,10 +50,8 @@ class _CasualPageState extends State<CasualPage> {
                   icon: const Icon(Icons.clear_rounded),
                 ),
                 IconButton(
-                  onPressed: () {
-                    Provider.of<CasualGame>(context, listen: false)
-                        .hint(context);
-                  },
+                  onPressed:
+                      Provider.of<CasualGame>(context, listen: false).hint,
                   color: colorScheme.onSurfaceVariant,
                   highlightColor:
                       colorScheme.onSurfaceVariant.withOpacity(0.08),
@@ -85,42 +84,42 @@ class _CasualPageState extends State<CasualPage> {
             child: Padding(
               padding: const EdgeInsets.all(24),
               child: Center(
-                child: GridView.count(
-                  primary: false,
-                  crossAxisSpacing: 24,
-                  mainAxisSpacing: 24,
-                  crossAxisCount: 2,
-                  shrinkWrap: true,
-                  padding: const EdgeInsets.symmetric(vertical: 12),
-                  children: <Widget>[
-                    for (int i = 0; i < 4; i++)
-                      Consumer<CasualGame>(
-                        builder: (context, casualGame, child) {
-                          return Visibility(
+                child: Consumer<CasualGame>(
+                  builder: (context, casualGame, child) {
+                    return GridView.count(
+                      primary: false,
+                      crossAxisSpacing: 24,
+                      mainAxisSpacing: 24,
+                      crossAxisCount: 2,
+                      shrinkWrap: true,
+                      padding: const EdgeInsets.symmetric(vertical: 12),
+                      children: <Widget>[
+                        for (int i = 0; i < 4; i++)
+                          Visibility(
                             visible: casualGame.numShown[i],
                             child: Hero(
                               tag: 'num$i',
                               child: ElevatedButton(
                                 onPressed: () {
-                                  casualGame.pressNumButton(context, i);
+                                  casualGame.pressNumButton(i);
                                 },
                                 style: ElevatedButton.styleFrom(
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(24)),
-                                    primary: casualGame.numPressed[i]
-                                        ? colorScheme.primaryContainer
-                                        : null),
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(24)),
+                                  primary: casualGame.numPressed[i]
+                                      ? colorScheme.primaryContainer
+                                      : null,
+                                ),
                                 child: Text(
                                   casualGame.nums[i].toString(),
                                   style: const TextStyle(fontSize: 48),
                                 ),
                               ),
                             ),
-                          );
-                        },
-                      ),
-                  ],
+                          )
+                      ],
+                    );
+                  },
                 ),
               ),
             ),

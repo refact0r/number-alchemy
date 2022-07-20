@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:provider/provider.dart';
 
-import '../models/casual_game.dart';
 import 'casual.dart';
 import '../utils/time.dart';
 
@@ -100,10 +97,7 @@ class _CasualSolvedPageState extends State<CasualSolvedPage> {
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => ChangeNotifierProvider(
-                          create: (context) => CasualGame(),
-                          child: const CasualPage(),
-                        ),
+                        builder: (context) => const CasualPage(),
                       ),
                     );
                   },

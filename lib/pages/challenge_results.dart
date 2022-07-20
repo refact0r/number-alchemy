@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:provider/provider.dart';
 
+import '../models/challenge_game.dart';
 import 'challenge.dart';
 
 class ChallengeResultsPage extends StatefulWidget {
-  final solvedCount;
+  final int solvedCount;
 
-  const ChallengeResultsPage({super.key, @required this.solvedCount});
+  const ChallengeResultsPage({super.key, required this.solvedCount});
 
   @override
   State<ChallengeResultsPage> createState() => _ChallengeResultsPageState();
@@ -63,7 +64,10 @@ class _ChallengeResultsPageState extends State<ChallengeResultsPage> {
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const ChallengePage(),
+                        builder: (context) => ChangeNotifierProvider(
+                          create: (context) => ChallengeGame(context),
+                          child: const ChallengePage(),
+                        ),
                       ),
                     );
                   },

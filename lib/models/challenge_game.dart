@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
+import 'dart:async';
 
 import '../pages/casual_solved.dart';
+import '../pages/challenge_results.dart';
 import '../utils/math.dart';
 import 'fraction.dart';
 import 'op.dart';
 import 'problem.dart';
 
-class CasualGame extends ChangeNotifier {
+class ChallengeGame extends ChangeNotifier {
   BuildContext context;
+  late AnimationController animation;
   late Problem problem;
   List<Fraction> originalNums = [];
   List<Fraction> nums = [];
@@ -16,12 +19,26 @@ class CasualGame extends ChangeNotifier {
   List<bool> opPressed = [false, false, false, false];
   List<List<List<dynamic>>> log = [];
   int hintShown = 0;
-  Stopwatch stopwatch = Stopwatch();
+  int solvedCount = 0;
+  int timerSeconds = 60;
+  late Timer timer;
+  String timeString = '';
+  String timeChangeString = '';
 
-  CasualGame(this.context);
+  ChallengeGame(this.context);
 
-  void initialize(context) {
+  void initialize(BuildContext context, animation) {
     this.context = context;
+    this.animation = animation;
+    newProblem();
+    solvedCount = 0;
+    timerSeconds = 60;
+    timer = Timer.periodic(const Duration(seconds: 1), _timerTick);
+    timeString =
+        '${timerSeconds ~/ 60}:${(timerSeconds % 60).toString().padLeft(2, '0')}';
+  }
+
+  void newProblem() {
     problem = Problem.generate();
     originalNums = List.generate(4, (i) => Fraction(problem.nums[i]));
     originalNums.shuffle();
@@ -31,7 +48,51 @@ class CasualGame extends ChangeNotifier {
     opPressed = [false, false, false, false];
     log = [];
     hintShown = 0;
-    stopwatch.start();
+  }
+
+  void _timerTick(Timer timer) {
+    print('timertick');
+    timerSeconds -= 1;
+    timeString =
+        '${timerSeconds ~/ 60}:${(timerSeconds % 60).toString().padLeft(2, '0')}';
+    notifyListeners();
+    if (timerSeconds <= 0) {
+      timer.cancel();
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => ChallengeResultsPage(solvedCount: solvedCount),
+        ),
+      );
+    }
+  }
+
+  void updateTimer(int amount) {
+    if (amount != 0) {
+      timerSeconds += amount;
+      if (amount > 0) {
+        timeChangeString = '+$amount';
+      } else {
+        timeChangeString = '$amount';
+      }
+      animation.value = 1;
+      animation.reverse();
+    }
+    if (timerSeconds <= 0) {
+      timerSeconds = 0;
+    }
+    timeString =
+        '${timerSeconds ~/ 60}:${(timerSeconds % 60).toString().padLeft(2, '0')}';
+    notifyListeners();
+    if (timerSeconds <= 0) {
+      timer.cancel();
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => ChallengeResultsPage(solvedCount: solvedCount),
+        ),
+      );
+    }
   }
 
   void pressNumButton(int index) {
@@ -67,14 +128,11 @@ class CasualGame extends ChangeNotifier {
     notifyListeners();
     if (nums.contains(Fraction(24)) &&
         numShown.where((x) => x).toList().length == 1) {
-      stopwatch.stop();
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => CasualSolvedPage(
-              heroTag: 'num$index', time: stopwatch.elapsedMilliseconds),
-        ),
-      );
+      solvedCount++;
+      updateTimer(5);
+      Future.delayed(const Duration(milliseconds: 300), () {
+        newProblem();
+      });
     }
   }
 
@@ -127,6 +185,7 @@ class CasualGame extends ChangeNotifier {
         pressOpButton(Op.values.indexOf(problem.ops[2]));
       }
       hintShown = 3;
+      updateTimer(-15);
     } else if (hintShown == 1) {
       if (problem.split) {
         _pressSolutionNum(3);
@@ -140,6 +199,7 @@ class CasualGame extends ChangeNotifier {
         pressOpButton(Op.values.indexOf(problem.ops[1]));
       }
       hintShown = 2;
+      updateTimer(-10);
     } else {
       reset();
       if (problem.split) {
@@ -150,6 +210,7 @@ class CasualGame extends ChangeNotifier {
         pressOpButton(Op.values.indexOf(problem.ops[0]));
       }
       hintShown = 1;
+      updateTimer(-5);
     }
     notifyListeners();
   }
