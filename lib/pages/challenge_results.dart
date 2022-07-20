@@ -25,21 +25,42 @@ class _ChallengeResultsPageState extends State<ChallengeResultsPage> {
           Expanded(
             flex: 1,
             child: Padding(
-              padding: const EdgeInsets.all(24),
+              padding: const EdgeInsets.only(top: 48),
               child: Center(
-                  child: Text("time's up!",
-                      style: TextStyle(
-                          fontSize: 24, color: colorScheme.onSurfaceVariant))),
+                child: Hero(
+                  tag: 'timer',
+                  child: Container(
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 6, horizontal: 12),
+                    decoration: BoxDecoration(
+                      color: colorScheme.surfaceTint.withOpacity(0.05),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Text('0:00',
+                        style: TextStyle(
+                            fontSize: 48, color: colorScheme.primary)),
+                  ),
+                ),
+              ),
             ),
           ),
           Expanded(
             flex: 1,
-            child: Padding(
-              padding: const EdgeInsets.all(24),
-              child: Center(
-                  child: Text('you solved ${widget.solvedCount} problems',
-                      style: TextStyle(
-                          fontSize: 24, color: colorScheme.onSurfaceVariant))),
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(24),
+                  child: Center(
+                      child: Text("Time's up!",
+                          style: Theme.of(context).textTheme.displaySmall)),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(24),
+                  child: Center(
+                      child: Text('${widget.solvedCount} problems solved',
+                          style: Theme.of(context).textTheme.headlineMedium)),
+                ),
+              ],
             ),
           ),
           Padding(
@@ -64,10 +85,7 @@ class _ChallengeResultsPageState extends State<ChallengeResultsPage> {
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => ChangeNotifierProvider(
-                          create: (context) => ChallengeGame(context),
-                          child: const ChallengePage(),
-                        ),
+                        builder: (context) => const ChallengePage(),
                       ),
                     );
                   },

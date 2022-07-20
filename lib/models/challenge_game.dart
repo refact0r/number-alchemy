@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 
-import '../pages/casual_solved.dart';
 import '../pages/challenge_results.dart';
 import '../utils/math.dart';
 import 'fraction.dart';

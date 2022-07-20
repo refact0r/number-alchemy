@@ -20,7 +20,7 @@ class _ChallengePageState extends State<ChallengePage>
     Icon(CupertinoIcons.divide)
   ];
 
-  late final _fadeAnimation = AnimationController(
+  late final _animation = AnimationController(
     value: 0,
     duration: const Duration(milliseconds: 800),
     vsync: this,
@@ -30,7 +30,13 @@ class _ChallengePageState extends State<ChallengePage>
   void initState() {
     super.initState();
     Provider.of<ChallengeGame>(context, listen: false)
-        .initialize(context, _fadeAnimation);
+        .initialize(context, _animation);
+  }
+
+  @override
+  void dispose() {
+    _animation.dispose();
+    super.dispose();
   }
 
   @override
@@ -102,7 +108,9 @@ class _ChallengePageState extends State<ChallengePage>
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 12),
-                      child: Container(
+                      child: Hero(
+                        tag: 'timer',
+                        child: Container(
                           padding: const EdgeInsets.symmetric(
                               vertical: 6, horizontal: 12),
                           decoration: BoxDecoration(
@@ -111,10 +119,12 @@ class _ChallengePageState extends State<ChallengePage>
                           ),
                           child: Text(challengeGame.timeString,
                               style: TextStyle(
-                                  fontSize: 32, color: colorScheme.primary))),
+                                  fontSize: 32, color: colorScheme.primary)),
+                        ),
+                      ),
                     ),
                     FadeTransition(
-                      opacity: _fadeAnimation,
+                      opacity: _animation,
                       child: SizedBox(
                         width: 128,
                         child: Text(challengeGame.timeChangeString,
