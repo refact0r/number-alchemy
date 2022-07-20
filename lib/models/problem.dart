@@ -93,7 +93,3 @@ class Problem {
     }
   }
 }
-
-void main() {
-  var problem = Problem.generate();
-}

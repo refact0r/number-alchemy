@@ -6,9 +6,13 @@ import '../utils/time.dart';
 class CasualSolvedPage extends StatefulWidget {
   final String heroTag;
   final int time;
+  final String expression;
 
   const CasualSolvedPage(
-      {super.key, required this.heroTag, required this.time});
+      {super.key,
+      required this.heroTag,
+      required this.time,
+      required this.expression});
 
   @override
   State<CasualSolvedPage> createState() => _CasualSolvedPageState();
@@ -57,13 +61,13 @@ class _CasualSolvedPageState extends State<CasualSolvedPage> {
                 Padding(
                   padding: const EdgeInsets.all(24),
                   child: Center(
-                      child: Text('You solved it!',
+                      child: Text('you solved it!',
                           style: Theme.of(context).textTheme.displaySmall)),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(24),
                   child: Center(
-                      child: Text('12 + 12 - 5 + 5',
+                      child: Text(widget.expression,
                           style: Theme.of(context).textTheme.headlineMedium)),
                 ),
                 Padding(

@@ -29,16 +29,19 @@ class _ChallengeResultsPageState extends State<ChallengeResultsPage> {
               child: Center(
                 child: Hero(
                   tag: 'timer',
-                  child: Container(
-                    padding:
-                        const EdgeInsets.symmetric(vertical: 6, horizontal: 12),
-                    decoration: BoxDecoration(
-                      color: colorScheme.surfaceTint.withOpacity(0.05),
-                      borderRadius: BorderRadius.circular(12),
+                  child: Material(
+                    type: MaterialType.transparency, // likely needed
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 6, horizontal: 6),
+                      decoration: BoxDecoration(
+                        color: colorScheme.surfaceTint.withOpacity(0.05),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Text(' 0:00 ',
+                          style: TextStyle(
+                              fontSize: 48, color: colorScheme.primary)),
                     ),
-                    child: Text('0:00',
-                        style: TextStyle(
-                            fontSize: 48, color: colorScheme.primary)),
                   ),
                 ),
               ),
@@ -51,13 +54,19 @@ class _ChallengeResultsPageState extends State<ChallengeResultsPage> {
                 Padding(
                   padding: const EdgeInsets.all(24),
                   child: Center(
-                      child: Text("Time's up!",
+                      child: Text("time's up!",
                           style: Theme.of(context).textTheme.displaySmall)),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(24),
                   child: Center(
                       child: Text('${widget.solvedCount} problems solved',
+                          style: Theme.of(context).textTheme.headlineMedium)),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(24),
+                  child: Center(
+                      child: Text('high score: 10',
                           style: Theme.of(context).textTheme.headlineMedium)),
                 ),
               ],

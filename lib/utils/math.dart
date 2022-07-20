@@ -29,3 +29,16 @@ dynamic reverseOperate(Op op, dynamic num1, dynamic num2) {
       return num1 * num2;
   }
 }
+
+String opToString(Op op) {
+  switch (op) {
+    case Op.add:
+      return '+';
+    case Op.subtract:
+      return '-';
+    case Op.multiply:
+      return '×';
+    case Op.divide:
+      return '÷';
+  }
+}

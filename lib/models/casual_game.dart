@@ -11,10 +11,11 @@ class CasualGame extends ChangeNotifier {
   late Problem problem;
   List<Fraction> originalNums = [];
   List<Fraction> nums = [];
+  List<String> expression = [];
   List<bool> numShown = [true, true, true, true];
   List<bool> numPressed = [false, false, false, false];
   List<bool> opPressed = [false, false, false, false];
-  List<List<List<dynamic>>> log = [];
+  List<List<dynamic>> pastStates = [];
   int hintShown = 0;
   Stopwatch stopwatch = Stopwatch();
 
@@ -26,11 +27,13 @@ class CasualGame extends ChangeNotifier {
     originalNums = List.generate(4, (i) => Fraction(problem.nums[i]));
     originalNums.shuffle();
     nums = originalNums.toList();
+    expression = List.generate(4, (i) => originalNums[i].toString());
     numShown = [true, true, true, true];
     numPressed = [false, false, false, false];
     opPressed = [false, false, false, false];
-    log = [];
+    pastStates = [];
     hintShown = 0;
+    stopwatch.reset();
     stopwatch.start();
   }
 
@@ -43,20 +46,50 @@ class CasualGame extends ChangeNotifier {
       numPressed[numPressed.indexOf(true)] = false;
       numPressed[index] = true;
     } else if (numPressed.contains(true) && opPressed.contains(true)) {
-      log.add([
+      pastStates.add([
         nums.toList(),
         numShown.toList(),
         numPressed.toList(),
         opPressed.toList(),
+        expression.toList(),
       ]);
-      var firstIndex = numPressed.indexOf(true);
-      var opIndex = opPressed.indexOf(true);
+
+      int firstIndex = numPressed.indexOf(true);
+      int opIndex = opPressed.indexOf(true);
+
+      String first = expression[firstIndex];
+      String op = opToString(Op.values[opIndex]);
+      String second = expression[index];
+      if (first.length >= 5) {
+        first = '($first)';
+      }
+      if (second.length >= 5) {
+        second = '($second)';
+      }
+      expression[index] = '$first $op $second';
+
       nums[index] = operate(Op.values[opIndex], nums[firstIndex], nums[index]);
       numShown[firstIndex] = false;
       numPressed[firstIndex] = false;
       nums[firstIndex] = Fraction(100000);
+
       if (numShown.where((x) => x).toList().length == 1) {
         opPressed[opIndex] = false;
+        if (nums[index] == Fraction(24)) {
+          notifyListeners();
+          stopwatch.stop();
+          print(expression[index]);
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => CasualSolvedPage(
+                  heroTag: 'num$index',
+                  time: stopwatch.elapsedMilliseconds,
+                  expression: expression[index]),
+            ),
+          );
+          return;
+        }
       } else {
         numPressed[index] = true;
       }
@@ -65,17 +98,6 @@ class CasualGame extends ChangeNotifier {
     }
     hintShown = 0;
     notifyListeners();
-    if (nums.contains(Fraction(24)) &&
-        numShown.where((x) => x).toList().length == 1) {
-      stopwatch.stop();
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => CasualSolvedPage(
-              heroTag: 'num$index', time: stopwatch.elapsedMilliseconds),
-        ),
-      );
-    }
   }
 
   void pressOpButton(int index) {
@@ -92,12 +114,13 @@ class CasualGame extends ChangeNotifier {
   }
 
   void undo() {
-    if (log.isNotEmpty) {
-      List<List<dynamic>> operation = log.removeLast();
+    if (pastStates.isNotEmpty) {
+      List<dynamic> operation = pastStates.removeLast();
       nums = List<Fraction>.from(operation[0]);
       numShown = List<bool>.from(operation[1]);
       numPressed = List<bool>.from(operation[2]);
       opPressed = List<bool>.from(operation[3]);
+      expression = List<String>.from(operation[4]);
       hintShown = 0;
       notifyListeners();
     }
@@ -108,7 +131,8 @@ class CasualGame extends ChangeNotifier {
     numShown = [true, true, true, true];
     numPressed = [false, false, false, false];
     opPressed = [false, false, false, false];
-    log = [];
+    expression = List.generate(4, (i) => originalNums[i].toString());
+    pastStates = [];
     hintShown = 0;
     notifyListeners();
   }

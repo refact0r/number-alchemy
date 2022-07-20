@@ -104,32 +104,39 @@ class _ChallengePageState extends State<ChallengePage>
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const SizedBox(
-                      width: 128,
+                      width: 96,
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 12),
                       child: Hero(
                         tag: 'timer',
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 6, horizontal: 12),
-                          decoration: BoxDecoration(
-                            color: colorScheme.surfaceTint.withOpacity(0.05),
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: Text(challengeGame.timeString,
+                        child: Material(
+                          type: MaterialType.transparency, // likely needed
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 6, horizontal: 6),
+                            decoration: BoxDecoration(
+                              color: colorScheme.surfaceTint.withOpacity(0.05),
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: Text(
+                              ' ${challengeGame.timeString} ',
                               style: TextStyle(
-                                  fontSize: 32, color: colorScheme.primary)),
+                                  fontSize: 32, color: colorScheme.primary),
+                            ),
+                          ),
                         ),
                       ),
                     ),
                     FadeTransition(
                       opacity: _animation,
                       child: SizedBox(
-                        width: 128,
-                        child: Text(challengeGame.timeChangeString,
-                            style: TextStyle(
-                                fontSize: 32, color: colorScheme.primary)),
+                        width: 96,
+                        child: Text(
+                          challengeGame.timeChangeString,
+                          style: TextStyle(
+                              fontSize: 32, color: colorScheme.primary),
+                        ),
                       ),
                     ),
                   ],

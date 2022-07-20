@@ -21,6 +21,10 @@ class Fraction {
     return Fraction._(numerator, denominator);
   }
 
+  int toInt() {
+    return num ~/ den;
+  }
+
   @override
   String toString() {
     if (den == 1) {
