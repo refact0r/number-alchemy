@@ -14,10 +14,10 @@ class ChallengePage extends StatefulWidget {
 class _ChallengePageState extends State<ChallengePage>
     with TickerProviderStateMixin {
   static const opIcons = [
-    Icon(CupertinoIcons.plus),
-    Icon(CupertinoIcons.minus),
-    Icon(CupertinoIcons.multiply),
-    Icon(CupertinoIcons.divide)
+    CupertinoIcons.plus,
+    CupertinoIcons.minus,
+    CupertinoIcons.multiply,
+    CupertinoIcons.divide
   ];
 
   late final _animation = AnimationController(
@@ -44,12 +44,12 @@ class _ChallengePageState extends State<ChallengePage>
     ColorScheme colorScheme = Theme.of(context).colorScheme;
 
     return Scaffold(
-      body: Column(
-        mainAxisSize: MainAxisSize.max,
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(24),
-            child: Row(
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 36),
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            Row(
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -95,10 +95,8 @@ class _ChallengePageState extends State<ChallengePage>
                 ),
               ],
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(12),
-            child: Consumer<ChallengeGame>(
+            const Spacer(flex: 1),
+            Consumer<ChallengeGame>(
               builder: (context, challengeGame, child) {
                 return Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -111,10 +109,9 @@ class _ChallengePageState extends State<ChallengePage>
                       child: Hero(
                         tag: 'timer',
                         child: Material(
-                          type: MaterialType.transparency, // likely needed
+                          type: MaterialType.transparency,
                           child: Container(
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 6, horizontal: 6),
+                            padding: const EdgeInsets.all(6),
                             decoration: BoxDecoration(
                               color: colorScheme.surfaceTint.withOpacity(0.05),
                               borderRadius: BorderRadius.circular(12),
@@ -143,84 +140,72 @@ class _ChallengePageState extends State<ChallengePage>
                 );
               },
             ),
-          ),
-          Expanded(
-            flex: 3,
-            child: Padding(
-              padding: const EdgeInsets.all(24),
-              child: Center(
-                child: Consumer<ChallengeGame>(
-                  builder: (context, challengeGame, child) {
-                    return GridView.count(
-                      primary: false,
-                      crossAxisSpacing: 24,
-                      mainAxisSpacing: 24,
-                      crossAxisCount: 2,
-                      shrinkWrap: true,
-                      padding: const EdgeInsets.symmetric(vertical: 12),
-                      children: <Widget>[
-                        for (int i = 0; i < 4; i++)
-                          Visibility(
-                            visible: challengeGame.numShown[i],
-                            child: Hero(
-                              tag: 'num$i',
-                              child: ElevatedButton(
-                                onPressed: () {
-                                  challengeGame.pressNumButton(i);
-                                },
-                                style: ElevatedButton.styleFrom(
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(24)),
-                                    primary: challengeGame.numPressed[i]
-                                        ? colorScheme.primaryContainer
-                                        : null),
-                                child: Text(
-                                  challengeGame.nums[i].toString(),
-                                  style: const TextStyle(fontSize: 48),
-                                ),
-                              ),
+            const Spacer(flex: 1),
+            Consumer<ChallengeGame>(
+              builder: (context, challengeGame, child) {
+                return GridView.count(
+                  primary: false,
+                  crossAxisSpacing: 24,
+                  mainAxisSpacing: 24,
+                  crossAxisCount: 2,
+                  shrinkWrap: true,
+                  padding: const EdgeInsets.symmetric(vertical: 6),
+                  children: <Widget>[
+                    for (int i = 0; i < 4; i++)
+                      Visibility(
+                        visible: challengeGame.numShown[i],
+                        child: Hero(
+                          tag: 'num$i',
+                          child: ElevatedButton(
+                            onPressed: () {
+                              challengeGame.pressNumButton(i);
+                            },
+                            style: ElevatedButton.styleFrom(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(24)),
+                                primary: challengeGame.numPressed[i]
+                                    ? colorScheme.primaryContainer
+                                    : null),
+                            child: Text(
+                              challengeGame.nums[i].toString(),
+                              style: const TextStyle(fontSize: 48),
                             ),
                           ),
-                      ],
-                    );
-                  },
-                ),
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(24),
-            child: Consumer<ChallengeGame>(
-              builder: (context, casualGame, child) {
-                return Row(
-                  mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    for (int i = 0; i < 4; i++)
-                      Ink(
-                        padding: const EdgeInsets.all(10),
-                        decoration: ShapeDecoration(
-                          color: casualGame.opPressed[i]
-                              ? colorScheme.primaryContainer
-                              : null,
-                          shape: const CircleBorder(),
-                        ),
-                        child: IconButton(
-                          iconSize: 36,
-                          icon: opIcons[i],
-                          color: colorScheme.onSurfaceVariant,
-                          onPressed: () {
-                            casualGame.pressOpButton(i);
-                          },
                         ),
                       ),
                   ],
                 );
               },
             ),
-          ),
-        ],
+            const Spacer(flex: 2),
+            Consumer<ChallengeGame>(
+              builder: (context, casualGame, child) {
+                return Row(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    for (int i = 0; i < 4; i++)
+                      SizedBox(
+                        width: 72,
+                        height: 72,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            casualGame.pressOpButton(i);
+                          },
+                          style: ElevatedButton.styleFrom(
+                            primary: casualGame.opPressed[i]
+                                ? colorScheme.primaryContainer
+                                : null,
+                          ),
+                          child: Icon(opIcons[i], size: 32),
+                        ),
+                      ),
+                  ],
+                );
+              },
+            ),
+          ],
+        ),
       ),
     );
   }

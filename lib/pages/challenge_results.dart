@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
-import '../models/challenge_game.dart';
 import 'challenge.dart';
 
 class ChallengeResultsPage extends StatefulWidget {
@@ -30,7 +28,7 @@ class _ChallengeResultsPageState extends State<ChallengeResultsPage> {
                 child: Hero(
                   tag: 'timer',
                   child: Material(
-                    type: MaterialType.transparency, // likely needed
+                    type: MaterialType.transparency,
                     child: Container(
                       padding: const EdgeInsets.symmetric(
                           vertical: 6, horizontal: 6),
@@ -73,13 +71,13 @@ class _ChallengeResultsPageState extends State<ChallengeResultsPage> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.all(24),
+            padding: const EdgeInsets.fromLTRB(24, 24, 24, 36),
             child: Row(
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 IconButton(
-                  iconSize: 48,
+                  iconSize: 36,
                   icon: const Icon(Icons.clear_rounded),
                   color: colorScheme.onSurfaceVariant,
                   onPressed: () {
@@ -87,7 +85,7 @@ class _ChallengeResultsPageState extends State<ChallengeResultsPage> {
                   },
                 ),
                 IconButton(
-                  iconSize: 48,
+                  iconSize: 36,
                   icon: const Icon(Icons.arrow_forward_rounded),
                   color: colorScheme.onSurfaceVariant,
                   onPressed: () {
