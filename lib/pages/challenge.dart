@@ -45,7 +45,7 @@ class _ChallengePageState extends State<ChallengePage>
 
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 36),
+        padding: const EdgeInsets.fromLTRB(24, 36, 24, 36),
         child: Column(
           mainAxisSize: MainAxisSize.max,
           children: [

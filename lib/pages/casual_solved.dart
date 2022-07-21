@@ -24,39 +24,35 @@ class _CasualSolvedPageState extends State<CasualSolvedPage> {
     ColorScheme colorScheme = Theme.of(context).colorScheme;
 
     return Scaffold(
-      body: Column(
-        mainAxisSize: MainAxisSize.max,
-        children: [
-          Expanded(
-            flex: 1,
-            child: Padding(
-              padding: const EdgeInsets.only(top: 48),
-              child: Center(
-                child: SizedBox(
-                  width: (MediaQuery.of(context).size.width - 72) / 2,
-                  height: (MediaQuery.of(context).size.width - 72) /
-                      2, // <-- Your height
-                  child: Hero(
-                    tag: widget.heroTag,
-                    child: ElevatedButton(
-                      onPressed: () {},
-                      style: ElevatedButton.styleFrom(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(24)),
-                      ),
-                      child: const Text(
-                        '24',
-                        style: TextStyle(fontSize: 48),
-                      ),
+      body: Padding(
+        padding: const EdgeInsets.fromLTRB(24, 36, 24, 36),
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            const Spacer(flex: 1),
+            Center(
+              child: SizedBox(
+                width: (MediaQuery.of(context).size.width - 72) / 2,
+                height: (MediaQuery.of(context).size.width - 72) /
+                    2, // <-- Your height
+                child: Hero(
+                  tag: widget.heroTag,
+                  child: ElevatedButton(
+                    onPressed: () {},
+                    style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(24)),
+                    ),
+                    child: const Text(
+                      '24',
+                      style: TextStyle(fontSize: 48),
                     ),
                   ),
                 ),
               ),
             ),
-          ),
-          Expanded(
-            flex: 1,
-            child: Column(
+            const Spacer(flex: 1),
+            Column(
               children: [
                 Padding(
                   padding: const EdgeInsets.all(24),
@@ -78,15 +74,13 @@ class _CasualSolvedPageState extends State<CasualSolvedPage> {
                 ),
               ],
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(24),
-            child: Row(
+            const Spacer(flex: 1),
+            Row(
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 IconButton(
-                  iconSize: 48,
+                  iconSize: 36,
                   icon: const Icon(Icons.clear_rounded),
                   color: colorScheme.onSurfaceVariant,
                   onPressed: () {
@@ -94,7 +88,7 @@ class _CasualSolvedPageState extends State<CasualSolvedPage> {
                   },
                 ),
                 IconButton(
-                  iconSize: 48,
+                  iconSize: 36,
                   icon: const Icon(Icons.arrow_forward_rounded),
                   color: colorScheme.onSurfaceVariant,
                   onPressed: () {
@@ -108,8 +102,8 @@ class _CasualSolvedPageState extends State<CasualSolvedPage> {
                 ),
               ],
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

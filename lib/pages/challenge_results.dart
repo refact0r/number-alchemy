@@ -17,37 +17,33 @@ class _ChallengeResultsPageState extends State<ChallengeResultsPage> {
     ColorScheme colorScheme = Theme.of(context).colorScheme;
 
     return Scaffold(
-      body: Column(
-        mainAxisSize: MainAxisSize.max,
-        children: [
-          Expanded(
-            flex: 1,
-            child: Padding(
-              padding: const EdgeInsets.only(top: 48),
-              child: Center(
-                child: Hero(
-                  tag: 'timer',
-                  child: Material(
-                    type: MaterialType.transparency,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 6, horizontal: 6),
-                      decoration: BoxDecoration(
-                        color: colorScheme.surfaceTint.withOpacity(0.05),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Text(' 0:00 ',
-                          style: TextStyle(
-                              fontSize: 48, color: colorScheme.primary)),
+      body: Padding(
+        padding: const EdgeInsets.fromLTRB(24, 36, 24, 36),
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            const Spacer(flex: 1),
+            Center(
+              child: Hero(
+                tag: 'timer',
+                child: Material(
+                  type: MaterialType.transparency,
+                  child: Container(
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 6, horizontal: 6),
+                    decoration: BoxDecoration(
+                      color: colorScheme.surfaceTint.withOpacity(0.05),
+                      borderRadius: BorderRadius.circular(12),
                     ),
+                    child: Text(' 0:00 ',
+                        style: TextStyle(
+                            fontSize: 48, color: colorScheme.primary)),
                   ),
                 ),
               ),
             ),
-          ),
-          Expanded(
-            flex: 1,
-            child: Column(
+            const Spacer(flex: 1),
+            Column(
               children: [
                 Padding(
                   padding: const EdgeInsets.all(24),
@@ -69,10 +65,8 @@ class _ChallengeResultsPageState extends State<ChallengeResultsPage> {
                 ),
               ],
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(24, 24, 24, 36),
-            child: Row(
+            const Spacer(flex: 1),
+            Row(
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -99,8 +93,8 @@ class _ChallengeResultsPageState extends State<ChallengeResultsPage> {
                 ),
               ],
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
