@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import 'models/casual_game.dart';
@@ -19,11 +18,7 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
-    var theme = ThemeData(
-      useMaterial3: true,
-      brightness: Brightness.dark,
-      colorSchemeSeed: Colors.cyan,
-    );
+
     return MultiProvider(
         providers: [
           ChangeNotifierProvider(create: (context) => ChallengeGame(context)),
@@ -31,8 +26,11 @@ class App extends StatelessWidget {
         ],
         child: MaterialApp(
           title: "number alchemy",
-          theme: theme.copyWith(
-              textTheme: GoogleFonts.jostTextTheme(theme.textTheme)),
+          theme: ThemeData(
+              useMaterial3: true,
+              colorSchemeSeed: Colors.cyan,
+              brightness: Brightness.dark,
+              fontFamily: "Jost"),
           home: const HomePage(),
           debugShowCheckedModeBanner: false,
         ));
