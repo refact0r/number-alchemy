@@ -47,10 +47,8 @@ class _ChallengePageState extends State<ChallengePage>
       body: Padding(
         padding: const EdgeInsets.fromLTRB(24, 36, 24, 36),
         child: Column(
-          mainAxisSize: MainAxisSize.max,
           children: [
             Row(
-              mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 IconButton(
@@ -181,7 +179,6 @@ class _ChallengePageState extends State<ChallengePage>
             Consumer<ChallengeGame>(
               builder: (context, casualGame, child) {
                 return Row(
-                  mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     for (int i = 0; i < 4; i++)

@@ -20,7 +20,6 @@ class _ChallengeResultsPageState extends State<ChallengeResultsPage> {
       body: Padding(
         padding: const EdgeInsets.fromLTRB(24, 36, 24, 36),
         child: Column(
-          mainAxisSize: MainAxisSize.max,
           children: [
             const Spacer(flex: 1),
             Center(
@@ -67,7 +66,6 @@ class _ChallengeResultsPageState extends State<ChallengeResultsPage> {
             ),
             const Spacer(flex: 1),
             Row(
-              mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 IconButton(
