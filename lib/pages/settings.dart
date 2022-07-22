@@ -20,6 +20,7 @@ class _SettingsPageState extends State<SettingsPage> {
   @override
   Widget build(BuildContext context) {
     ColorScheme colorScheme = Theme.of(context).colorScheme;
+    print(Provider.of<Settings>(context).darkMode);
 
     return Scaffold(
       body: Padding(
@@ -42,29 +43,32 @@ class _SettingsPageState extends State<SettingsPage> {
             ),
             Expanded(
               child: Center(
-                child: Consumer<Settings>(
-                  builder: (context, settings, child) {
-                    return Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        ElevatedButton(
-                          onPressed: () {
-                            settings.setPref(!settings.darkMode);
-                          },
-                          style: ElevatedButton.styleFrom(
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 12, horizontal: 24),
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(24)),
+                child: Padding(
+                  padding: const EdgeInsets.all(24),
+                  child: Consumer<Settings>(
+                    builder: (context, settings, child) {
+                      return Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const Text(
+                                'dark mode',
+                                style: TextStyle(fontSize: 24),
+                              ),
+                              Switch(
+                                value: settings.darkMode,
+                                onChanged: (value) {
+                                  settings.setPref(value);
+                                },
+                              ),
+                            ],
                           ),
-                          child: const Text(
-                            'toggle theme',
-                            style: TextStyle(fontSize: 24),
-                          ),
-                        ),
-                      ],
-                    );
-                  },
+                        ],
+                      );
+                    },
+                  ),
                 ),
               ),
             ),
