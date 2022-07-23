@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:number_alchemy/utils/time.dart';
+import 'package:provider/provider.dart';
 
+import '../models/preferences.dart';
 import 'challenge.dart';
 
 class ChallengeResultsPage extends StatefulWidget {
@@ -15,6 +17,19 @@ class ChallengeResultsPage extends StatefulWidget {
 }
 
 class _ChallengeResultsPageState extends State<ChallengeResultsPage> {
+  late int highscore;
+
+  @override
+  void initState() {
+    super.initState();
+    highscore =
+        Provider.of<Preferences>(context, listen: false).prefs['highscore'];
+    if (widget.solvedCount > highscore) {
+      Provider.of<Preferences>(context, listen: false)
+          .setPref('highscore', widget.solvedCount, false);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     ColorScheme colorScheme = Theme.of(context).colorScheme;
@@ -59,14 +74,16 @@ class _ChallengeResultsPageState extends State<ChallengeResultsPage> {
                 Padding(
                   padding: const EdgeInsets.all(24),
                   child: Text(
-                    '${widget.solvedCount} problem${widget.solvedCount > 1 ? 's' : ''} solved',
+                    '${widget.solvedCount} problem${widget.solvedCount == 1 ? '' : 's'} solved',
                     style: Theme.of(context).textTheme.headlineMedium,
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(24),
                   child: Text(
-                    'high score: 10',
+                    widget.solvedCount > highscore
+                        ? 'new high score!'
+                        : 'high score: $highscore',
                     style: Theme.of(context).textTheme.headlineMedium,
                   ),
                 ),

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 
-import '../models/settings.dart';
+import '../models/preferences.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
@@ -27,6 +27,7 @@ class _SettingsPageState extends State<SettingsPage> {
         child: Column(
           children: [
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 IconButton(
                   onPressed: () {
@@ -38,28 +39,32 @@ class _SettingsPageState extends State<SettingsPage> {
                   iconSize: 32,
                   icon: const Icon(Icons.clear_rounded),
                 ),
+                Text('settings',
+                    style: Theme.of(context).textTheme.headlineMedium),
+                const SizedBox(width: 48),
               ],
             ),
             Expanded(
               child: Center(
                 child: Padding(
                   padding: const EdgeInsets.all(24),
-                  child: Consumer<Settings>(
-                    builder: (context, settings, child) {
+                  child: Consumer<Preferences>(
+                    builder: (context, preferences, child) {
                       return Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              const Text(
+                              Text(
                                 'dark mode',
-                                style: TextStyle(fontSize: 24),
+                                style:
+                                    Theme.of(context).textTheme.headlineSmall,
                               ),
                               Switch(
-                                value: settings.darkMode,
+                                value: preferences.prefs['darkMode'],
                                 onChanged: (value) {
-                                  settings.setPref(value);
+                                  preferences.setPref('darkMode', value, true);
                                 },
                                 activeColor: colorScheme.primary,
                               ),

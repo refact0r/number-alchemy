@@ -5,7 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'models/casual_game.dart';
 import 'models/challenge_game.dart';
-import 'models/settings.dart';
+import 'models/preferences.dart';
 import 'pages/casual.dart';
 import 'pages/challenge.dart';
 import 'pages/settings.dart';
@@ -19,7 +19,7 @@ Future<void> main() async {
       providers: [
         ChangeNotifierProvider(create: (context) => ChallengeGame(context)),
         ChangeNotifierProvider(create: (context) => CasualGame(context)),
-        ChangeNotifierProvider(create: (context) => Settings(prefs)),
+        ChangeNotifierProvider(create: (context) => Preferences(prefs)),
       ],
       child: const App(),
     ),
@@ -39,7 +39,7 @@ class App extends StatelessWidget {
       theme: ThemeData(
           useMaterial3: true,
           colorSchemeSeed: Colors.cyan,
-          brightness: Provider.of<Settings>(context).darkMode
+          brightness: Provider.of<Preferences>(context).prefs['darkMode']
               ? Brightness.dark
               : Brightness.light,
           fontFamily: "Jost"),

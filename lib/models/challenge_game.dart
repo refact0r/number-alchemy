@@ -5,6 +5,7 @@ import '../pages/challenge_results.dart';
 import '../utils/math.dart';
 import 'fraction.dart';
 import 'op.dart';
+import 'preferences.dart';
 import 'problem.dart';
 
 class ChallengeGame extends ChangeNotifier {
@@ -27,7 +28,7 @@ class ChallengeGame extends ChangeNotifier {
 
   ChallengeGame(this.context);
 
-  void initialize(BuildContext context, animation) {
+  void initialize(BuildContext context, AnimationController animation) {
     this.context = context;
     this.animation = animation;
     newProblem();
