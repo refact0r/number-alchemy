@@ -55,21 +55,24 @@ class _CasualSolvedPageState extends State<CasualSolvedPage> {
               children: [
                 Padding(
                   padding: const EdgeInsets.all(24),
-                  child: Center(
-                      child: Text('you solved it!',
-                          style: Theme.of(context).textTheme.displaySmall)),
+                  child: Text(
+                    'you solved it!',
+                    style: Theme.of(context).textTheme.displaySmall,
+                  ),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(24),
-                  child: Center(
-                      child: Text(widget.expression,
-                          style: Theme.of(context).textTheme.headlineMedium)),
+                  child: Text(
+                    widget.expression,
+                    style: Theme.of(context).textTheme.headlineMedium,
+                  ),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(24),
-                  child: Center(
-                      child: Text(msToString(widget.time),
-                          style: Theme.of(context).textTheme.headlineMedium)),
+                  child: Text(
+                    msToString(widget.time),
+                    style: Theme.of(context).textTheme.headlineMedium,
+                  ),
                 ),
               ],
             ),

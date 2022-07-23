@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:number_alchemy/utils/time.dart';
 
 import 'challenge.dart';
 
 class ChallengeResultsPage extends StatefulWidget {
   final int solvedCount;
+  final int secondsElapsed;
 
-  const ChallengeResultsPage({super.key, required this.solvedCount});
+  const ChallengeResultsPage(
+      {super.key, required this.solvedCount, required this.secondsElapsed});
 
   @override
   State<ChallengeResultsPage> createState() => _ChallengeResultsPageState();
@@ -34,9 +37,11 @@ class _ChallengeResultsPageState extends State<ChallengeResultsPage> {
                       color: colorScheme.surfaceTint.withOpacity(0.05),
                       borderRadius: BorderRadius.circular(12),
                     ),
-                    child: Text(' 0:00 ',
-                        style: TextStyle(
-                            fontSize: 48, color: colorScheme.primary)),
+                    child: Text(
+                      ' 0:00 ',
+                      style:
+                          TextStyle(fontSize: 48, color: colorScheme.primary),
+                    ),
                   ),
                 ),
               ),
@@ -46,21 +51,31 @@ class _ChallengeResultsPageState extends State<ChallengeResultsPage> {
               children: [
                 Padding(
                   padding: const EdgeInsets.all(24),
-                  child: Center(
-                      child: Text("time's up!",
-                          style: Theme.of(context).textTheme.displaySmall)),
+                  child: Text(
+                    "time's up!",
+                    style: Theme.of(context).textTheme.displaySmall,
+                  ),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(24),
-                  child: Center(
-                      child: Text('${widget.solvedCount} problems solved',
-                          style: Theme.of(context).textTheme.headlineMedium)),
+                  child: Text(
+                    '${widget.solvedCount} problem${widget.solvedCount > 1 ? 's' : ''} solved',
+                    style: Theme.of(context).textTheme.headlineMedium,
+                  ),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(24),
-                  child: Center(
-                      child: Text('high score: 10',
-                          style: Theme.of(context).textTheme.headlineMedium)),
+                  child: Text(
+                    'high score: 10',
+                    style: Theme.of(context).textTheme.headlineMedium,
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(24),
+                  child: Text(
+                    'total time: ${secondsToString(widget.secondsElapsed)}',
+                    style: Theme.of(context).textTheme.headlineMedium,
+                  ),
                 ),
               ],
             ),

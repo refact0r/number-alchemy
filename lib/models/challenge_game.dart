@@ -19,6 +19,7 @@ class ChallengeGame extends ChangeNotifier {
   List<List<List<dynamic>>> log = [];
   int hintShown = 0;
   int solvedCount = 0;
+  int secondsElapsed = 0;
   int timerSeconds = 60;
   late Timer timer;
   String timeString = '';
@@ -31,6 +32,7 @@ class ChallengeGame extends ChangeNotifier {
     this.animation = animation;
     newProblem();
     solvedCount = 0;
+    secondsElapsed = 0;
     timerSeconds = 60;
     timer = Timer.periodic(const Duration(seconds: 1), _timerTick);
     timeString =
@@ -51,6 +53,7 @@ class ChallengeGame extends ChangeNotifier {
 
   void _timerTick(Timer timer) {
     print('timertick');
+    secondsElapsed += 1;
     timerSeconds -= 1;
     timeString =
         '${timerSeconds ~/ 60}:${(timerSeconds % 60).toString().padLeft(2, '0')}';
@@ -60,7 +63,8 @@ class ChallengeGame extends ChangeNotifier {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => ChallengeResultsPage(solvedCount: solvedCount),
+          builder: (context) => ChallengeResultsPage(
+              solvedCount: solvedCount, secondsElapsed: secondsElapsed),
         ),
       );
     }
@@ -88,7 +92,8 @@ class ChallengeGame extends ChangeNotifier {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => ChallengeResultsPage(solvedCount: solvedCount),
+          builder: (context) => ChallengeResultsPage(
+              solvedCount: solvedCount, secondsElapsed: secondsElapsed),
         ),
       );
     }
@@ -128,7 +133,7 @@ class ChallengeGame extends ChangeNotifier {
     if (nums.contains(Fraction(24)) &&
         numShown.where((x) => x).toList().length == 1) {
       solvedCount++;
-      updateTimer(5);
+      updateTimer(10);
       Future.delayed(const Duration(milliseconds: 300), () {
         newProblem();
       });

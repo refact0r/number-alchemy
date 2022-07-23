@@ -20,7 +20,6 @@ class _SettingsPageState extends State<SettingsPage> {
   @override
   Widget build(BuildContext context) {
     ColorScheme colorScheme = Theme.of(context).colorScheme;
-    print(Provider.of<Settings>(context).darkMode);
 
     return Scaffold(
       body: Padding(
@@ -62,6 +61,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                 onChanged: (value) {
                                   settings.setPref(value);
                                 },
+                                activeColor: colorScheme.primary,
                               ),
                             ],
                           ),

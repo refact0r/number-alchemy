@@ -14,14 +14,16 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final prefs = await SharedPreferences.getInstance();
 
-  runApp(MultiProvider(
-    providers: [
-      ChangeNotifierProvider(create: (context) => ChallengeGame(context)),
-      ChangeNotifierProvider(create: (context) => CasualGame(context)),
-      ChangeNotifierProvider(create: (context) => Settings(prefs)),
-    ],
-    child: const App(),
-  ));
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => ChallengeGame(context)),
+        ChangeNotifierProvider(create: (context) => CasualGame(context)),
+        ChangeNotifierProvider(create: (context) => Settings(prefs)),
+      ],
+      child: const App(),
+    ),
+  );
 }
 
 class App extends StatelessWidget {
