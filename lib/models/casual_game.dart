@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../pages/casual_solved.dart';
+import '../utils/haptics.dart';
 import '../utils/math.dart';
 import 'fraction.dart';
 import 'op.dart';
@@ -17,6 +18,7 @@ class CasualGame extends ChangeNotifier {
   List<bool> opPressed = [false, false, false, false];
   List<List<dynamic>> pastStates = [];
   int hintShown = 0;
+  bool resetShown = true;
   Stopwatch stopwatch = Stopwatch();
 
   CasualGame(this.context);
@@ -33,11 +35,12 @@ class CasualGame extends ChangeNotifier {
     opPressed = [false, false, false, false];
     pastStates = [];
     hintShown = 0;
+    resetShown = true;
     stopwatch.reset();
     stopwatch.start();
   }
 
-  void pressNumButton(int index) {
+  void pressNumButton(int index, bool userPress) {
     if (numPressed[index]) {
       numPressed[index] = false;
     } else if (!numPressed.contains(true)) {
@@ -79,6 +82,7 @@ class CasualGame extends ChangeNotifier {
           notifyListeners();
           stopwatch.stop();
           print(expression[index]);
+          hapticVibrate(context);
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
@@ -96,7 +100,11 @@ class CasualGame extends ChangeNotifier {
     } else {
       return;
     }
+    if (userPress) {
+      hapticClick(context);
+    }
     hintShown = 0;
+    resetShown = false;
     notifyListeners();
   }
 
@@ -110,11 +118,13 @@ class CasualGame extends ChangeNotifier {
       opPressed[index] = true;
     }
     hintShown = 0;
+    resetShown = false;
     notifyListeners();
   }
 
   void undo() {
     if (pastStates.isNotEmpty) {
+      hapticClick(context);
       List<dynamic> operation = pastStates.removeLast();
       nums = List<Fraction>.from(operation[0]);
       numShown = List<bool>.from(operation[1]);
@@ -122,25 +132,32 @@ class CasualGame extends ChangeNotifier {
       opPressed = List<bool>.from(operation[3]);
       expression = List<String>.from(operation[4]);
       hintShown = 0;
+      resetShown = false;
       notifyListeners();
     }
   }
 
   void reset() {
-    nums = originalNums.toList();
-    numShown = [true, true, true, true];
-    numPressed = [false, false, false, false];
-    opPressed = [false, false, false, false];
-    expression = List.generate(4, (i) => originalNums[i].toString());
-    pastStates = [];
-    hintShown = 0;
-    notifyListeners();
+    if (!resetShown) {
+      hapticClick(context);
+      nums = originalNums.toList();
+      numShown = [true, true, true, true];
+      numPressed = [false, false, false, false];
+      opPressed = [false, false, false, false];
+      expression = List.generate(4, (i) => originalNums[i].toString());
+      pastStates = [];
+      hintShown = 0;
+      resetShown = true;
+      notifyListeners();
+    }
   }
 
   void hint() {
     if (hintShown == 3) {
       return;
-    } else if (hintShown == 2) {
+    }
+    hapticClick(context);
+    if (hintShown == 2) {
       if (problem.split) {
         _pressSolutionNum(1);
         opPressed[opPressed.indexOf(true)] = false;
@@ -175,15 +192,16 @@ class CasualGame extends ChangeNotifier {
       }
       hintShown = 1;
     }
+    resetShown = false;
     notifyListeners();
   }
 
   void _pressSolutionNum(int index) {
     int firstIndex = nums.indexOf(Fraction(problem.nums[index]));
     if (!numPressed[firstIndex]) {
-      pressNumButton(firstIndex);
+      pressNumButton(firstIndex, false);
     } else {
-      pressNumButton(nums.lastIndexOf(Fraction(problem.nums[index])));
+      pressNumButton(nums.lastIndexOf(Fraction(problem.nums[index])), false);
     }
   }
 }

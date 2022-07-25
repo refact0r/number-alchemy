@@ -3,6 +3,7 @@ import 'package:number_alchemy/utils/time.dart';
 import 'package:provider/provider.dart';
 
 import '../models/preferences.dart';
+import '../utils/haptics.dart';
 import 'challenge.dart';
 
 class ChallengeResultsPage extends StatefulWidget {
@@ -105,6 +106,7 @@ class _ChallengeResultsPageState extends State<ChallengeResultsPage> {
                   icon: const Icon(Icons.clear_rounded),
                   color: colorScheme.onSurfaceVariant,
                   onPressed: () {
+                    hapticClick(context);
                     Navigator.pop(context);
                   },
                 ),
@@ -113,6 +115,7 @@ class _ChallengeResultsPageState extends State<ChallengeResultsPage> {
                   icon: const Icon(Icons.arrow_forward_rounded),
                   color: colorScheme.onSurfaceVariant,
                   onPressed: () {
+                    hapticClick(context);
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(

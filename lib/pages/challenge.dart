@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 
 import '../models/challenge_game.dart';
+import '../utils/haptics.dart';
 
 class ChallengePage extends StatefulWidget {
   const ChallengePage({super.key});
@@ -53,6 +54,7 @@ class _ChallengePageState extends State<ChallengePage>
               children: [
                 IconButton(
                   onPressed: () {
+                    hapticClick(context);
                     Provider.of<ChallengeGame>(context, listen: false)
                         .timer
                         .cancel();
@@ -65,8 +67,9 @@ class _ChallengePageState extends State<ChallengePage>
                   icon: const Icon(Icons.clear_rounded),
                 ),
                 IconButton(
-                  onPressed:
-                      Provider.of<ChallengeGame>(context, listen: false).hint,
+                  onPressed: () {
+                    Provider.of<ChallengeGame>(context, listen: false).hint();
+                  },
                   color: colorScheme.onSurfaceVariant,
                   highlightColor:
                       colorScheme.onSurfaceVariant.withOpacity(0.08),
@@ -74,8 +77,9 @@ class _ChallengePageState extends State<ChallengePage>
                   icon: const Icon(Icons.lightbulb_outline_rounded),
                 ),
                 IconButton(
-                  onPressed:
-                      Provider.of<ChallengeGame>(context, listen: false).undo,
+                  onPressed: () {
+                    Provider.of<ChallengeGame>(context, listen: false).undo();
+                  },
                   color: colorScheme.onSurfaceVariant,
                   highlightColor:
                       colorScheme.onSurfaceVariant.withOpacity(0.08),
@@ -83,8 +87,9 @@ class _ChallengePageState extends State<ChallengePage>
                   icon: const Icon(Icons.undo_rounded),
                 ),
                 IconButton(
-                  onPressed:
-                      Provider.of<ChallengeGame>(context, listen: false).reset,
+                  onPressed: () {
+                    Provider.of<ChallengeGame>(context, listen: false).reset();
+                  },
                   color: colorScheme.onSurfaceVariant,
                   highlightColor:
                       colorScheme.onSurfaceVariant.withOpacity(0.08),
@@ -156,7 +161,7 @@ class _ChallengePageState extends State<ChallengePage>
                           tag: 'num$i',
                           child: ElevatedButton(
                             onPressed: () {
-                              challengeGame.pressNumButton(i);
+                              challengeGame.pressNumButton(i, true);
                             },
                             style: ElevatedButton.styleFrom(
                                 shape: RoundedRectangleBorder(
@@ -187,6 +192,7 @@ class _ChallengePageState extends State<ChallengePage>
                         height: 72,
                         child: ElevatedButton(
                           onPressed: () {
+                            hapticClick(context);
                             casualGame.pressOpButton(i);
                           },
                           style: ElevatedButton.styleFrom(

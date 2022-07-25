@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../utils/haptics.dart';
 import 'casual.dart';
 import '../utils/time.dart';
 
@@ -85,6 +86,7 @@ class _CasualSolvedPageState extends State<CasualSolvedPage> {
                   icon: const Icon(Icons.clear_rounded),
                   color: colorScheme.onSurfaceVariant,
                   onPressed: () {
+                    hapticClick(context);
                     Navigator.pop(context);
                   },
                 ),
@@ -93,6 +95,7 @@ class _CasualSolvedPageState extends State<CasualSolvedPage> {
                   icon: const Icon(Icons.arrow_forward_rounded),
                   color: colorScheme.onSurfaceVariant,
                   onPressed: () {
+                    hapticClick(context);
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 
 import '../pages/challenge_results.dart';
+import '../utils/haptics.dart';
 import '../utils/math.dart';
 import 'fraction.dart';
 import 'op.dart';
@@ -17,11 +18,12 @@ class ChallengeGame extends ChangeNotifier {
   List<bool> numShown = [true, true, true, true];
   List<bool> numPressed = [false, false, false, false];
   List<bool> opPressed = [false, false, false, false];
-  List<List<List<dynamic>>> log = [];
+  List<List<List<dynamic>>> pastStates = [];
   int hintShown = 0;
+  bool resetShown = true;
   int solvedCount = 0;
   int secondsElapsed = 0;
-  int timerSeconds = 60;
+  int timerSeconds = 0;
   late Timer timer;
   String timeString = '';
   String timeChangeString = '';
@@ -48,8 +50,9 @@ class ChallengeGame extends ChangeNotifier {
     numShown = [true, true, true, true];
     numPressed = [false, false, false, false];
     opPressed = [false, false, false, false];
-    log = [];
+    pastStates = [];
     hintShown = 0;
+    resetShown = true;
   }
 
   void _timerTick(Timer timer) {
@@ -61,6 +64,7 @@ class ChallengeGame extends ChangeNotifier {
     notifyListeners();
     if (timerSeconds <= 0) {
       timer.cancel();
+      hapticVibrate(context);
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
@@ -100,7 +104,7 @@ class ChallengeGame extends ChangeNotifier {
     }
   }
 
-  void pressNumButton(int index) {
+  void pressNumButton(int index, bool userPress) {
     if (numPressed[index]) {
       numPressed[index] = false;
     } else if (!numPressed.contains(true)) {
@@ -109,7 +113,7 @@ class ChallengeGame extends ChangeNotifier {
       numPressed[numPressed.indexOf(true)] = false;
       numPressed[index] = true;
     } else if (numPressed.contains(true) && opPressed.contains(true)) {
-      log.add([
+      pastStates.add([
         nums.toList(),
         numShown.toList(),
         numPressed.toList(),
@@ -121,24 +125,31 @@ class ChallengeGame extends ChangeNotifier {
       numShown[firstIndex] = false;
       numPressed[firstIndex] = false;
       nums[firstIndex] = Fraction(100000);
+
       if (numShown.where((x) => x).toList().length == 1) {
         opPressed[opIndex] = false;
+        if (nums[index] == Fraction(24)) {
+          updateTimer(10);
+          solvedCount++;
+          hapticVibrate(context);
+          notifyListeners();
+          Future.delayed(const Duration(milliseconds: 200), () {
+            newProblem();
+          });
+          return;
+        }
       } else {
         numPressed[index] = true;
       }
     } else {
       return;
     }
-    hintShown = 0;
-    notifyListeners();
-    if (nums.contains(Fraction(24)) &&
-        numShown.where((x) => x).toList().length == 1) {
-      solvedCount++;
-      updateTimer(10);
-      Future.delayed(const Duration(milliseconds: 300), () {
-        newProblem();
-      });
+    if (userPress) {
+      hapticClick(context);
     }
+    hintShown = 0;
+    resetShown = false;
+    notifyListeners();
   }
 
   void pressOpButton(int index) {
@@ -151,35 +162,44 @@ class ChallengeGame extends ChangeNotifier {
       opPressed[index] = true;
     }
     hintShown = 0;
+    resetShown = false;
     notifyListeners();
   }
 
   void undo() {
-    if (log.isNotEmpty) {
-      List<List<dynamic>> operation = log.removeLast();
+    if (pastStates.isNotEmpty) {
+      hapticClick(context);
+      List<List<dynamic>> operation = pastStates.removeLast();
       nums = List<Fraction>.from(operation[0]);
       numShown = List<bool>.from(operation[1]);
       numPressed = List<bool>.from(operation[2]);
       opPressed = List<bool>.from(operation[3]);
       hintShown = 0;
+      resetShown = false;
       notifyListeners();
     }
   }
 
   void reset() {
-    nums = originalNums.toList();
-    numShown = [true, true, true, true];
-    numPressed = [false, false, false, false];
-    opPressed = [false, false, false, false];
-    log = [];
-    hintShown = 0;
-    notifyListeners();
+    if (!resetShown) {
+      hapticClick(context);
+      nums = originalNums.toList();
+      numShown = [true, true, true, true];
+      numPressed = [false, false, false, false];
+      opPressed = [false, false, false, false];
+      pastStates = [];
+      hintShown = 0;
+      resetShown = true;
+      notifyListeners();
+    }
   }
 
   void hint() {
     if (hintShown == 3) {
       return;
-    } else if (hintShown == 2) {
+    }
+    hapticClick(context);
+    if (hintShown == 2) {
       if (problem.split) {
         _pressSolutionNum(1);
         opPressed[opPressed.indexOf(true)] = false;
@@ -217,15 +237,16 @@ class ChallengeGame extends ChangeNotifier {
       hintShown = 1;
       updateTimer(-5);
     }
+    resetShown = false;
     notifyListeners();
   }
 
   void _pressSolutionNum(int index) {
     int firstIndex = nums.indexOf(Fraction(problem.nums[index]));
     if (!numPressed[firstIndex]) {
-      pressNumButton(firstIndex);
+      pressNumButton(firstIndex, false);
     } else {
-      pressNumButton(nums.lastIndexOf(Fraction(problem.nums[index])));
+      pressNumButton(nums.lastIndexOf(Fraction(problem.nums[index])), false);
     }
   }
 }

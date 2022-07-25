@@ -5,6 +5,7 @@ class Preferences extends ChangeNotifier {
   final SharedPreferences _prefs;
   Map prefs = {
     'darkMode': true,
+    'haptics': true,
     'highscore': 0,
   };
 

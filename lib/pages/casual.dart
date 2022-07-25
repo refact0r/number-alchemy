@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 
 import '../models/casual_game.dart';
+import '../utils/haptics.dart';
 
 class CasualPage extends StatefulWidget {
   const CasualPage({super.key});
@@ -39,6 +40,7 @@ class _CasualPageState extends State<CasualPage> {
               children: [
                 IconButton(
                   onPressed: () {
+                    hapticClick(context);
                     Navigator.pop(context);
                   },
                   color: colorScheme.onSurfaceVariant,
@@ -48,8 +50,9 @@ class _CasualPageState extends State<CasualPage> {
                   icon: const Icon(Icons.clear_rounded),
                 ),
                 IconButton(
-                  onPressed:
-                      Provider.of<CasualGame>(context, listen: false).hint,
+                  onPressed: () {
+                    Provider.of<CasualGame>(context, listen: false).hint();
+                  },
                   color: colorScheme.onSurfaceVariant,
                   highlightColor:
                       colorScheme.onSurfaceVariant.withOpacity(0.08),
@@ -57,8 +60,9 @@ class _CasualPageState extends State<CasualPage> {
                   icon: const Icon(Icons.lightbulb_outline_rounded),
                 ),
                 IconButton(
-                  onPressed:
-                      Provider.of<CasualGame>(context, listen: false).undo,
+                  onPressed: () {
+                    Provider.of<CasualGame>(context, listen: false).undo();
+                  },
                   color: colorScheme.onSurfaceVariant,
                   highlightColor:
                       colorScheme.onSurfaceVariant.withOpacity(0.08),
@@ -66,8 +70,9 @@ class _CasualPageState extends State<CasualPage> {
                   icon: const Icon(Icons.undo_rounded),
                 ),
                 IconButton(
-                  onPressed:
-                      Provider.of<CasualGame>(context, listen: false).reset,
+                  onPressed: () {
+                    Provider.of<CasualGame>(context, listen: false).reset();
+                  },
                   color: colorScheme.onSurfaceVariant,
                   highlightColor:
                       colorScheme.onSurfaceVariant.withOpacity(0.08),
@@ -95,7 +100,7 @@ class _CasualPageState extends State<CasualPage> {
                             tag: 'num$i',
                             child: ElevatedButton(
                               onPressed: () {
-                                casualGame.pressNumButton(i);
+                                casualGame.pressNumButton(i, true);
                               },
                               style: ElevatedButton.styleFrom(
                                 shape: RoundedRectangleBorder(
@@ -128,6 +133,7 @@ class _CasualPageState extends State<CasualPage> {
                         height: 72,
                         child: ElevatedButton(
                           onPressed: () {
+                            hapticClick(context);
                             casualGame.pressOpButton(i);
                           },
                           style: ElevatedButton.styleFrom(

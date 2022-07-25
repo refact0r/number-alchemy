@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 import '../models/preferences.dart';
+import '../utils/haptics.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
@@ -31,6 +32,7 @@ class _SettingsPageState extends State<SettingsPage> {
               children: [
                 IconButton(
                   onPressed: () {
+                    hapticClick(context);
                     Navigator.pop(context);
                   },
                   color: colorScheme.onSurfaceVariant,
@@ -64,11 +66,38 @@ class _SettingsPageState extends State<SettingsPage> {
                               Switch(
                                 value: preferences.prefs['darkMode'],
                                 onChanged: (value) {
+                                  hapticClick(context);
                                   preferences.setPref('darkMode', value, true);
                                 },
                                 activeColor: colorScheme.primary,
                               ),
                             ],
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 24),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'haptic feedback',
+                                  style:
+                                      Theme.of(context).textTheme.headlineSmall,
+                                ),
+                                Switch(
+                                  value: preferences.prefs['haptics'],
+                                  onChanged: (value) {
+                                    if (!Provider.of<Preferences>(
+                                      context,
+                                      listen: false,
+                                    ).prefs['haptics']) {
+                                      HapticFeedback.selectionClick();
+                                    }
+                                    preferences.setPref('haptics', value, true);
+                                  },
+                                  activeColor: colorScheme.primary,
+                                ),
+                              ],
+                            ),
                           ),
                         ],
                       );

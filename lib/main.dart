@@ -9,6 +9,7 @@ import 'models/preferences.dart';
 import 'pages/casual.dart';
 import 'pages/challenge.dart';
 import 'pages/settings.dart';
+import 'utils/haptics.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -75,6 +76,7 @@ class _HomePageState extends State<HomePage> {
               width: 168,
               child: ElevatedButton(
                 onPressed: () {
+                  hapticClick(context);
                   Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -98,6 +100,7 @@ class _HomePageState extends State<HomePage> {
               width: 168,
               child: ElevatedButton(
                 onPressed: () {
+                  hapticClick(context);
                   Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -121,6 +124,7 @@ class _HomePageState extends State<HomePage> {
               width: 168,
               child: ElevatedButton(
                 onPressed: () {
+                  hapticClick(context);
                   Navigator.push(
                     context,
                     MaterialPageRoute(
