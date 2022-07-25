@@ -55,6 +55,7 @@ class CasualGame extends ChangeNotifier {
         numPressed.toList(),
         opPressed.toList(),
         expression.toList(),
+        hintShown,
       ]);
 
       int firstIndex = numPressed.indexOf(true);
@@ -131,15 +132,17 @@ class CasualGame extends ChangeNotifier {
       numPressed = List<bool>.from(operation[2]);
       opPressed = List<bool>.from(operation[3]);
       expression = List<String>.from(operation[4]);
-      hintShown = 0;
+      hintShown = operation[5] as int;
       resetShown = false;
       notifyListeners();
     }
   }
 
-  void reset() {
+  void reset(bool userPress) {
     if (!resetShown) {
-      hapticClick(context);
+      if (userPress) {
+        hapticClick(context);
+      }
       nums = originalNums.toList();
       numShown = [true, true, true, true];
       numPressed = [false, false, false, false];
@@ -182,7 +185,7 @@ class CasualGame extends ChangeNotifier {
       }
       hintShown = 2;
     } else {
-      reset();
+      reset(false);
       if (problem.split) {
         _pressSolutionNum(2);
         pressOpButton(Op.values.indexOf(problem.ops[2]));

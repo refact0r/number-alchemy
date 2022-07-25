@@ -88,7 +88,7 @@ class _ChallengePageState extends State<ChallengePage>
                 ),
                 IconButton(
                   onPressed: () {
-                    Provider.of<ChallengeGame>(context, listen: false).reset();
+                    Provider.of<ChallengeGame>(context, listen: false).reset(true);
                   },
                   color: colorScheme.onSurfaceVariant,
                   highlightColor:

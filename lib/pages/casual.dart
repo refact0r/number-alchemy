@@ -71,7 +71,7 @@ class _CasualPageState extends State<CasualPage> {
                 ),
                 IconButton(
                   onPressed: () {
-                    Provider.of<CasualGame>(context, listen: false).reset();
+                    Provider.of<CasualGame>(context, listen: false).reset(true);
                   },
                   color: colorScheme.onSurfaceVariant,
                   highlightColor:

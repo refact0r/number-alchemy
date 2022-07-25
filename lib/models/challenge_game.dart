@@ -18,7 +18,7 @@ class ChallengeGame extends ChangeNotifier {
   List<bool> numShown = [true, true, true, true];
   List<bool> numPressed = [false, false, false, false];
   List<bool> opPressed = [false, false, false, false];
-  List<List<List<dynamic>>> pastStates = [];
+  List<List<dynamic>> pastStates = [];
   int hintShown = 0;
   bool resetShown = true;
   int solvedCount = 0;
@@ -118,6 +118,7 @@ class ChallengeGame extends ChangeNotifier {
         numShown.toList(),
         numPressed.toList(),
         opPressed.toList(),
+        hintShown,
       ]);
       var firstIndex = numPressed.indexOf(true);
       var opIndex = opPressed.indexOf(true);
@@ -169,20 +170,22 @@ class ChallengeGame extends ChangeNotifier {
   void undo() {
     if (pastStates.isNotEmpty) {
       hapticClick(context);
-      List<List<dynamic>> operation = pastStates.removeLast();
+      List operation = pastStates.removeLast();
       nums = List<Fraction>.from(operation[0]);
       numShown = List<bool>.from(operation[1]);
       numPressed = List<bool>.from(operation[2]);
       opPressed = List<bool>.from(operation[3]);
-      hintShown = 0;
+      hintShown = operation[4] as int;
       resetShown = false;
       notifyListeners();
     }
   }
 
-  void reset() {
+  void reset(bool userPress) {
     if (!resetShown) {
-      hapticClick(context);
+      if (userPress) {
+        hapticClick(context);
+      }
       nums = originalNums.toList();
       numShown = [true, true, true, true];
       numPressed = [false, false, false, false];
@@ -226,7 +229,7 @@ class ChallengeGame extends ChangeNotifier {
       hintShown = 2;
       updateTimer(-10);
     } else {
-      reset();
+      reset(false);
       if (problem.split) {
         _pressSolutionNum(2);
         pressOpButton(Op.values.indexOf(problem.ops[2]));
