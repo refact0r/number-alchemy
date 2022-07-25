@@ -45,169 +45,174 @@ class _ChallengePageState extends State<ChallengePage>
     ColorScheme colorScheme = Theme.of(context).colorScheme;
 
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.fromLTRB(24, 36, 24, 36),
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                IconButton(
-                  onPressed: () {
-                    hapticClick(context);
-                    Provider.of<ChallengeGame>(context, listen: false)
-                        .timer
-                        .cancel();
-                    Navigator.pop(context);
-                  },
-                  color: colorScheme.onSurfaceVariant,
-                  highlightColor:
-                      colorScheme.onSurfaceVariant.withOpacity(0.08),
-                  iconSize: 32,
-                  icon: const Icon(Icons.clear_rounded),
-                ),
-                IconButton(
-                  onPressed: () {
-                    Provider.of<ChallengeGame>(context, listen: false).hint();
-                  },
-                  color: colorScheme.onSurfaceVariant,
-                  highlightColor:
-                      colorScheme.onSurfaceVariant.withOpacity(0.08),
-                  iconSize: 32,
-                  icon: const Icon(Icons.lightbulb_outline_rounded),
-                ),
-                IconButton(
-                  onPressed: () {
-                    Provider.of<ChallengeGame>(context, listen: false).undo();
-                  },
-                  color: colorScheme.onSurfaceVariant,
-                  highlightColor:
-                      colorScheme.onSurfaceVariant.withOpacity(0.08),
-                  iconSize: 32,
-                  icon: const Icon(Icons.undo_rounded),
-                ),
-                IconButton(
-                  onPressed: () {
-                    Provider.of<ChallengeGame>(context, listen: false).reset(true);
-                  },
-                  color: colorScheme.onSurfaceVariant,
-                  highlightColor:
-                      colorScheme.onSurfaceVariant.withOpacity(0.08),
-                  iconSize: 32,
-                  icon: const Icon(Icons.restart_alt_rounded),
-                ),
-              ],
-            ),
-            const Spacer(flex: 1),
-            Consumer<ChallengeGame>(
-              builder: (context, challengeGame, child) {
-                return Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const SizedBox(
-                      width: 96,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 12),
-                      child: Hero(
-                        tag: 'timer',
-                        child: Material(
-                          type: MaterialType.transparency,
-                          child: Container(
-                            padding: const EdgeInsets.all(6),
-                            decoration: BoxDecoration(
-                              color: colorScheme.surfaceTint.withOpacity(0.05),
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            child: Text(
-                              ' ${challengeGame.timeString} ',
-                              style: TextStyle(
-                                  fontSize: 32, color: colorScheme.primary),
+      body: Center(
+        child: Container(
+          constraints: const BoxConstraints(maxWidth: 450),
+          padding: const EdgeInsets.fromLTRB(24, 36, 24, 36),
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  IconButton(
+                    onPressed: () {
+                      hapticClick(context);
+                      Provider.of<ChallengeGame>(context, listen: false)
+                          .timer
+                          .cancel();
+                      Navigator.pop(context);
+                    },
+                    color: colorScheme.onSurfaceVariant,
+                    highlightColor:
+                        colorScheme.onSurfaceVariant.withOpacity(0.08),
+                    iconSize: 32,
+                    icon: const Icon(Icons.clear_rounded),
+                  ),
+                  IconButton(
+                    onPressed: () {
+                      Provider.of<ChallengeGame>(context, listen: false).hint();
+                    },
+                    color: colorScheme.onSurfaceVariant,
+                    highlightColor:
+                        colorScheme.onSurfaceVariant.withOpacity(0.08),
+                    iconSize: 32,
+                    icon: const Icon(Icons.lightbulb_outline_rounded),
+                  ),
+                  IconButton(
+                    onPressed: () {
+                      Provider.of<ChallengeGame>(context, listen: false).undo();
+                    },
+                    color: colorScheme.onSurfaceVariant,
+                    highlightColor:
+                        colorScheme.onSurfaceVariant.withOpacity(0.08),
+                    iconSize: 32,
+                    icon: const Icon(Icons.undo_rounded),
+                  ),
+                  IconButton(
+                    onPressed: () {
+                      Provider.of<ChallengeGame>(context, listen: false)
+                          .reset(true);
+                    },
+                    color: colorScheme.onSurfaceVariant,
+                    highlightColor:
+                        colorScheme.onSurfaceVariant.withOpacity(0.08),
+                    iconSize: 32,
+                    icon: const Icon(Icons.restart_alt_rounded),
+                  ),
+                ],
+              ),
+              const Spacer(flex: 1),
+              Consumer<ChallengeGame>(
+                builder: (context, challengeGame, child) {
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const SizedBox(
+                        width: 84,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 12),
+                        child: Hero(
+                          tag: 'timer',
+                          child: Material(
+                            type: MaterialType.transparency,
+                            child: Container(
+                              padding: const EdgeInsets.all(6),
+                              decoration: BoxDecoration(
+                                color:
+                                    colorScheme.surfaceTint.withOpacity(0.05),
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              child: Text(
+                                ' ${challengeGame.timeString} ',
+                                style: TextStyle(
+                                    fontSize: 32, color: colorScheme.primary),
+                              ),
                             ),
                           ),
                         ),
                       ),
-                    ),
-                    FadeTransition(
-                      opacity: _animation,
-                      child: SizedBox(
-                        width: 96,
-                        child: Text(
-                          challengeGame.timeChangeString,
-                          style: TextStyle(
-                              fontSize: 32, color: colorScheme.primary),
+                      FadeTransition(
+                        opacity: _animation,
+                        child: SizedBox(
+                          width: 84,
+                          child: Text(
+                            challengeGame.timeChangeString,
+                            style: TextStyle(
+                                fontSize: 32, color: colorScheme.primary),
+                          ),
                         ),
                       ),
-                    ),
-                  ],
-                );
-              },
-            ),
-            const Spacer(flex: 1),
-            Consumer<ChallengeGame>(
-              builder: (context, challengeGame, child) {
-                return GridView.count(
-                  primary: false,
-                  crossAxisSpacing: 24,
-                  mainAxisSpacing: 24,
-                  crossAxisCount: 2,
-                  shrinkWrap: true,
-                  padding: const EdgeInsets.symmetric(vertical: 6),
-                  children: <Widget>[
-                    for (int i = 0; i < 4; i++)
-                      Visibility(
-                        visible: challengeGame.numShown[i],
-                        child: Hero(
-                          tag: 'num$i',
+                    ],
+                  );
+                },
+              ),
+              const Spacer(flex: 1),
+              Consumer<ChallengeGame>(
+                builder: (context, challengeGame, child) {
+                  return GridView.count(
+                    primary: false,
+                    crossAxisSpacing: 24,
+                    mainAxisSpacing: 24,
+                    crossAxisCount: 2,
+                    shrinkWrap: true,
+                    padding: const EdgeInsets.symmetric(vertical: 6),
+                    children: <Widget>[
+                      for (int i = 0; i < 4; i++)
+                        Visibility(
+                          visible: challengeGame.numShown[i],
+                          child: Hero(
+                            tag: 'num$i',
+                            child: ElevatedButton(
+                              onPressed: () {
+                                challengeGame.pressNumButton(i, true);
+                              },
+                              style: ElevatedButton.styleFrom(
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(24)),
+                                  primary: challengeGame.numPressed[i]
+                                      ? colorScheme.primaryContainer
+                                      : null),
+                              child: Text(
+                                challengeGame.nums[i].toString(),
+                                style: const TextStyle(fontSize: 48),
+                              ),
+                            ),
+                          ),
+                        ),
+                    ],
+                  );
+                },
+              ),
+              const Spacer(flex: 2),
+              Consumer<ChallengeGame>(
+                builder: (context, casualGame, child) {
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      for (int i = 0; i < 4; i++)
+                        SizedBox(
+                          width: 66,
+                          height: 66,
                           child: ElevatedButton(
                             onPressed: () {
-                              challengeGame.pressNumButton(i, true);
+                              hapticClick(context);
+                              casualGame.pressOpButton(i);
                             },
                             style: ElevatedButton.styleFrom(
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(24)),
-                                primary: challengeGame.numPressed[i]
-                                    ? colorScheme.primaryContainer
-                                    : null),
-                            child: Text(
-                              challengeGame.nums[i].toString(),
-                              style: const TextStyle(fontSize: 48),
+                              primary: casualGame.opPressed[i]
+                                  ? colorScheme.primaryContainer
+                                  : null,
                             ),
+                            child: Icon(opIcons[i], size: 36),
                           ),
                         ),
-                      ),
-                  ],
-                );
-              },
-            ),
-            const Spacer(flex: 2),
-            Consumer<ChallengeGame>(
-              builder: (context, casualGame, child) {
-                return Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    for (int i = 0; i < 4; i++)
-                      SizedBox(
-                        width: 72,
-                        height: 72,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            hapticClick(context);
-                            casualGame.pressOpButton(i);
-                          },
-                          style: ElevatedButton.styleFrom(
-                            primary: casualGame.opPressed[i]
-                                ? colorScheme.primaryContainer
-                                : null,
-                          ),
-                          child: Icon(opIcons[i], size: 32),
-                        ),
-                      ),
-                  ],
-                );
-              },
-            ),
-          ],
+                    ],
+                  );
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );
