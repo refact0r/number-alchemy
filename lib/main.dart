@@ -1,3 +1,5 @@
+import 'package:device_preview/device_preview.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -16,13 +18,16 @@ Future<void> main() async {
   final prefs = await SharedPreferences.getInstance();
 
   runApp(
-    MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (context) => ChallengeGame(context)),
-        ChangeNotifierProvider(create: (context) => CasualGame(context)),
-        ChangeNotifierProvider(create: (context) => Preferences(prefs)),
-      ],
-      child: const App(),
+    DevicePreview(
+      enabled: !kReleaseMode,
+      builder: (context) => MultiProvider(
+        providers: [
+          ChangeNotifierProvider(create: (context) => ChallengeGame(context)),
+          ChangeNotifierProvider(create: (context) => CasualGame(context)),
+          ChangeNotifierProvider(create: (context) => Preferences(prefs)),
+        ],
+        child: const App(),
+      ),
     ),
   );
 }

@@ -43,7 +43,7 @@ class ChallengeGame extends ChangeNotifier {
   }
 
   void newProblem() {
-    problem = Problem.generate();
+    problem = Problem.generate(24, 1, 13);
     originalNums = List.generate(4, (i) => Fraction(problem.nums[i]));
     originalNums.shuffle();
     nums = originalNums.toList();

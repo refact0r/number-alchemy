@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 import '../pages/casual_solved.dart';
@@ -25,7 +27,8 @@ class CasualGame extends ChangeNotifier {
 
   void initialize(context) {
     this.context = context;
-    problem = Problem.generate();
+    Random random = Random();
+    problem = Problem.generate(random.nextInt(100) + 1, 1, 13);
     originalNums = List.generate(4, (i) => Fraction(problem.nums[i]));
     originalNums.shuffle();
     nums = originalNums.toList();

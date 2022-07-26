@@ -4,18 +4,15 @@ import 'package:collection/collection.dart';
 import 'op.dart';
 import '../utils/math.dart';
 
-const target = 24;
-const minNum = 1;
-const maxNum = 13;
-
 class Problem {
+  final int target;
+  final int minNum;
+  final int maxNum;
   List<int> nums = [];
   List<Op> ops = [];
   bool split = false;
 
-  Problem(this.nums, this.ops, this.split);
-
-  Problem.generate() {
+  Problem.generate(this.target, this.minNum, this.maxNum) {
     Random random = Random();
 
     while (true) {
