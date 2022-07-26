@@ -55,7 +55,7 @@ class CasualGame extends ChangeNotifier {
     } else if (!numPressed.contains(true)) {
       numPressed[index] = true;
     } else if (numPressed.contains(true) && !opPressed.contains(true)) {
-      numPressed[numPressed.indexOf(true)] = false;
+      numPressed = [false, false, false, false];
       numPressed[index] = true;
     } else if (numPressed.contains(true) && opPressed.contains(true)) {
       pastStates.add([
@@ -125,7 +125,7 @@ class CasualGame extends ChangeNotifier {
       if (!opPressed.contains(true)) {
         opPressed[index] = true;
       } else {
-        opPressed[opPressed.indexOf(true)] = false;
+        opPressed = [false, false, false, false];
         opPressed[index] = true;
       }
       hintShown = 0;

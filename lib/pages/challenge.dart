@@ -209,7 +209,7 @@ class _ChallengePageState extends State<ChallengePage>
                           child: ElevatedButton(
                             onPressed: () {
                               hapticClick(context);
-                              casualGame.pressOpButton(i);
+                              casualGame.pressOpButton(i, true);
                             },
                             style: ElevatedButton.styleFrom(
                               primary: casualGame.opPressed[i]

@@ -59,7 +59,6 @@ class ChallengeGame extends ChangeNotifier {
   }
 
   void _timerTick(Timer timer) {
-    print('timertick');
     secondsElapsed += 1;
     timerSeconds -= 1;
     timeString =
@@ -108,12 +107,16 @@ class ChallengeGame extends ChangeNotifier {
   }
 
   void pressNumButton(int index, bool userPress) {
+    if (pastStates.length == 3) {
+      return;
+    }
     if (numPressed[index]) {
       numPressed[index] = false;
+      opPressed = [false, false, false, false];
     } else if (!numPressed.contains(true)) {
       numPressed[index] = true;
     } else if (numPressed.contains(true) && !opPressed.contains(true)) {
-      numPressed[numPressed.indexOf(true)] = false;
+      numPressed = [false, false, false, false];
       numPressed[index] = true;
     } else if (numPressed.contains(true) && opPressed.contains(true)) {
       pastStates.add([
@@ -123,15 +126,17 @@ class ChallengeGame extends ChangeNotifier {
         opPressed.toList(),
         hintShown,
       ]);
-      var firstIndex = numPressed.indexOf(true);
-      var opIndex = opPressed.indexOf(true);
+
+      int firstIndex = numPressed.indexOf(true);
+      int opIndex = opPressed.indexOf(true);
+
       nums[index] = operate(Op.values[opIndex], nums[firstIndex], nums[index]);
       numShown[firstIndex] = false;
       numPressed[firstIndex] = false;
+      opPressed[opIndex] = false;
       nums[firstIndex] = Fraction(100000);
 
       if (numShown.where((x) => x).toList().length == 1) {
-        opPressed[opIndex] = false;
         if (nums[index] == Fraction(target)) {
           updateTimer(10);
           solvedCount++;
@@ -145,8 +150,6 @@ class ChallengeGame extends ChangeNotifier {
       } else {
         numPressed[index] = true;
       }
-    } else {
-      return;
     }
     if (userPress) {
       hapticClick(context);
@@ -156,18 +159,21 @@ class ChallengeGame extends ChangeNotifier {
     notifyListeners();
   }
 
-  void pressOpButton(int index) {
-    if (opPressed[index]) {
-      opPressed[index] = false;
-    } else if (!opPressed.contains(true)) {
-      opPressed[index] = true;
-    } else {
-      opPressed[opPressed.indexOf(true)] = false;
-      opPressed[index] = true;
+  void pressOpButton(int index, bool userPress) {
+    if (numPressed.contains(true)) {
+      if (userPress && !opPressed[index]) {
+        hapticClick(context);
+      }
+      if (!opPressed.contains(true)) {
+        opPressed[index] = true;
+      } else {
+        opPressed = [false, false, false, false];
+        opPressed[index] = true;
+      }
+      hintShown = 0;
+      resetShown = false;
+      notifyListeners();
     }
-    hintShown = 0;
-    resetShown = false;
-    notifyListeners();
   }
 
   void undo() {
@@ -208,12 +214,10 @@ class ChallengeGame extends ChangeNotifier {
     if (hintShown == 2) {
       if (problem.split) {
         _pressSolutionNum(1);
-        opPressed[opPressed.indexOf(true)] = false;
-        pressOpButton(Op.values.indexOf(problem.ops[1]));
+        pressOpButton(Op.values.indexOf(problem.ops[1]), false);
       } else {
         _pressSolutionNum(2);
-        opPressed[opPressed.indexOf(true)] = false;
-        pressOpButton(Op.values.indexOf(problem.ops[2]));
+        pressOpButton(Op.values.indexOf(problem.ops[2]), false);
       }
       hintShown = 3;
       updateTimer(-15);
@@ -222,12 +226,10 @@ class ChallengeGame extends ChangeNotifier {
         _pressSolutionNum(3);
         numPressed[numPressed.indexOf(true)] = false;
         _pressSolutionNum(0);
-        opPressed[opPressed.indexOf(true)] = false;
-        pressOpButton(Op.values.indexOf(problem.ops[0]));
+        pressOpButton(Op.values.indexOf(problem.ops[0]), false);
       } else {
         _pressSolutionNum(1);
-        opPressed[opPressed.indexOf(true)] = false;
-        pressOpButton(Op.values.indexOf(problem.ops[1]));
+        pressOpButton(Op.values.indexOf(problem.ops[1]), false);
       }
       hintShown = 2;
       updateTimer(-10);
@@ -235,10 +237,10 @@ class ChallengeGame extends ChangeNotifier {
       reset(false);
       if (problem.split) {
         _pressSolutionNum(2);
-        pressOpButton(Op.values.indexOf(problem.ops[2]));
+        pressOpButton(Op.values.indexOf(problem.ops[2]), false);
       } else {
         _pressSolutionNum(0);
-        pressOpButton(Op.values.indexOf(problem.ops[0]));
+        pressOpButton(Op.values.indexOf(problem.ops[0]), false);
       }
       hintShown = 1;
       updateTimer(-5);
