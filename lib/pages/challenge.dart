@@ -97,21 +97,33 @@ class _ChallengePageState extends State<ChallengePage>
                     highlightColor:
                         colorScheme.onSurfaceVariant.withOpacity(0.08),
                     iconSize: 32,
-                    icon: const Icon(Icons.restart_alt_rounded),
+                    icon: const Icon(Icons.settings_backup_restore_rounded),
                   ),
                 ],
               ),
-              const Spacer(flex: 1),
+              const Spacer(flex: 2),
               Consumer<ChallengeGame>(
                 builder: (context, challengeGame, child) {
                   return Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       const SizedBox(
-                        width: 84,
+                        width: 54,
+                      ),
+                      Container(
+                        padding: const EdgeInsets.all(6),
+                        decoration: BoxDecoration(
+                          color: colorScheme.surfaceTint.withOpacity(0.05),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Text(
+                          ' ${Provider.of<ChallengeGame>(context, listen: false).target} ',
+                          style: TextStyle(
+                              fontSize: 32, color: colorScheme.primary),
+                        ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 12),
+                        padding: const EdgeInsets.only(left: 24, right: 12),
                         child: Hero(
                           tag: 'timer',
                           child: Material(
@@ -135,11 +147,11 @@ class _ChallengePageState extends State<ChallengePage>
                       FadeTransition(
                         opacity: _animation,
                         child: SizedBox(
-                          width: 84,
+                          width: 42,
                           child: Text(
                             challengeGame.timeChangeString,
                             style: TextStyle(
-                                fontSize: 32, color: colorScheme.primary),
+                                fontSize: 24, color: colorScheme.primary),
                           ),
                         ),
                       ),
@@ -147,7 +159,7 @@ class _ChallengePageState extends State<ChallengePage>
                   );
                 },
               ),
-              const Spacer(flex: 1),
+              const Spacer(flex: 2),
               Consumer<ChallengeGame>(
                 builder: (context, challengeGame, child) {
                   return GridView.count(
@@ -184,7 +196,7 @@ class _ChallengePageState extends State<ChallengePage>
                   );
                 },
               ),
-              const Spacer(flex: 2),
+              const Spacer(flex: 3),
               Consumer<ChallengeGame>(
                 builder: (context, casualGame, child) {
                   return Row(

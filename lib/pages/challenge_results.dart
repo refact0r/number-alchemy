@@ -114,7 +114,7 @@ class _ChallengeResultsPageState extends State<ChallengeResultsPage> {
                   ),
                   IconButton(
                     iconSize: 36,
-                    icon: const Icon(Icons.arrow_forward_rounded),
+                    icon: const Icon(Icons.restart_alt_rounded),
                     color: colorScheme.onSurfaceVariant,
                     onPressed: () {
                       hapticClick(context);

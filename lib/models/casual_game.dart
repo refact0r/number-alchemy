@@ -11,6 +11,7 @@ import 'problem.dart';
 
 class CasualGame extends ChangeNotifier {
   BuildContext context;
+  late int target;
   late Problem problem;
   List<Fraction> originalNums = [];
   List<Fraction> nums = [];
@@ -28,7 +29,8 @@ class CasualGame extends ChangeNotifier {
   void initialize(context) {
     this.context = context;
     Random random = Random();
-    problem = Problem.generate(random.nextInt(100) + 1, 1, 13);
+    target = random.nextInt(100) + 1;
+    problem = Problem.generate(target, 1, 13);
     originalNums = List.generate(4, (i) => Fraction(problem.nums[i]));
     originalNums.shuffle();
     nums = originalNums.toList();
@@ -44,8 +46,12 @@ class CasualGame extends ChangeNotifier {
   }
 
   void pressNumButton(int index, bool userPress) {
+    if (pastStates.length == 3) {
+      return;
+    }
     if (numPressed[index]) {
       numPressed[index] = false;
+      opPressed = [false, false, false, false];
     } else if (!numPressed.contains(true)) {
       numPressed[index] = true;
     } else if (numPressed.contains(true) && !opPressed.contains(true)) {
@@ -78,11 +84,11 @@ class CasualGame extends ChangeNotifier {
       nums[index] = operate(Op.values[opIndex], nums[firstIndex], nums[index]);
       numShown[firstIndex] = false;
       numPressed[firstIndex] = false;
+      opPressed[opIndex] = false;
       nums[firstIndex] = Fraction(100000);
 
-      if (numShown.where((x) => x).toList().length == 1) {
-        opPressed[opIndex] = false;
-        if (nums[index] == Fraction(24)) {
+      if (pastStates.length == 3) {
+        if (nums[index] == Fraction(target)) {
           notifyListeners();
           stopwatch.stop();
           print(expression[index]);
@@ -93,7 +99,8 @@ class CasualGame extends ChangeNotifier {
               builder: (context) => CasualSolvedPage(
                   heroTag: 'num$index',
                   time: stopwatch.elapsedMilliseconds,
-                  expression: expression[index]),
+                  expression: expression[index],
+                  target: target),
             ),
           );
           return;
@@ -101,8 +108,6 @@ class CasualGame extends ChangeNotifier {
       } else {
         numPressed[index] = true;
       }
-    } else {
-      return;
     }
     if (userPress) {
       hapticClick(context);
@@ -112,18 +117,21 @@ class CasualGame extends ChangeNotifier {
     notifyListeners();
   }
 
-  void pressOpButton(int index) {
-    if (opPressed[index]) {
-      opPressed[index] = false;
-    } else if (!opPressed.contains(true)) {
-      opPressed[index] = true;
-    } else {
-      opPressed[opPressed.indexOf(true)] = false;
-      opPressed[index] = true;
+  void pressOpButton(int index, bool userPress) {
+    if (numPressed.contains(true)) {
+      if (userPress && !opPressed[index]) {
+        hapticClick(context);
+      }
+      if (!opPressed.contains(true)) {
+        opPressed[index] = true;
+      } else {
+        opPressed[opPressed.indexOf(true)] = false;
+        opPressed[index] = true;
+      }
+      hintShown = 0;
+      resetShown = false;
+      notifyListeners();
     }
-    hintShown = 0;
-    resetShown = false;
-    notifyListeners();
   }
 
   void undo() {
@@ -166,12 +174,10 @@ class CasualGame extends ChangeNotifier {
     if (hintShown == 2) {
       if (problem.split) {
         _pressSolutionNum(1);
-        opPressed[opPressed.indexOf(true)] = false;
-        pressOpButton(Op.values.indexOf(problem.ops[1]));
+        pressOpButton(Op.values.indexOf(problem.ops[1]), false);
       } else {
         _pressSolutionNum(2);
-        opPressed[opPressed.indexOf(true)] = false;
-        pressOpButton(Op.values.indexOf(problem.ops[2]));
+        pressOpButton(Op.values.indexOf(problem.ops[2]), false);
       }
       hintShown = 3;
     } else if (hintShown == 1) {
@@ -179,22 +185,20 @@ class CasualGame extends ChangeNotifier {
         _pressSolutionNum(3);
         numPressed[numPressed.indexOf(true)] = false;
         _pressSolutionNum(0);
-        opPressed[opPressed.indexOf(true)] = false;
-        pressOpButton(Op.values.indexOf(problem.ops[0]));
+        pressOpButton(Op.values.indexOf(problem.ops[0]), false);
       } else {
         _pressSolutionNum(1);
-        opPressed[opPressed.indexOf(true)] = false;
-        pressOpButton(Op.values.indexOf(problem.ops[1]));
+        pressOpButton(Op.values.indexOf(problem.ops[1]), false);
       }
       hintShown = 2;
     } else {
       reset(false);
       if (problem.split) {
         _pressSolutionNum(2);
-        pressOpButton(Op.values.indexOf(problem.ops[2]));
+        pressOpButton(Op.values.indexOf(problem.ops[2]), false);
       } else {
         _pressSolutionNum(0);
-        pressOpButton(Op.values.indexOf(problem.ops[0]));
+        pressOpButton(Op.values.indexOf(problem.ops[0]), false);
       }
       hintShown = 1;
     }

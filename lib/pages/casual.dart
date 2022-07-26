@@ -80,11 +80,23 @@ class _CasualPageState extends State<CasualPage> {
                     highlightColor:
                         colorScheme.onSurfaceVariant.withOpacity(0.08),
                     iconSize: 32,
-                    icon: const Icon(Icons.restart_alt_rounded),
+                    icon: const Icon(Icons.settings_backup_restore_rounded),
                   ),
                 ],
               ),
-              const Spacer(flex: 1),
+              const Spacer(flex: 2),
+              Container(
+                padding: const EdgeInsets.all(6),
+                decoration: BoxDecoration(
+                  color: colorScheme.surfaceTint.withOpacity(0.05),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Text(
+                  ' ${Provider.of<CasualGame>(context, listen: false).target} ',
+                  style: TextStyle(fontSize: 32, color: colorScheme.primary),
+                ),
+              ),
+              const Spacer(flex: 2),
               Center(
                 child: Consumer<CasualGame>(
                   builder: (context, casualGame, child) {
@@ -124,7 +136,7 @@ class _CasualPageState extends State<CasualPage> {
                   },
                 ),
               ),
-              const Spacer(flex: 1),
+              const Spacer(flex: 3),
               Consumer<CasualGame>(
                 builder: (context, casualGame, child) {
                   return Row(
@@ -136,8 +148,7 @@ class _CasualPageState extends State<CasualPage> {
                           height: 66,
                           child: ElevatedButton(
                             onPressed: () {
-                              hapticClick(context);
-                              casualGame.pressOpButton(i);
+                              casualGame.pressOpButton(i, true);
                             },
                             style: ElevatedButton.styleFrom(
                               primary: casualGame.opPressed[i]

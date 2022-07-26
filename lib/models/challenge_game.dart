@@ -1,17 +1,18 @@
-import 'package:flutter/material.dart';
+import 'dart:math';
 import 'dart:async';
+import 'package:flutter/material.dart';
 
 import '../pages/challenge_results.dart';
 import '../utils/haptics.dart';
 import '../utils/math.dart';
 import 'fraction.dart';
 import 'op.dart';
-import 'preferences.dart';
 import 'problem.dart';
 
 class ChallengeGame extends ChangeNotifier {
   BuildContext context;
   late AnimationController animation;
+  late int target;
   late Problem problem;
   List<Fraction> originalNums = [];
   List<Fraction> nums = [];
@@ -43,7 +44,9 @@ class ChallengeGame extends ChangeNotifier {
   }
 
   void newProblem() {
-    problem = Problem.generate(24, 1, 13);
+    Random random = Random();
+    target = random.nextInt(100) + 1;
+    problem = Problem.generate(target, 1, 13);
     originalNums = List.generate(4, (i) => Fraction(problem.nums[i]));
     originalNums.shuffle();
     nums = originalNums.toList();
@@ -129,7 +132,7 @@ class ChallengeGame extends ChangeNotifier {
 
       if (numShown.where((x) => x).toList().length == 1) {
         opPressed[opIndex] = false;
-        if (nums[index] == Fraction(24)) {
+        if (nums[index] == Fraction(target)) {
           updateTimer(10);
           solvedCount++;
           hapticVibrate(context);

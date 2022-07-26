@@ -8,12 +8,14 @@ class CasualSolvedPage extends StatefulWidget {
   final String heroTag;
   final int time;
   final String expression;
+  final int target;
 
   const CasualSolvedPage(
       {super.key,
       required this.heroTag,
       required this.time,
-      required this.expression});
+      required this.expression,
+      required this.target});
 
   @override
   State<CasualSolvedPage> createState() => _CasualSolvedPageState();
@@ -45,8 +47,8 @@ class _CasualSolvedPageState extends State<CasualSolvedPage> {
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(24)),
                       ),
-                      child: const Text(
-                        '24',
+                      child: Text(
+                        widget.target.toString(),
                         style: TextStyle(fontSize: 48),
                       ),
                     ),
