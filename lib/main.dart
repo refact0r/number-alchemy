@@ -8,7 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'models/casual_game.dart';
 import 'models/challenge_game.dart';
 import 'models/preferences.dart';
-import 'pages/casual.dart';
+import 'pages/mode.dart';
 import 'pages/challenge.dart';
 import 'pages/settings.dart';
 import 'utils/haptics.dart';
@@ -85,7 +85,7 @@ class _HomePageState extends State<HomePage> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const CasualPage(),
+                      builder: (context) => const ModePage(gamemode: 0),
                     ),
                   );
                 },
@@ -109,7 +109,7 @@ class _HomePageState extends State<HomePage> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const ChallengePage(),
+                      builder: (context) => const ModePage(gamemode: 1),
                     ),
                   );
                 },

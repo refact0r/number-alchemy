@@ -6,7 +6,9 @@ import '../models/casual_game.dart';
 import '../utils/haptics.dart';
 
 class CasualPage extends StatefulWidget {
-  const CasualPage({super.key});
+  final int mode;
+
+  const CasualPage({super.key, this.mode = -1});
 
   @override
   State<CasualPage> createState() => _CasualPageState();
@@ -23,7 +25,8 @@ class _CasualPageState extends State<CasualPage> {
   @override
   void initState() {
     super.initState();
-    Provider.of<CasualGame>(context, listen: false).initialize(context);
+    Provider.of<CasualGame>(context, listen: false)
+        .initialize(context, widget.mode);
   }
 
   @override

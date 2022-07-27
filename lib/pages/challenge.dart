@@ -6,7 +6,9 @@ import '../models/challenge_game.dart';
 import '../utils/haptics.dart';
 
 class ChallengePage extends StatefulWidget {
-  const ChallengePage({super.key});
+  final int mode;
+
+  const ChallengePage({super.key, this.mode = -1});
 
   @override
   State<ChallengePage> createState() => _ChallengePageState();
@@ -30,8 +32,9 @@ class _ChallengePageState extends State<ChallengePage>
   @override
   void initState() {
     super.initState();
+    print(widget.mode);
     Provider.of<ChallengeGame>(context, listen: false)
-        .initialize(context, _animation);
+        .initialize(context, widget.mode, _animation);
   }
 
   @override

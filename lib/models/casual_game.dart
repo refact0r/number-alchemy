@@ -11,6 +11,7 @@ import 'problem.dart';
 
 class CasualGame extends ChangeNotifier {
   BuildContext context;
+  int mode = 0;
   late int target;
   late Problem problem;
   List<Fraction> originalNums = [];
@@ -26,10 +27,16 @@ class CasualGame extends ChangeNotifier {
 
   CasualGame(this.context);
 
-  void initialize(context) {
+  void initialize(BuildContext context, int mode) {
     this.context = context;
-    Random random = Random();
-    target = random.nextInt(100) + 1;
+    if (mode != -1) {
+      this.mode = mode;
+    }
+    target = 24;
+    if (this.mode == 1) {
+      Random random = Random();
+      target = random.nextInt(100) + 1;
+    }
     problem = Problem.generate(target, 1, 13);
     originalNums = List.generate(4, (i) => Fraction(problem.nums[i]));
     originalNums.shuffle();

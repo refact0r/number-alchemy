@@ -11,6 +11,7 @@ import 'problem.dart';
 
 class ChallengeGame extends ChangeNotifier {
   BuildContext context;
+  int mode = 0;
   late AnimationController animation;
   late int target;
   late Problem problem;
@@ -31,8 +32,12 @@ class ChallengeGame extends ChangeNotifier {
 
   ChallengeGame(this.context);
 
-  void initialize(BuildContext context, AnimationController animation) {
+  void initialize(
+      BuildContext context, int mode, AnimationController animation) {
     this.context = context;
+    if (mode != -1) {
+      this.mode = mode;
+    }
     this.animation = animation;
     newProblem();
     solvedCount = 0;
@@ -44,8 +49,11 @@ class ChallengeGame extends ChangeNotifier {
   }
 
   void newProblem() {
-    Random random = Random();
-    target = random.nextInt(100) + 1;
+    target = 24;
+    if (mode == 1) {
+      Random random = Random();
+      target = random.nextInt(100) + 1;
+    }
     problem = Problem.generate(target, 1, 13);
     originalNums = List.generate(4, (i) => Fraction(problem.nums[i]));
     originalNums.shuffle();
