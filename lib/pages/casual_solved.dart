@@ -49,7 +49,7 @@ class _CasualSolvedPageState extends State<CasualSolvedPage> {
                       ),
                       child: Text(
                         widget.target.toString(),
-                        style: TextStyle(fontSize: 48),
+                        style: const TextStyle(fontSize: 48),
                       ),
                     ),
                   ),

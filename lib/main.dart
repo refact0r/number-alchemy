@@ -9,7 +9,6 @@ import 'models/casual_game.dart';
 import 'models/challenge_game.dart';
 import 'models/preferences.dart';
 import 'pages/mode.dart';
-import 'pages/challenge.dart';
 import 'pages/settings.dart';
 import 'utils/haptics.dart';
 
@@ -19,7 +18,7 @@ Future<void> main() async {
 
   runApp(
     DevicePreview(
-      enabled: !kReleaseMode,
+      enabled: kDebugMode,
       builder: (context) => MultiProvider(
         providers: [
           ChangeNotifierProvider(create: (context) => ChallengeGame(context)),
@@ -77,7 +76,7 @@ class _HomePageState extends State<HomePage> {
                 style: Theme.of(context).textTheme.headlineMedium,
               ),
             ),
-            Container(
+            SizedBox(
               width: 168,
               child: ElevatedButton(
                 onPressed: () {

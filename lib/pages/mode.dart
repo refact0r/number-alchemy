@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../utils/haptics.dart';
-import '../utils/time.dart';
 import 'casual.dart';
 import 'challenge.dart';
 
