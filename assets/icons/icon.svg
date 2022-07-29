@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="1000"
+   height="1000"
+   viewBox="0 0 264.58 264.58"
+   version="1.1"
+   id="svg834"
+   sodipodi:docname="number-alchemy-icon-final.svg"
+   inkscape:version="1.1 (c68e22c387, 2021-05-23)"
+   inkscape:export-filename="C:\Users\lingl\Documents\twentyfour\assets\icons\icon.png"
+   inkscape:export-xdpi="49.152"
+   inkscape:export-ydpi="49.152"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview836"
+     pagecolor="#505050"
+     bordercolor="#eeeeee"
+     borderopacity="1"
+     inkscape:pageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="0"
+     inkscape:document-units="px"
+     showgrid="false"
+     units="mm"
+     inkscape:zoom="0.7071068"
+     inkscape:cx="342.94678"
+     inkscape:cy="320.31936"
+     inkscape:window-width="2560"
+     inkscape:window-height="1411"
+     inkscape:window-x="-9"
+     inkscape:window-y="337"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1"
+     showguides="true"
+     inkscape:guide-bbox="true"
+     inkscape:object-paths="true"
+     inkscape:snap-intersection-paths="true"
+     inkscape:snap-smooth-nodes="true"
+     inkscape:snap-midpoints="true"
+     scale-x="0.36458" />
+  <defs
+     id="defs831">
+    <rect
+       x="906.9881"
+       y="829.94287"
+       width="651.47101"
+       height="512.0094"
+       id="rect69004" />
+  </defs>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <text
+       xml:space="preserve"
+       style="font-size:10.5833px;line-height:1.25;font-family:Jost;-inkscape-font-specification:Jost;stroke-width:0.264583"
+       x="235.37254"
+       y="115.3143"
+       id="text27065"><tspan
+         sodipodi:role="line"
+         id="tspan27063"
+         style="stroke-width:0.264583"
+         x="235.37254"
+         y="115.3143" /></text>
+    <text
+       xml:space="preserve"
+       style="font-size:10.5833px;line-height:1.25;font-family:Jost;-inkscape-font-specification:Jost;stroke-width:0.264583"
+       x="163.11865"
+       y="149.25174"
+       id="text29571"><tspan
+         sodipodi:role="line"
+         id="tspan29569"
+         style="stroke-width:0.264583"
+         x="163.11865"
+         y="149.25174" /></text>
+    <text
+       xml:space="preserve"
+       transform="scale(0.26458333)"
+       id="text69002"
+       style="font-size:40px;line-height:1.25;font-family:Jost;-inkscape-font-specification:Jost;white-space:pre;shape-inside:url(#rect69004)" />
+    <g
+       id="g839"
+       transform="matrix(2.4237994,0,0,2.4237994,-188.35442,-188.35442)">
+      <path
+         style="fill:#44d8f1;fill-opacity:0.248971;stroke:none;stroke-width:0.26458px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         d="m 118.68112,112.21823 h 27.21776 l 30.17399,71.58682 H 88.50713 Z"
+         id="path14410"
+         sodipodi:nodetypes="ccccc" />
+      <text
+         xml:space="preserve"
+         style="font-size:39.687px;line-height:1.25;font-family:Jost;-inkscape-font-specification:Jost;letter-spacing:0px;word-spacing:0px;stroke-width:0.26458"
+         x="109.62875"
+         y="171.41606"
+         id="text3988"><tspan
+           sodipodi:role="line"
+           id="tspan3986"
+           style="font-size:39.687px;fill:#44d8f1;fill-opacity:1;stroke-width:0.26458"
+           x="109.62875"
+           y="171.41606"
+           dx="0">24</tspan></text>
+      <g
+         id="g14318"
+         transform="translate(0,-3.1749625)">
+        <path
+           style="fill:none;stroke:#ffffff;stroke-width:5.03751;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           d="m 132.29,83.949915 h 23.52796 l -9.91908,13.003283 v 18.439992 l 30.17399,71.58682 H 132.29"
+           id="path1957"
+           sodipodi:nodetypes="cccccc" />
+        <path
+           style="fill:none;stroke:#ffffff;stroke-width:5.03751;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           d="m 132.29,83.949915 h -23.52796 l 9.91908,13.003283 V 115.39319 L 88.50713,186.98001 H 132.29"
+           id="path14314"
+           sodipodi:nodetypes="cccccc" />
+      </g>
+    </g>
+  </g>
+</svg>

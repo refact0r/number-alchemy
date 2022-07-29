@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import 'models/casual_game.dart';
 import 'models/challenge_game.dart';
@@ -69,6 +70,12 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            Container(
+              width: 120,
+              height: 120,
+              padding: const EdgeInsets.only(bottom: 48),
+              child: SvgPicture.asset('assets/icons/icon.svg'),
+            ),
             Padding(
               padding: const EdgeInsets.only(bottom: 48),
               child: Text(
