@@ -48,7 +48,7 @@ class App extends StatelessWidget {
           brightness: Provider.of<Preferences>(context).prefs['darkMode']
               ? Brightness.dark
               : Brightness.light,
-          fontFamily: "Jost"),
+          fontFamily: 'Jost'),
       home: const HomePage(),
       debugShowCheckedModeBanner: false,
     );
@@ -65,6 +65,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
+    print(Theme.of(context).primaryTextTheme);
     return Scaffold(
       body: Center(
         child: Column(
@@ -74,7 +75,9 @@ class _HomePageState extends State<HomePage> {
               width: 120,
               height: 120,
               padding: const EdgeInsets.only(bottom: 48),
-              child: SvgPicture.asset('assets/icons/icon.svg'),
+              child: Provider.of<Preferences>(context).prefs['darkMode']
+                  ? SvgPicture.asset('assets/icons/icon.svg')
+                  : SvgPicture.asset('assets/icons/icon_dark.svg'),
             ),
             Padding(
               padding: const EdgeInsets.only(bottom: 48),

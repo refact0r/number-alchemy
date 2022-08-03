@@ -65,6 +65,7 @@ flutter:
     # To add assets to your application, add an assets section, like this:
     assets:
         - assets/icons/icon.svg
+        - assets/icons/icon_dark.svg
 
     # An image asset can refer to one or more resolution-specific "variants", see
     # https://flutter.dev/assets-and-images/#resolution-aware
@@ -92,4 +93,4 @@ flutter_icons:
     android: true
     ios: true
     adaptive_icon_background: '#191c1d'
-    adaptive_icon_foreground: 'assets/icons/icon-transparent.png'
+    adaptive_icon_foreground: 'assets/icons/icon_transparent.png'
