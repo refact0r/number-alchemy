@@ -11,6 +11,7 @@ import 'models/challenge_game.dart';
 import 'models/preferences.dart';
 import 'pages/mode.dart';
 import 'pages/settings.dart';
+import 'pages/tutorial.dart';
 import 'utils/haptics.dart';
 
 Future<void> main() async {
@@ -44,12 +45,14 @@ class App extends StatelessWidget {
       title: "number alchemy",
       theme: ThemeData(
           useMaterial3: true,
-          colorSchemeSeed: Colors.cyan,
+          colorSchemeSeed: Colors.cyanAccent,
           brightness: Provider.of<Preferences>(context).prefs['darkMode']
               ? Brightness.dark
               : Brightness.light,
           fontFamily: 'Jost'),
-      home: const HomePage(),
+      home: Provider.of<Preferences>(context, listen: false).prefs['tutorial']
+          ? const TutorialPage()
+          : const HomePage(),
       debugShowCheckedModeBanner: false,
     );
   }
@@ -65,7 +68,6 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    print(Theme.of(context).primaryTextTheme);
     return Scaffold(
       body: Center(
         child: Column(
@@ -153,6 +155,32 @@ class _HomePageState extends State<HomePage> {
                 ),
                 child: const Text(
                   'settings',
+                  style: TextStyle(fontSize: 24),
+                ),
+              ),
+            ),
+            Container(
+              padding: const EdgeInsets.only(top: 24),
+              width: 168,
+              child: ElevatedButton(
+                onPressed: () {
+                  hapticClick(context);
+                  Provider.of<Preferences>(context, listen: false)
+                      .setPref('tutorial', true, false);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const TutorialPage(),
+                    ),
+                  );
+                },
+                style: ElevatedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(vertical: 12),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(24)),
+                ),
+                child: const Text(
+                  'tutorial',
                   style: TextStyle(fontSize: 24),
                 ),
               ),

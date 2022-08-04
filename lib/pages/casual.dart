@@ -90,13 +90,9 @@ class _CasualPageState extends State<CasualPage> {
               const Spacer(flex: 2),
               Container(
                 padding: const EdgeInsets.all(6),
-                decoration: BoxDecoration(
-                  color: colorScheme.surfaceTint.withOpacity(0.05),
-                  borderRadius: BorderRadius.circular(12),
-                ),
                 child: Text(
                   ' ${Provider.of<CasualGame>(context, listen: false).target} ',
-                  style: TextStyle(fontSize: 32, color: colorScheme.primary),
+                  style: TextStyle(fontSize: 32, color: colorScheme.tertiary),
                 ),
               ),
               const Spacer(flex: 2),

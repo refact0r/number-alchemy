@@ -7,6 +7,7 @@ class Preferences extends ChangeNotifier {
     'darkMode': true,
     'haptics': true,
     'highscore': 0,
+    'tutorial': true,
   };
 
   Preferences(this._prefs) {
