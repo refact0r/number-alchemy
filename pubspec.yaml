@@ -40,6 +40,7 @@ dependencies:
     shared_preferences: ^2.0.15
     flutter_launcher_icons: ^0.9.3
     flutter_svg: ^1.1.1+1
+    flutter_native_splash: ^2.2.7
 
 dev_dependencies:
     flutter_test:
@@ -94,3 +95,9 @@ flutter_icons:
     ios: true
     adaptive_icon_background: '#191c1d'
     adaptive_icon_foreground: 'assets/icons/icon_transparent.png'
+
+flutter_native_splash:
+    color: '#191c1d'
+    image: assets/icons/icon.png
+    android_12:
+        color: '#191c1d'
