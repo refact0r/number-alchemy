@@ -41,6 +41,7 @@ dependencies:
     flutter_launcher_icons: ^0.9.3
     flutter_svg: ^1.1.1+1
     flutter_native_splash: ^2.2.7
+    url_launcher: ^6.1.5
 
 dev_dependencies:
     flutter_test:
@@ -101,3 +102,4 @@ flutter_native_splash:
     image: assets/icons/icon.png
     android_12:
         color: '#191c1d'
+        image: assets/icons/icon.png

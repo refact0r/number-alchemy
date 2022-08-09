@@ -38,7 +38,6 @@ class _TutorialPageState extends State<TutorialPage> {
               ),
             );
           },
-          // ignore: prefer_const_constructors
           child: Text('finish tutorial'),
         ),
       ),

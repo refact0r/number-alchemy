@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../models/preferences.dart';
 import '../utils/haptics.dart';
@@ -16,6 +17,13 @@ class _SettingsPageState extends State<SettingsPage> {
   @override
   void initState() {
     super.initState();
+  }
+
+  Future<void> _launchUrl(String url) async {
+    final Uri uri = Uri.parse(url);
+    if (!await launchUrl(uri)) {
+      throw 'Could not launch $uri';
+    }
   }
 
   @override
@@ -104,6 +112,22 @@ class _SettingsPageState extends State<SettingsPage> {
                     },
                   ),
                 ),
+              ),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                _launchUrl(
+                    'https://github.com/refact0r/number-alchemy/blob/main/PRIVACY-POLICY.md');
+              },
+              style: ElevatedButton.styleFrom(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 12, horizontal: 24),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(24)),
+              ),
+              child: const Text(
+                'privacy policy',
+                style: TextStyle(fontSize: 24),
               ),
             ),
           ],

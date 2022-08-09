@@ -50,9 +50,10 @@ class App extends StatelessWidget {
               ? Brightness.dark
               : Brightness.light,
           fontFamily: 'Jost'),
-      home: Provider.of<Preferences>(context, listen: false).prefs['tutorial']
-          ? const TutorialPage()
-          : const HomePage(),
+      // home: Provider.of<Preferences>(context, listen: false).prefs['tutorial']
+      //     ? const TutorialPage()
+      //     : const HomePage(),
+      home: const HomePage(),
       debugShowCheckedModeBanner: false,
     );
   }
@@ -159,32 +160,32 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
             ),
-            Container(
-              padding: const EdgeInsets.only(top: 24),
-              width: 168,
-              child: ElevatedButton(
-                onPressed: () {
-                  hapticClick(context);
-                  Provider.of<Preferences>(context, listen: false)
-                      .setPref('tutorial', true, false);
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const TutorialPage(),
-                    ),
-                  );
-                },
-                style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(vertical: 12),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(24)),
-                ),
-                child: const Text(
-                  'tutorial',
-                  style: TextStyle(fontSize: 24),
-                ),
-              ),
-            ),
+            // Container(
+            //   padding: const EdgeInsets.only(top: 24),
+            //   width: 168,
+            //   child: ElevatedButton(
+            //     onPressed: () {
+            //       hapticClick(context);
+            //       Provider.of<Preferences>(context, listen: false)
+            //           .setPref('tutorial', true, false);
+            //       Navigator.push(
+            //         context,
+            //         MaterialPageRoute(
+            //           builder: (context) => const TutorialPage(),
+            //         ),
+            //       );
+            //     },
+            //     style: ElevatedButton.styleFrom(
+            //       padding: const EdgeInsets.symmetric(vertical: 12),
+            //       shape: RoundedRectangleBorder(
+            //           borderRadius: BorderRadius.circular(24)),
+            //     ),
+            //     child: const Text(
+            //       'tutorial',
+            //       style: TextStyle(fontSize: 24),
+            //     ),
+            //   ),
+            // ),
           ],
         ),
       ),
