@@ -4,7 +4,7 @@ I (refact0r) take your privacy seriously. To better protect your privacy I provi
 
 ## Information Collected
 
-WThe Number Alchemy app uses shared preferences on the user's device to store information about a user’s app preferences and usage history in order to present the user with customized content. No other information is collected about the user.
+The Number Alchemy app stores a user's preferences and usage history in shared preferences on the user's device in order to present the user with customized content. The app does not collect any personally identifiable information.
 
 ## Changes To This Privacy Policy
 
