@@ -6,7 +6,8 @@ class Preferences extends ChangeNotifier {
   Map prefs = {
     'darkMode': true,
     'haptics': true,
-    'highscore': 0,
+    'highscore_classic': 0,
+    'highscore_random': 0,
     'tutorial': true,
   };
 
@@ -36,6 +37,7 @@ class Preferences extends ChangeNotifier {
     for (String pref in prefs.keys) {
       if (_prefs.containsKey(pref)) {
         prefs[pref] = _prefs.get(pref);
+        prefs['tutorial'] = true;
       } else {
         setPref(pref, prefs[pref], false);
       }

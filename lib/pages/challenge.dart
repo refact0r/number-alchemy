@@ -117,7 +117,7 @@ class _ChallengePageState extends State<ChallengePage>
                         padding: const EdgeInsets.all(6),
                         decoration: BoxDecoration(
                           color: colorScheme.surfaceTint.withOpacity(0.05),
-                          borderRadius: BorderRadius.circular(12),
+                          borderRadius: BorderRadius.circular(18),
                         ),
                         child: Text(
                           ' ${Provider.of<ChallengeGame>(context, listen: false).target} ',
@@ -136,7 +136,7 @@ class _ChallengePageState extends State<ChallengePage>
                               decoration: BoxDecoration(
                                 color:
                                     colorScheme.surfaceTint.withOpacity(0.05),
-                                borderRadius: BorderRadius.circular(12),
+                                borderRadius: BorderRadius.circular(18),
                               ),
                               child: Text(
                                 ' ${challengeGame.timeString} ',
@@ -185,7 +185,7 @@ class _ChallengePageState extends State<ChallengePage>
                               style: ElevatedButton.styleFrom(
                                   shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(24)),
-                                  primary: challengeGame.numPressed[i]
+                                  backgroundColor: challengeGame.numPressed[i]
                                       ? colorScheme.primaryContainer
                                       : null),
                               child: Text(
@@ -214,7 +214,7 @@ class _ChallengePageState extends State<ChallengePage>
                               casualGame.pressOpButton(i, true);
                             },
                             style: ElevatedButton.styleFrom(
-                              primary: casualGame.opPressed[i]
+                              backgroundColor: casualGame.opPressed[i]
                                   ? colorScheme.primaryContainer
                                   : null,
                             ),

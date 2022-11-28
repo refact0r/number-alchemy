@@ -39,7 +39,7 @@ class _ModePageState extends State<ModePage> {
                     iconSize: 32,
                     icon: const Icon(Icons.clear_rounded),
                   ),
-                  Text('mode',
+                  Text(widget.gamemode == 0 ? 'casual' : 'challenge',
                       style: Theme.of(context).textTheme.headlineMedium),
                   const SizedBox(width: 48),
                 ],

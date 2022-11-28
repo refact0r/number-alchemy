@@ -1,17 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:number_alchemy/pages/tutorial.dart';
+import 'package:number_alchemy/pages/tutorial2.dart';
 
 import '../utils/haptics.dart';
-import 'casual.dart';
 import '../utils/time.dart';
+import 'home.dart';
 
-class CasualSolvedPage extends StatelessWidget {
+class TutorialSolvedPage extends StatelessWidget {
   final String heroTag;
   final int time;
   final String expression;
   final int target;
+  final int mode;
 
-  const CasualSolvedPage(
-      {super.key, required this.heroTag, required this.time, required this.expression, required this.target});
+  const TutorialSolvedPage(
+      {super.key,
+      required this.heroTag,
+      required this.time,
+      required this.expression,
+      required this.target,
+      required this.mode});
 
   @override
   Widget build(BuildContext context) {
@@ -48,21 +56,21 @@ class CasualSolvedPage extends StatelessWidget {
               Column(
                 children: [
                   Padding(
-                    padding: const EdgeInsets.all(24),
+                    padding: const EdgeInsets.all(18),
                     child: Text(
                       'you solved it!',
                       style: Theme.of(context).textTheme.displaySmall,
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.all(24),
+                    padding: const EdgeInsets.all(18),
                     child: Text(
                       expression,
                       style: Theme.of(context).textTheme.headlineMedium,
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.all(24),
+                    padding: const EdgeInsets.all(18),
                     child: Text(
                       msToString(time),
                       style: Theme.of(context).textTheme.headlineMedium,
@@ -71,33 +79,47 @@ class CasualSolvedPage extends StatelessWidget {
                 ],
               ),
               const Spacer(flex: 1),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  IconButton(
-                    iconSize: 36,
-                    icon: const Icon(Icons.clear_rounded),
-                    color: colorScheme.onSurfaceVariant,
-                    onPressed: () {
-                      hapticClick(context);
-                      Navigator.pop(context);
-                    },
-                  ),
-                  IconButton(
-                    iconSize: 36,
-                    icon: const Icon(Icons.arrow_forward_rounded),
-                    color: colorScheme.onSurfaceVariant,
+              if (mode == -2)
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 12),
+                  child: ElevatedButton(
                     onPressed: () {
                       hapticClick(context);
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const CasualPage(),
+                          builder: (context) => const TutorialPage(),
                         ),
                       );
                     },
+                    style: ElevatedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 24),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+                    ),
+                    child: const Text(
+                      'replay tutorial',
+                      style: TextStyle(fontSize: 24),
+                    ),
                   ),
-                ],
+                ),
+              ElevatedButton(
+                onPressed: () {
+                  hapticClick(context);
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => mode == -1 ? const TutorialPage2() : const HomePage(),
+                    ),
+                  );
+                },
+                style: ElevatedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 24),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+                ),
+                child: Text(
+                  mode == -1 ? 'continue' : 'finish tutorial',
+                  style: const TextStyle(fontSize: 24),
+                ),
               ),
             ],
           ),

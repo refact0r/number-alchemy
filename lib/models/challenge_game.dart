@@ -35,9 +35,7 @@ class ChallengeGame extends ChangeNotifier {
   void initialize(
       BuildContext context, int mode, AnimationController animation) {
     this.context = context;
-    if (mode != -1) {
-      this.mode = mode;
-    }
+    this.mode = mode;
     this.animation = animation;
     newProblem();
     solvedCount = 0;
@@ -79,7 +77,10 @@ class ChallengeGame extends ChangeNotifier {
         context,
         MaterialPageRoute(
           builder: (context) => ChallengeResultsPage(
-              solvedCount: solvedCount, secondsElapsed: secondsElapsed),
+            solvedCount: solvedCount,
+            secondsElapsed: secondsElapsed,
+            mode: mode,
+          ),
         ),
       );
     }
@@ -108,7 +109,10 @@ class ChallengeGame extends ChangeNotifier {
         context,
         MaterialPageRoute(
           builder: (context) => ChallengeResultsPage(
-              solvedCount: solvedCount, secondsElapsed: secondsElapsed),
+            solvedCount: solvedCount,
+            secondsElapsed: secondsElapsed,
+            mode: mode,
+          ),
         ),
       );
     }

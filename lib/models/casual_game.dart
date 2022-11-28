@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 
 import '../pages/casual_solved.dart';
+import '../pages/tutorial_solved.dart';
 import '../utils/haptics.dart';
 import '../utils/math.dart';
 import 'fraction.dart';
@@ -29,9 +30,7 @@ class CasualGame extends ChangeNotifier {
 
   void initialize(BuildContext context, int mode) {
     this.context = context;
-    if (mode != -1) {
-      this.mode = mode;
-    }
+    this.mode = mode;
     target = 24;
     if (this.mode == 1) {
       Random random = Random();
@@ -40,6 +39,13 @@ class CasualGame extends ChangeNotifier {
     problem = Problem.generate(target, 1, 13);
     originalNums = List.generate(4, (i) => Fraction(problem.nums[i]));
     originalNums.shuffle();
+    if (this.mode == -1) {
+      problem = Problem(24, 1, 13, [1, 2, 3, 4], [Op.add, Op.add, Op.multiply], false);
+      originalNums = [Fraction(1), Fraction(2), Fraction(3), Fraction(4)];
+    } else if (this.mode == -2) {
+      problem = Problem(24, 1, 13, [2, 2, 10, 10], [Op.add, Op.add, Op.add], false);
+      originalNums = [Fraction(2), Fraction(2), Fraction(10), Fraction(10)];
+    }
     nums = originalNums.toList();
     expression = List.generate(4, (i) => originalNums[i].toString());
     numShown = [true, true, true, true];
@@ -103,11 +109,23 @@ class CasualGame extends ChangeNotifier {
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-              builder: (context) => CasualSolvedPage(
-                  heroTag: 'num$index',
-                  time: stopwatch.elapsedMilliseconds,
-                  expression: expression[index],
-                  target: target),
+              builder: (context) {
+                if (mode == -1 || mode == -2) {
+                  return TutorialSolvedPage(
+                      heroTag: 'num$index',
+                      time: stopwatch.elapsedMilliseconds,
+                      expression: expression[index],
+                      target: target,
+                      mode: mode);
+                } else {
+                  return CasualSolvedPage(
+                    heroTag: 'num$index',
+                    time: stopwatch.elapsedMilliseconds,
+                    expression: expression[index],
+                    target: target,
+                  );
+                }
+              },
             ),
           );
           return;

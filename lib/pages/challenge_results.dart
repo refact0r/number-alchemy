@@ -9,9 +9,14 @@ import 'challenge.dart';
 class ChallengeResultsPage extends StatefulWidget {
   final int solvedCount;
   final int secondsElapsed;
+  final int mode;
 
-  const ChallengeResultsPage(
-      {super.key, required this.solvedCount, required this.secondsElapsed});
+  const ChallengeResultsPage({
+    super.key,
+    required this.solvedCount,
+    required this.secondsElapsed,
+    required this.mode,
+  });
 
   @override
   State<ChallengeResultsPage> createState() => _ChallengeResultsPageState();
@@ -23,11 +28,13 @@ class _ChallengeResultsPageState extends State<ChallengeResultsPage> {
   @override
   void initState() {
     super.initState();
-    highscore =
-        Provider.of<Preferences>(context, listen: false).prefs['highscore'];
+    String scoreName = 'highscore_classic';
+    if (widget.mode == 1) {
+      scoreName = 'highscore_random';
+    }
+    highscore = Provider.of<Preferences>(context, listen: false).prefs[scoreName];
     if (widget.solvedCount > highscore) {
-      Provider.of<Preferences>(context, listen: false)
-          .setPref('highscore', widget.solvedCount, false);
+      Provider.of<Preferences>(context, listen: false).setPref(scoreName, widget.solvedCount, false);
     }
   }
 
@@ -49,16 +56,14 @@ class _ChallengeResultsPageState extends State<ChallengeResultsPage> {
                   child: Material(
                     type: MaterialType.transparency,
                     child: Container(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 6, horizontal: 6),
+                      padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 6),
                       decoration: BoxDecoration(
                         color: colorScheme.surfaceTint.withOpacity(0.05),
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(18),
                       ),
                       child: Text(
                         ' 0:00 ',
-                        style:
-                            TextStyle(fontSize: 48, color: colorScheme.primary),
+                        style: TextStyle(fontSize: 48, color: colorScheme.primary),
                       ),
                     ),
                   ),
@@ -84,9 +89,7 @@ class _ChallengeResultsPageState extends State<ChallengeResultsPage> {
                   Padding(
                     padding: const EdgeInsets.all(24),
                     child: Text(
-                      widget.solvedCount > highscore
-                          ? 'new high score!'
-                          : 'high score: $highscore',
+                      widget.solvedCount > highscore ? 'new high score!' : 'high score: $highscore',
                       style: Theme.of(context).textTheme.headlineMedium,
                     ),
                   ),

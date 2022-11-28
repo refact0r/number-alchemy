@@ -1,26 +1,23 @@
-import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../models/casual_game.dart';
-import '../utils/haptics.dart';
 
-class CasualPage extends StatefulWidget {
-  final int mode;
-
-  const CasualPage({super.key, this.mode = -1});
+class TutorialPage2 extends StatefulWidget {
+  const TutorialPage2({super.key});
 
   @override
-  State<CasualPage> createState() => _CasualPageState();
+  State<TutorialPage2> createState() => _TutorialPage2State();
 }
 
-class _CasualPageState extends State<CasualPage> {
+class _TutorialPage2State extends State<TutorialPage2> {
   static const opIcons = [CupertinoIcons.plus, CupertinoIcons.minus, CupertinoIcons.multiply, CupertinoIcons.divide];
 
   @override
   void initState() {
     super.initState();
-    Provider.of<CasualGame>(context, listen: false).initialize(context, widget.mode);
+    Provider.of<CasualGame>(context, listen: false).initialize(context, -2);
   }
 
   @override
@@ -31,49 +28,58 @@ class _CasualPageState extends State<CasualPage> {
       body: Center(
         child: Container(
           constraints: const BoxConstraints(maxWidth: 450),
-          padding: const EdgeInsets.fromLTRB(24, 36, 24, 36),
+          padding: const EdgeInsets.fromLTRB(24, 36, 24, 24),
           child: Column(
             children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  IconButton(
-                    onPressed: () {
-                      hapticClick(context);
-                      Navigator.pop(context);
-                    },
-                    color: colorScheme.onSurfaceVariant,
-                    highlightColor: colorScheme.onSurfaceVariant.withOpacity(0.08),
-                    iconSize: 32,
-                    icon: const Icon(Icons.clear_rounded),
+                  const Spacer(),
+                  Column(
+                    children: [
+                      IconButton(
+                        onPressed: () {
+                          Provider.of<CasualGame>(context, listen: false).hint();
+                        },
+                        color: colorScheme.onSurfaceVariant,
+                        highlightColor: colorScheme.onSurfaceVariant.withOpacity(0.08),
+                        iconSize: 32,
+                        icon: const Icon(Icons.lightbulb_outline_rounded),
+                      ),
+                      const Text('hint', style: TextStyle(fontSize: 18)),
+                    ],
                   ),
-                  IconButton(
-                    onPressed: () {
-                      Provider.of<CasualGame>(context, listen: false).hint();
-                    },
-                    color: colorScheme.onSurfaceVariant,
-                    highlightColor: colorScheme.onSurfaceVariant.withOpacity(0.08),
-                    iconSize: 32,
-                    icon: const Icon(Icons.lightbulb_outline_rounded),
+                  const Spacer(),
+                  Column(
+                    children: [
+                      IconButton(
+                        onPressed: () {
+                          Provider.of<CasualGame>(context, listen: false).undo();
+                        },
+                        color: colorScheme.onSurfaceVariant,
+                        highlightColor: colorScheme.onSurfaceVariant.withOpacity(0.08),
+                        iconSize: 32,
+                        icon: const Icon(Icons.undo_rounded),
+                      ),
+                      const Text('undo', style: TextStyle(fontSize: 18)),
+                    ],
                   ),
-                  IconButton(
-                    onPressed: () {
-                      Provider.of<CasualGame>(context, listen: false).undo();
-                    },
-                    color: colorScheme.onSurfaceVariant,
-                    highlightColor: colorScheme.onSurfaceVariant.withOpacity(0.08),
-                    iconSize: 32,
-                    icon: const Icon(Icons.undo_rounded),
+                  const Spacer(),
+                  Column(
+                    children: [
+                      IconButton(
+                        onPressed: () {
+                          Provider.of<CasualGame>(context, listen: false).reset(true);
+                        },
+                        color: colorScheme.onSurfaceVariant,
+                        highlightColor: colorScheme.onSurfaceVariant.withOpacity(0.08),
+                        iconSize: 32,
+                        icon: const Icon(Icons.settings_backup_restore_rounded),
+                      ),
+                      const Text('reset', style: TextStyle(fontSize: 18)),
+                    ],
                   ),
-                  IconButton(
-                    onPressed: () {
-                      Provider.of<CasualGame>(context, listen: false).reset(true);
-                    },
-                    color: colorScheme.onSurfaceVariant,
-                    highlightColor: colorScheme.onSurfaceVariant.withOpacity(0.08),
-                    iconSize: 32,
-                    icon: const Icon(Icons.settings_backup_restore_rounded),
-                  ),
+                  const Spacer(),
                 ],
               ),
               const Spacer(flex: 2),
@@ -88,7 +94,16 @@ class _CasualPageState extends State<CasualPage> {
                   style: TextStyle(fontSize: 32, color: colorScheme.primary),
                 ),
               ),
-              const Spacer(flex: 2),
+              const Spacer(flex: 1),
+              Container(
+                padding: const EdgeInsets.fromLTRB(0, 6, 0, 0),
+                child: const Text(
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 18),
+                  'Now try another problem.',
+                ),
+              ),
+              const Spacer(flex: 1),
               Center(
                 child: Consumer<CasualGame>(
                   builder: (context, casualGame, child) {

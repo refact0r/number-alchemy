@@ -5,23 +5,14 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../models/preferences.dart';
 import '../utils/haptics.dart';
+import 'tutorial.dart';
 
-class SettingsPage extends StatefulWidget {
+class SettingsPage extends StatelessWidget {
   const SettingsPage({super.key});
-
-  @override
-  State<SettingsPage> createState() => _SettingsPageState();
-}
-
-class _SettingsPageState extends State<SettingsPage> {
-  @override
-  void initState() {
-    super.initState();
-  }
 
   Future<void> _launchUrl(String url) async {
     final Uri uri = Uri.parse(url);
-    if (!await launchUrl(uri)) {
+    if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
       throw 'Could not launch $uri';
     }
   }
@@ -44,13 +35,11 @@ class _SettingsPageState extends State<SettingsPage> {
                     Navigator.pop(context);
                   },
                   color: colorScheme.onSurfaceVariant,
-                  highlightColor:
-                      colorScheme.onSurfaceVariant.withOpacity(0.08),
+                  highlightColor: colorScheme.onSurfaceVariant.withOpacity(0.08),
                   iconSize: 32,
                   icon: const Icon(Icons.clear_rounded),
                 ),
-                Text('settings',
-                    style: Theme.of(context).textTheme.headlineMedium),
+                Text('settings', style: Theme.of(context).textTheme.headlineMedium),
                 const SizedBox(width: 48),
               ],
             ),
@@ -68,16 +57,26 @@ class _SettingsPageState extends State<SettingsPage> {
                             children: [
                               Text(
                                 'dark mode',
-                                style:
-                                    Theme.of(context).textTheme.headlineSmall,
+                                style: Theme.of(context).textTheme.headlineSmall,
                               ),
-                              Switch(
-                                value: preferences.prefs['darkMode'],
-                                onChanged: (value) {
-                                  hapticClick(context);
-                                  preferences.setPref('darkMode', value, true);
+                              ElevatedButton(
+                                onPressed: () {
+                                  if (!Provider.of<Preferences>(
+                                    context,
+                                    listen: false,
+                                  ).prefs['darkMode']) {
+                                    HapticFeedback.selectionClick();
+                                  }
+                                  preferences.setPref('darkMode', !preferences.prefs['darkMode'], true);
                                 },
-                                activeColor: colorScheme.primary,
+                                style: ElevatedButton.styleFrom(
+                                  padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 6),
+                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
+                                ),
+                                child: Text(
+                                  preferences.prefs['darkMode'] ? 'on' : 'off',
+                                  style: const TextStyle(fontSize: 24),
+                                ),
                               ),
                             ],
                           ),
@@ -88,21 +87,26 @@ class _SettingsPageState extends State<SettingsPage> {
                               children: [
                                 Text(
                                   'haptic feedback',
-                                  style:
-                                      Theme.of(context).textTheme.headlineSmall,
+                                  style: Theme.of(context).textTheme.headlineSmall,
                                 ),
-                                Switch(
-                                  value: preferences.prefs['haptics'],
-                                  onChanged: (value) {
+                                ElevatedButton(
+                                  onPressed: () {
                                     if (!Provider.of<Preferences>(
                                       context,
                                       listen: false,
                                     ).prefs['haptics']) {
                                       HapticFeedback.selectionClick();
                                     }
-                                    preferences.setPref('haptics', value, true);
+                                    preferences.setPref('haptics', !preferences.prefs['haptics'], true);
                                   },
-                                  activeColor: colorScheme.primary,
+                                  style: ElevatedButton.styleFrom(
+                                    padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 6),
+                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
+                                  ),
+                                  child: Text(
+                                    preferences.prefs['haptics'] ? 'on' : 'off',
+                                    style: const TextStyle(fontSize: 24),
+                                  ),
                                 ),
                               ],
                             ),
@@ -114,20 +118,43 @@ class _SettingsPageState extends State<SettingsPage> {
                 ),
               ),
             ),
-            ElevatedButton(
-              onPressed: () {
-                _launchUrl(
-                    'https://github.com/refact0r/number-alchemy/blob/main/PRIVACY-POLICY.md');
-              },
-              style: ElevatedButton.styleFrom(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 12, horizontal: 24),
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(24)),
+            SizedBox(
+              width: 200,
+              child: ElevatedButton(
+                onPressed: () {
+                  hapticClick(context);
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const TutorialPage(),
+                    ),
+                  );
+                },
+                style: ElevatedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 24),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+                ),
+                child: const Text(
+                  'replay tutorial',
+                  style: TextStyle(fontSize: 24),
+                ),
               ),
-              child: const Text(
-                'privacy policy',
-                style: TextStyle(fontSize: 24),
+            ),
+            const Padding(padding: EdgeInsets.only(bottom: 12)),
+            SizedBox(
+              width: 200,
+              child: ElevatedButton(
+                onPressed: () {
+                  _launchUrl('https://github.com/refact0r/number-alchemy/blob/main/PRIVACY-POLICY.md');
+                },
+                style: ElevatedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 24),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+                ),
+                child: const Text(
+                  'privacy policy',
+                  style: TextStyle(fontSize: 24),
+                ),
               ),
             ),
           ],

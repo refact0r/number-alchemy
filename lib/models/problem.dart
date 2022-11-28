@@ -12,6 +12,9 @@ class Problem {
   List<Op> ops = [];
   bool split = false;
 
+  Problem(
+      this.target, this.minNum, this.maxNum, this.nums, this.ops, this.split);
+
   Problem.generate(this.target, this.minNum, this.maxNum) {
     Random random = Random();
 
