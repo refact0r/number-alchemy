@@ -1,29 +1,25 @@
-# Privacy Policy
+# Number Alchemy Privacy Policy
 
-I take your privacy seriously. To better protect your privacy I provide this privacy policy notice explaining the way your personal information is collected and used.
+This privacy policy governs your use of the Number Alchemy application for mobile devices that was created by refact0r.
 
-## Collection of Routine Information
+## Information Collected
 
-This app tracks basic information about its users. This information includes, but is not limited to, IP addresses, app details, timestamps and referring pages. None of this information can personally identify specific users to this app. The information is tracked for routine administration and maintenance purposes.
+The Number Alchemy app stores a user's preferences and usage history in shared preferences on the user's device in order to present the user with customized content. The app does not collect any personally identifiable information.
 
-## Shared Preferences
+## Children
 
-Where necessary, this app uses shared preferences to store information about a visitor’s preferences and history in order to better serve the user and/or present the user with customized content.
+Number Alchemy app does not knowingly collect information from or market to children under the age of 13. In the case we discover that a child under 13 has provided us with personal information, we immediately delete this from our servers. If you are a parent or guardian and you are aware that your child has provided us with personal information, please contact us so that we will be able to do necessary actions.
 
-## Links to Third Party Websites
+## Your Consent
 
-I have included links on this app for your use and reference. I am not responsible for the privacy policies on these websites. You should be aware that the privacy policies of these websites may differ from my own.
-
-## Security
-
-The security of your personal information is important to me, but remember that no method of transmission over the Internet, or method of electronic storage, is 100% secure. While I strive to use commercially acceptable means to protect your personal information, I cannot guarantee its absolute security.
+By using the Application, you are consenting to our processing of your information as set forth in this Privacy Policy.
 
 ## Changes To This Privacy Policy
 
-This Privacy Policy is effective as of 28 July 2022 and will remain in effect except with respect to any changes in its provisions in the future, which will be in effect immediately after being posted on this page.
+This Privacy Policy is effective as of 15 August 2022 and will remain in effect except with respect to any changes in its provisions in the future, which will be in effect immediately after being posted on this page.
 
-I reserve the right to update or change my Privacy Policy at any time and you should check this Privacy Policy periodically. If I make any material changes to this Privacy Policy, I will notify you by placing a prominent notice on my app.
+I reserve the right to update or change my Privacy Policy at any time and you should check this Privacy Policy periodically.
 
 ## Contact Information
 
-For any questions or concerns regarding the privacy policy, please create an issue in this repository.
+For any questions or concerns regarding the privacy policy, please create an issue in this repository or email refact0r.contact@gmail.com.
