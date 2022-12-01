@@ -22,6 +22,7 @@ class ChallengeGame extends ChangeNotifier {
   List<bool> opPressed = [false, false, false, false];
   List<List<dynamic>> pastStates = [];
   int hintShown = 0;
+  int hintsRemaining = 3;
   bool resetShown = true;
   int solvedCount = 0;
   int secondsElapsed = 0;
@@ -32,8 +33,7 @@ class ChallengeGame extends ChangeNotifier {
 
   ChallengeGame(this.context);
 
-  void initialize(
-      BuildContext context, int mode, AnimationController animation) {
+  void initialize(BuildContext context, int mode, AnimationController animation) {
     this.context = context;
     this.mode = mode;
     this.animation = animation;
@@ -42,8 +42,7 @@ class ChallengeGame extends ChangeNotifier {
     secondsElapsed = 0;
     timerSeconds = 60;
     timer = Timer.periodic(const Duration(seconds: 1), _timerTick);
-    timeString =
-        '${timerSeconds ~/ 60}:${(timerSeconds % 60).toString().padLeft(2, '0')}';
+    timeString = '${timerSeconds ~/ 60}:${(timerSeconds % 60).toString().padLeft(2, '0')}';
   }
 
   void newProblem() {
@@ -61,14 +60,14 @@ class ChallengeGame extends ChangeNotifier {
     opPressed = [false, false, false, false];
     pastStates = [];
     hintShown = 0;
+    hintsRemaining = 3;
     resetShown = true;
   }
 
   void _timerTick(Timer timer) {
     secondsElapsed += 1;
     timerSeconds -= 1;
-    timeString =
-        '${timerSeconds ~/ 60}:${(timerSeconds % 60).toString().padLeft(2, '0')}';
+    timeString = '${timerSeconds ~/ 60}:${(timerSeconds % 60).toString().padLeft(2, '0')}';
     notifyListeners();
     if (timerSeconds <= 0) {
       timer.cancel();
@@ -100,8 +99,7 @@ class ChallengeGame extends ChangeNotifier {
     if (timerSeconds <= 0) {
       timerSeconds = 0;
     }
-    timeString =
-        '${timerSeconds ~/ 60}:${(timerSeconds % 60).toString().padLeft(2, '0')}';
+    timeString = '${timerSeconds ~/ 60}:${(timerSeconds % 60).toString().padLeft(2, '0')}';
     notifyListeners();
     if (timerSeconds <= 0) {
       timer.cancel();
@@ -219,10 +217,11 @@ class ChallengeGame extends ChangeNotifier {
   }
 
   void hint() {
-    if (hintShown == 3) {
+    if (hintShown == 3 || hintsRemaining == 0) {
       return;
     }
     hapticClick(context);
+    hintsRemaining--;
     if (hintShown == 2) {
       if (problem.split) {
         _pressSolutionNum(1);

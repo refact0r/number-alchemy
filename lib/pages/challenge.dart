@@ -14,14 +14,8 @@ class ChallengePage extends StatefulWidget {
   State<ChallengePage> createState() => _ChallengePageState();
 }
 
-class _ChallengePageState extends State<ChallengePage>
-    with TickerProviderStateMixin {
-  static const opIcons = [
-    CupertinoIcons.plus,
-    CupertinoIcons.minus,
-    CupertinoIcons.multiply,
-    CupertinoIcons.divide
-  ];
+class _ChallengePageState extends State<ChallengePage> with TickerProviderStateMixin {
+  static const opIcons = [CupertinoIcons.plus, CupertinoIcons.minus, CupertinoIcons.multiply, CupertinoIcons.divide];
 
   late final _animation = AnimationController(
     value: 0,
@@ -33,8 +27,7 @@ class _ChallengePageState extends State<ChallengePage>
   void initState() {
     super.initState();
     print(widget.mode);
-    Provider.of<ChallengeGame>(context, listen: false)
-        .initialize(context, widget.mode, _animation);
+    Provider.of<ChallengeGame>(context, listen: false).initialize(context, widget.mode, _animation);
   }
 
   @override
@@ -60,45 +53,46 @@ class _ChallengePageState extends State<ChallengePage>
                   IconButton(
                     onPressed: () {
                       hapticClick(context);
-                      Provider.of<ChallengeGame>(context, listen: false)
-                          .timer
-                          .cancel();
+                      Provider.of<ChallengeGame>(context, listen: false).timer.cancel();
                       Navigator.pop(context);
                     },
                     color: colorScheme.onSurfaceVariant,
-                    highlightColor:
-                        colorScheme.onSurfaceVariant.withOpacity(0.08),
+                    highlightColor: colorScheme.onSurfaceVariant.withOpacity(0.08),
                     iconSize: 32,
                     icon: const Icon(Icons.clear_rounded),
                   ),
-                  IconButton(
-                    onPressed: () {
-                      Provider.of<ChallengeGame>(context, listen: false).hint();
-                    },
-                    color: colorScheme.onSurfaceVariant,
-                    highlightColor:
-                        colorScheme.onSurfaceVariant.withOpacity(0.08),
-                    iconSize: 32,
-                    icon: const Icon(Icons.lightbulb_outline_rounded),
+                  Row(
+                    children: [
+                      IconButton(
+                        onPressed: () {
+                          Provider.of<ChallengeGame>(context, listen: false).hint();
+                        },
+                        color: colorScheme.onSurfaceVariant,
+                        highlightColor: colorScheme.onSurfaceVariant.withOpacity(0.08),
+                        iconSize: 32,
+                        icon: const Icon(Icons.lightbulb_outline_rounded),
+                      ),
+                      Text(
+                        Provider.of<ChallengeGame>(context, listen: true).hintsRemaining.toString(),
+                        style: TextStyle(fontSize: 18, color: colorScheme.onSurfaceVariant),
+                      ),
+                    ],
                   ),
                   IconButton(
                     onPressed: () {
                       Provider.of<ChallengeGame>(context, listen: false).undo();
                     },
                     color: colorScheme.onSurfaceVariant,
-                    highlightColor:
-                        colorScheme.onSurfaceVariant.withOpacity(0.08),
+                    highlightColor: colorScheme.onSurfaceVariant.withOpacity(0.08),
                     iconSize: 32,
                     icon: const Icon(Icons.undo_rounded),
                   ),
                   IconButton(
                     onPressed: () {
-                      Provider.of<ChallengeGame>(context, listen: false)
-                          .reset(true);
+                      Provider.of<ChallengeGame>(context, listen: false).reset(true);
                     },
                     color: colorScheme.onSurfaceVariant,
-                    highlightColor:
-                        colorScheme.onSurfaceVariant.withOpacity(0.08),
+                    highlightColor: colorScheme.onSurfaceVariant.withOpacity(0.08),
                     iconSize: 32,
                     icon: const Icon(Icons.settings_backup_restore_rounded),
                   ),
@@ -121,8 +115,7 @@ class _ChallengePageState extends State<ChallengePage>
                         ),
                         child: Text(
                           ' ${Provider.of<ChallengeGame>(context, listen: false).target} ',
-                          style: TextStyle(
-                              fontSize: 32, color: colorScheme.primary),
+                          style: TextStyle(fontSize: 32, color: colorScheme.primary),
                         ),
                       ),
                       Padding(
@@ -134,14 +127,12 @@ class _ChallengePageState extends State<ChallengePage>
                             child: Container(
                               padding: const EdgeInsets.all(6),
                               decoration: BoxDecoration(
-                                color:
-                                    colorScheme.surfaceTint.withOpacity(0.05),
+                                color: colorScheme.surfaceTint.withOpacity(0.05),
                                 borderRadius: BorderRadius.circular(18),
                               ),
                               child: Text(
                                 ' ${challengeGame.timeString} ',
-                                style: TextStyle(
-                                    fontSize: 32, color: colorScheme.primary),
+                                style: TextStyle(fontSize: 32, color: colorScheme.primary),
                               ),
                             ),
                           ),
@@ -153,8 +144,7 @@ class _ChallengePageState extends State<ChallengePage>
                           width: 42,
                           child: Text(
                             challengeGame.timeChangeString,
-                            style: TextStyle(
-                                fontSize: 24, color: colorScheme.primary),
+                            style: TextStyle(fontSize: 24, color: colorScheme.primary),
                           ),
                         ),
                       ),
@@ -183,11 +173,8 @@ class _ChallengePageState extends State<ChallengePage>
                                 challengeGame.pressNumButton(i, true);
                               },
                               style: ElevatedButton.styleFrom(
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(24)),
-                                  backgroundColor: challengeGame.numPressed[i]
-                                      ? colorScheme.primaryContainer
-                                      : null),
+                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+                                  backgroundColor: challengeGame.numPressed[i] ? colorScheme.primaryContainer : null),
                               child: Text(
                                 challengeGame.nums[i].toString(),
                                 style: const TextStyle(fontSize: 48),
@@ -214,9 +201,7 @@ class _ChallengePageState extends State<ChallengePage>
                               casualGame.pressOpButton(i, true);
                             },
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: casualGame.opPressed[i]
-                                  ? colorScheme.primaryContainer
-                                  : null,
+                              backgroundColor: casualGame.opPressed[i] ? colorScheme.primaryContainer : null,
                             ),
                             child: Icon(opIcons[i], size: 36),
                           ),
