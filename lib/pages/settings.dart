@@ -61,10 +61,7 @@ class SettingsPage extends StatelessWidget {
                               ),
                               ElevatedButton(
                                 onPressed: () {
-                                  if (!Provider.of<Preferences>(
-                                    context,
-                                    listen: false,
-                                  ).prefs['darkMode']) {
+                                  if (preferences.prefs['haptics']) {
                                     HapticFeedback.selectionClick();
                                   }
                                   preferences.setPref('darkMode', !preferences.prefs['darkMode'], true);
@@ -91,10 +88,7 @@ class SettingsPage extends StatelessWidget {
                                 ),
                                 ElevatedButton(
                                   onPressed: () {
-                                    if (!Provider.of<Preferences>(
-                                      context,
-                                      listen: false,
-                                    ).prefs['haptics']) {
+                                    if (!preferences.prefs['haptics']) {
                                       HapticFeedback.selectionClick();
                                     }
                                     preferences.setPref('haptics', !preferences.prefs['haptics'], true);

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:number_alchemy/pages/tutorial.dart';
 import 'package:number_alchemy/pages/tutorial2.dart';
+import 'package:provider/provider.dart';
 
+import '../models/preferences.dart';
 import '../utils/haptics.dart';
 import '../utils/time.dart';
 import 'home.dart';
@@ -105,6 +107,9 @@ class TutorialSolvedPage extends StatelessWidget {
               ElevatedButton(
                 onPressed: () {
                   hapticClick(context);
+                  if (mode == -2) {
+                    Provider.of<Preferences>(context, listen: false).setPref('tutorial', false, false);
+                  }
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
