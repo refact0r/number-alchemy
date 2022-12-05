@@ -8,7 +8,7 @@ import '../utils/haptics.dart';
 class CasualPage extends StatefulWidget {
   final int mode;
 
-  const CasualPage({super.key, this.mode = -1});
+  const CasualPage({super.key, this.mode = 0});
 
   @override
   State<CasualPage> createState() => _CasualPageState();

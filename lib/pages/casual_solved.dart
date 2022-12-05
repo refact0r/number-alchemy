@@ -9,9 +9,15 @@ class CasualSolvedPage extends StatelessWidget {
   final int time;
   final String expression;
   final int target;
+  final int mode;
 
   const CasualSolvedPage(
-      {super.key, required this.heroTag, required this.time, required this.expression, required this.target});
+      {super.key,
+      required this.heroTag,
+      required this.time,
+      required this.expression,
+      required this.target,
+      required this.mode});
 
   @override
   Widget build(BuildContext context) {
@@ -92,7 +98,7 @@ class CasualSolvedPage extends StatelessWidget {
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const CasualPage(),
+                          builder: (context) => CasualPage(mode: mode),
                         ),
                       );
                     },

@@ -43,6 +43,7 @@ class ChallengeGame extends ChangeNotifier {
     timerSeconds = 60;
     timer = Timer.periodic(const Duration(seconds: 1), _timerTick);
     timeString = '${timerSeconds ~/ 60}:${(timerSeconds % 60).toString().padLeft(2, '0')}';
+    hintsRemaining = 3;
   }
 
   void newProblem() {
@@ -60,7 +61,6 @@ class ChallengeGame extends ChangeNotifier {
     opPressed = [false, false, false, false];
     pastStates = [];
     hintShown = 0;
-    hintsRemaining = 3;
     resetShown = true;
   }
 
@@ -231,7 +231,6 @@ class ChallengeGame extends ChangeNotifier {
         pressOpButton(Op.values.indexOf(problem.ops[2]), false);
       }
       hintShown = 3;
-      updateTimer(-15);
     } else if (hintShown == 1) {
       if (problem.split) {
         _pressSolutionNum(3);
@@ -243,7 +242,6 @@ class ChallengeGame extends ChangeNotifier {
         pressOpButton(Op.values.indexOf(problem.ops[1]), false);
       }
       hintShown = 2;
-      updateTimer(-10);
     } else {
       reset(false);
       if (problem.split) {
@@ -254,7 +252,6 @@ class ChallengeGame extends ChangeNotifier {
         pressOpButton(Op.values.indexOf(problem.ops[0]), false);
       }
       hintShown = 1;
-      updateTimer(-5);
     }
     resetShown = false;
     notifyListeners();

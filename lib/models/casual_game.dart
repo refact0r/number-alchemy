@@ -104,7 +104,7 @@ class CasualGame extends ChangeNotifier {
         if (nums[index] == Fraction(target)) {
           notifyListeners();
           stopwatch.stop();
-          print(expression[index]);
+          // print(expression[index]);
           hapticVibrate(context);
           Navigator.pushReplacement(
             context,
@@ -123,6 +123,7 @@ class CasualGame extends ChangeNotifier {
                     time: stopwatch.elapsedMilliseconds,
                     expression: expression[index],
                     target: target,
+                    mode: mode
                   );
                 }
               },
