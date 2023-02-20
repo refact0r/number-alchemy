@@ -1,3 +1,3 @@
 # number alchemy
 
-A math game, made with Flutter.
+A math game about combining numbers, made with flutter.
